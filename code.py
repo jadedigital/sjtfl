@@ -6,6 +6,7 @@ import collections
 import operator
 import math
 import os
+import bcrypt
 from os.path import join, dirname
 from dotenv import load_dotenv
 
@@ -129,25 +130,25 @@ class index:
 		render = create_render(session.privilege)
 		return render.index(teamsdb, scheduledb, newsdb)
 
-#class login:
-#	def POST(self):
-#		username, password = web.input().username, web.input().password
-#		ident = db.select('users', where='username=$username', vars=locals())[0]
-#		if password == ident['password']:
-#			session.logged = True;
-#			session.privilege = ident['privilege']
-#			session.username = ident['username']
-#			render = create_render(session.privilege)
-#			raise web.seeother('/')
-#		else:
-#			return "Wrong username or password"
+class login:
+	def POST(self):
+		username, password = web.input().username, web.input().password
+		ident = db.select('users', where='username=$username', vars=locals())[0]
+		if bcrypt.checkpw(password, ident['password'])
+			session.logged = True;
+			session.privilege = ident['privilege']
+			session.username = ident['username']
+			render = create_render(session.privilege)
+			raise web.seeother('/')
+		else:
+			return "Wrong username or password"
 
-#class logout:
-#	def POST(self):
-#		session.kill()
-#		session.logged = False;
-#		render = create_render(session.privilege)
-#		raise web.seeother('/')
+class logout:
+	def POST(self):
+		session.kill()
+		session.logged = False;
+		render = create_render(session.privilege)
+		raise web.seeother('/')
 
 class add:
 	def POST(self):
