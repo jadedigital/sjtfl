@@ -135,12 +135,14 @@ class login:
 		username, password = web.input().username, web.input().password
 		ident = db.select('users', where='username=$username', vars=locals())[0]
 		if bcrypt.checkpw(password, ident['password']):
+			print('correct')
 			session.logged = True
 			session.privilege = ident['privilege']
 			session.username = ident['username']
 			render = create_render(session.privilege)
 			raise web.seeother('/')
 		else:
+			print('nope')
 			return "Wrong username or password"
 
 class logout:
