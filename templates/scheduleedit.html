@@ -1,0 +1,88 @@
+$def with (scheduledb, teamsdb, game_data, team_list)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+
+<script type="text/javascript" language="javascript" class="init">
+	$$(function() {
+		$$('input[type=text][name=week]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=text][name=date]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=time][name=time]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('select[name=team1]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('select[name=team2]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('select[name=teamlines]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+	} );
+</script>
+
+<div class="container">
+	<div class="page-header">
+		<h1>Schedule Admin <small>edit game</small></h1>
+	</div>
+	<div class="row">
+		<form class="form-editpl" role="form" method="post" action="scheduleeditsubmit">
+		<input type="hidden" name="gameid" class="form-control" id="gameid" value="$game_data.gameid">
+		<input data-toggle="tooltip" title="Week" type="text" name="week" class="form-control input-tp" id="week" value="$game_data.week" required>
+		<input data-toggle="tooltip" title="Date  (yyyy-mm-dd)" type="text" name="date" class="form-control input-md" id="date" value="$game_data.date" required>
+		<input data-toggle="tooltip" title="Time (##:##:## PM)" type="time" name="time" class="form-control input-md" id="time" value="$game_data.time" required>
+		<select name="gametype" class="form-control input-md" id="gametype" required>
+			$if game_data.gametype == "reg":
+				<option value = "reg" selected="selected">Regular Season</option>
+			$else:
+				<option value = "reg">Regular Season</option>
+			$if game_data.gametype == "post":
+				<option value = "post" selected="selected">Playoffs</option>
+			$else:
+				<option value = "post">Playoffs</option>
+		</select>
+		<select data-toggle="tooltip" title="Team 1" name="team1" class="form-control input-md" id="team1" required>
+		$for t in team_list:
+			$if t.shortname == game_data.team1:
+				<option selected="selected">$t.shortname</option>
+			$else:
+				<option>$t.shortname</option>
+		</select>
+		<select data-toggle="tooltip" title="Team 2" name="team2" class="form-control input-md" id="team2" required>
+		$for t in team_list:
+			$if t.shortname == game_data.team2:
+				<option selected="selected">$t.shortname</option>
+			$else:
+				<option>$t.shortname</option>
+		</select>
+		<select data-toggle="tooltip" title="Lines Team" name="teamlines" class="form-control input-btm" id="teamlines">
+			<option></option>
+		$for t in team_list:
+			$if t.shortname == game_data.teamlines:
+				<option selected="selected">$t.shortname</option>
+			$else:
+				<option>$t.shortname</option>
+		</select>
+		<button class="btn btn-lg btn-success btn-block" type="submit" style="margin-top: 20px;">Save Changes</button>
+		</form>
+		<form class="form-editpl" role="form" method="post" action="scheduledeletesubmit">
+			<input type="hidden" name="gameid" class="form-control" id="gameid" value="$game_data.gameid">
+			<button class="btn btn-lg btn-danger btn-block" type="submit">Delete Game</button>
+		</form>
+	</div> 
+	<br>
+	<hr>
+	<br>
+</div>

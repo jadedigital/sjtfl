@@ -1,0 +1,62 @@
+$def with (teamsdb, scheduledb, newsdb)
+
+    $var scheduled = scheduledb.list()
+    $var teamsd = teamsdb.list()
+	$var active_nav = "home"
+
+<div class="jumbotron">
+	<div class="container">
+		<h1>St. John's Touch Football League</h1>
+		<p>The official site of the SJTFL</p>
+	<div class="row text-center">
+	<div class="col-md-4"></div>
+	<div class="col-md-4"><img src="/static/img/league_logo_header.png" class="img-responsive center-block img-logo"></div>
+	<div class="col-md-4"></div>
+	</div>
+	<a class="fa-stack socialtip" href="http://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-twitter fa-stack-1x fa-inverse-cust"></i>
+	</a>
+	<!-- <a class="fa-stack" href="https://www.facebook.com/StJohnsTouchFootball" title="Like us on Facebook" target="_blank">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-facebook fa-stack-1x fa-inverse-cust"></i>
+	</a> -->
+	<!-- <a class="fa-stack linktt" href="https://vine.co/u/1213512051289366528" data-toggle="tooltip" title="Follow us on Vine" target="_blank">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-vine fa-stack-1x fa-inverse-cust"></i>
+	</a> -->
+	<a class="fa-stack socialtip" href="https://instagram.com/sjtouchfootball/" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-instagram fa-stack-1x fa-inverse-cust"></i>
+	</a>
+	<a class="fa-stack socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
+		<i class="fa fa-circle fa-stack-2x"></i>
+		<i class="fa fa-envelope fa-stack-1x fa-inverse-cust"></i>
+	</a>
+	<!--
+	<p><a class="btn btn-lg btn-jumbotron" role="button">Learn more &raquo;</a></p>
+	<p class="version">v1.0 "Allandale" - Beta</p> -->
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			$for news in newsdb:
+				<div class="blog-news">
+				<h2 class="blog-news-title">$news.title</h2>
+				<p class="blog-news-meta">$news.posted.strftime('%A, %B %d, %Y') - $news.posted.strftime('%I:%M %p')</p>
+				<div class="blog-body"><p>$:news.body</p></div>
+				<div class="blog-embed">$:news.embed</div>
+				</div>
+				<br>
+				<hr>
+				<br>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+
+	
+</div> <!-- /container -->

@@ -1,0 +1,337 @@
+$def with (teamsdb, scheduledb, game_data, team1_data, team2_data, team1_stats, team2_stats, allteam_stats, team1_last, team2_last, team1_streak, team2_streak)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "scores"
+
+$ team_colors = collections.defaultdict(str)
+$ team1_streak_total = 0
+$ team2_streak_total = 0
+
+$ team_colors['1949ers'] = "#000000"
+$ team_colors['Buccaneers'] = "#D60A0B"
+$ team_colors['Chargers'] = "#C4C8CB"
+$ team_colors['Gators'] = "#FF4A00"
+$ team_colors['Grizzlies'] = "#7F411C"
+$ team_colors['Hitmen'] = "#4EAE47"
+$ team_colors['Hurricanes'] = "#4F2682"
+$ team_colors['Mustangs'] = "#CC092F"
+$ team_colors['Spartans'] = "#18453b"
+$ team_colors['Warriors'] = "#860038"
+
+
+$ team_colors['Bears'] = "#FF0000"
+$ team_colors['Heat'] = "#000000"
+$ team_colors['Motors'] = "#003B7B"
+$ team_colors['Mavericks'] = "#39FF14"
+$ team_colors['Rockets'] = "#E58B9B"
+$ team_colors['Steelers'] = "#4F2682"
+
+$for game in team1_streak:
+	$if game.team1score <= game.team2score and game.team1 == team1_data.shortname:
+		$break
+	$elif game.team1score >= game.team2score and game.team2 == team1_data.shortname:
+		$break
+	$else:
+		$ team1_streak_type = "W"
+		$ team1_streak_total = team1_streak_total + 1
+
+$for game in team1_streak:
+	$if game.team1score >= game.team2score and game.team1 == team1_data.shortname:
+		$break
+	$elif game.team1score <= game.team2score and game.team2 == team1_data.shortname:
+		$break
+	$else:
+		$ team1_streak_type = "L"
+		$ team1_streak_total = team1_streak_total + 1
+		
+$for game in team1_streak:
+	$if game.team1score != game.team2score and game.team1 == team1_data.shortname:
+		$break
+	$elif game.team1score != game.team2score and game.team2 == team1_data.shortname:
+		$break
+	$else:
+		$ team1_streak_type = "T"
+		$ team1_streak_total = team1_streak_total + 1
+
+$for game in team2_streak:
+	$if game.team1score <= game.team2score and game.team1 == team2_data.shortname:
+		$break
+	$elif game.team1score >= game.team2score and game.team2 == team2_data.shortname:
+		$break
+	$else:
+		$ team2_streak_type = "W"
+		$ team2_streak_total = team2_streak_total + 1
+
+$for game in team2_streak:
+	$if game.team1score >= game.team2score and game.team1 == team2_data.shortname:
+		$break
+	$elif game.team1score <= game.team2score and game.team2 == team2_data.shortname:
+		$break
+	$else:
+		$ team2_streak_type = "L"
+		$ team2_streak_total = team2_streak_total + 1
+		
+$for game in team2_streak:
+	$if game.team1score != game.team2score and game.team1 == team2_data.shortname:
+		$break
+	$elif game.team1score != game.team2score and game.team2 == team2_data.shortname:
+		$break
+	$else:
+		$ team2_streak_type = "T"
+		$ team2_streak_total = team2_streak_total + 1
+
+
+$ seq = [x['pointsfor']/x['gamesplayed'] for x in allteam_stats]
+$ max_pointsfor = max(seq)
+$ seq = [x['pointsagainst']/x['gamesplayed'] for x in allteam_stats]
+$ max_pointsagainst = max(seq)
+$ seq = [x['sack'] for x in allteam_stats]
+$ max_sack = max(seq)
+$ seq = [x['sackagainst'] for x in allteam_stats]
+$ max_sackagainst = max(seq)
+$ seq = [x['interception'] for x in allteam_stats]
+$ max_interception = max(seq)
+$ seq = [x['interceptionagainst'] for x in allteam_stats]
+$ max_interceptionagainst = max(seq)
+$ seq = [x['tdpass'] for x in allteam_stats]
+$ max_tdpass = max(seq)
+$ seq = [x['tdpassagainst'] for x in allteam_stats]
+$ max_tdpassagainst = max(seq)
+$ seq = [x['rouge'] for x in allteam_stats]
+$ max_rouge = max(seq)
+$ seq = [x['rougeagainst'] for x in allteam_stats]
+$ max_rougeagainst = max(seq)
+
+$ new_seq=[]
+$for x in allteam_stats:
+	$if x['touchdowns'] == 0:
+		$continue
+	$ seq = int(((x.oneconvert+x.twoconvert)/x.touchdowns) * 100)
+	$ new_seq.append(seq)
+$ max_conv = max(new_seq) - 0.01
+$ new_seq=[]
+$for x in allteam_stats:
+	$if x['touchdownsagainst'] == 0:
+		$continue
+	$ seq = int(((x.oneconvertagainst+x.twoconvertagainst)/x.touchdownsagainst) * 100)
+	$ new_seq.append(seq)
+$ max_conv_against = max(new_seq) - 0.01
+
+
+$ team1_points_per_game = team1_stats.pointsfor/team1_data.gamesplayed
+$ team2_points_per_game = team2_stats.pointsfor/team2_data.gamesplayed
+$ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplayed
+$ team2_points_per_game_against = team2_stats.pointsagainst/team2_data.gamesplayed
+
+$if team1_stats.touchdowns == 0:
+	$ team1_conv = 0
+$else:
+	$ team1_conv = int(((team1_stats.oneconvert+team1_stats.twoconvert)/team1_stats.touchdowns) * 100)
+$if team2_stats.touchdowns == 0:
+	$ team2_conv = 0
+$else:
+	$ team2_conv = int(((team2_stats.oneconvert+team2_stats.twoconvert)/team2_stats.touchdowns) * 100)
+$if team1_stats.touchdownsagainst == 0:
+	$ team1_convagainst = 0
+$else:
+	$ team1_convagainst = int(((team1_stats.oneconvertagainst+team1_stats.twoconvertagainst)/team1_stats.touchdownsagainst) * 100)
+$if team2_stats.touchdownsagainst == 0:
+	$ team2_convagainst = 0
+$else:
+	$ team2_convagainst = int(((team2_stats.oneconvertagainst+team2_stats.twoconvertagainst)/team2_stats.touchdownsagainst) * 100)
+
+$if max_pointsfor == 0:
+	$ team1_pointsfor_pct = "0%"
+	$ team2_pointsfor_pct = "0%"
+$else:
+	$ team1_pointsfor_pct = str(int(team1_points_per_game/max_pointsfor * 100)) + "%"
+	$ team2_pointsfor_pct = str(int(team2_points_per_game/max_pointsfor * 100)) + "%"
+	
+$if max_pointsagainst == 0:
+	$ team1_pointsagainst_pct = "0%"
+	$ team2_pointsagainst_pct = "0%"
+$else:
+	$ team1_pointsagainst_pct = str(int(team1_points_per_game_against/max_pointsagainst * 100)) + "%"
+	$ team2_pointsagainst_pct = str(int(team2_points_per_game_against/max_pointsagainst * 100)) + "%"
+	
+$if max_sack == 0:
+	$ team1_sack_pct = "0%"
+	$ team2_sack_pct = "0%"
+$else:
+	$ team1_sack_pct = str(int(team1_stats.sack/max_sack * 100)) + "%"
+	$ team2_sack_pct = str(int(team2_stats.sack/max_sack * 100)) + "%"
+	
+$if max_sackagainst == 0:
+	$ team1_sackagainst_pct = "0%"
+	$ team2_sackagainst_pct = "0%"
+$else:
+	$ team1_sackagainst_pct = str(int(team1_stats.sackagainst/max_sackagainst * 100)) + "%"
+	$ team2_sackagainst_pct = str(int(team2_stats.sackagainst/max_sackagainst * 100)) + "%"
+	
+$if max_interception == 0:
+	$ team1_interception_pct = "0%"
+	$ team2_interception_pct = "0%"
+$else:
+	$ team1_interception_pct = str(int(team1_stats.interception/max_interception * 100)) + "%"
+	$ team2_interception_pct = str(int(team2_stats.interception/max_interception * 100)) + "%"
+	
+$if max_interceptionagainst == 0:
+	$ team1_interceptionagainst_pct = "0%"
+	$ team2_interceptionagainst_pct = "0%"
+$else:
+	$ team1_interceptionagainst_pct = str(int(team1_stats.interceptionagainst/max_interceptionagainst * 100)) + "%"
+	$ team2_interceptionagainst_pct = str(int(team2_stats.interceptionagainst/max_interceptionagainst * 100)) + "%"
+
+$if max_tdpass == 0:
+	$ team1_tdpass_pct = "0%"
+	$ team2_tdpass_pct = "0%"
+$else:
+	$ team1_tdpass_pct = str(int(team1_stats.tdpass/max_tdpass * 100)) + "%"
+	$ team2_tdpass_pct = str(int(team2_stats.tdpass/max_tdpass * 100)) + "%"
+
+$if max_rouge == 0:
+	$ team1_rouge_pct = "0%"
+	$ team2_rouge_pct = "0%"
+$else:
+	$ team1_rouge_pct = str(int(team1_stats.rouge/max_rouge * 100)) + "%"
+	$ team2_rouge_pct = str(int(team2_stats.rouge/max_rouge * 100)) + "%"
+
+$if max_conv == 0:
+	$ team1_conv_pct = "0%"
+	$ team2_conv_pct = "0%"
+$else:
+	$ team1_conv_pct = str(int(team1_conv/max_conv * 100)) + "%"
+	$ team2_conv_pct = str(int(team2_conv/max_conv * 100)) + "%"
+
+	
+$if max_conv_against == 0:
+	$ team1_convagainst_pct = "0%"
+	$ team2_convagainst_pct = "0%"
+$else:
+	$ team1_convagainst_pct = str(int(team1_convagainst/max_conv_against * 100)) + "%"
+	$ team2_convagainst_pct = str(int(team2_convagainst/max_conv_against * 100)) + "%"
+
+<div class="container">
+
+<!--	<ul class="nav nav-pills nav-stats" role="tablist">
+		<li class="active"><a href="#matchup" role="tab" data-toggle="tab">Matchup</a></li>
+		<li><a href="#leaders" role="tab" data-toggle="tab">Leaders</a></li>
+	</ul> -->
+    <!-- Tab panes -->
+	<div class="tab-content">
+		<div class="tab-pane fade in active" id="matchup">
+			<div class="row" style="margin-top: 50px;">
+				<div class="col-md-2"></div>
+				<div class="col-md-8">
+					<div class="panel panel-primary">
+						<div class="panel-heading text-center">Matchup</div>
+						<div class="table-responsive">
+							<table class="table text-center">
+								<tr>
+									<td class="col-xs-4 hidden-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team1_data.shortname]"><h2><a class = "team_link" href="/teams?teamid=$team1_data.id">$team1_data.shortname</a></h2></td>
+									<td class="col-xs-4 visible-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team1_data.shortname]"><h4><a class = "team_link" href="/teams?teamid=$team1_data.id">$team1_data.shortname</a></h4></td>
+									<td class="col-xs-4"></td>
+									<td class="col-xs-4 hidden-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team2_data.shortname]"><h2><a class = "team_link" href="/teams?teamid=$team2_data.id">$team2_data.shortname</a></h2></td>
+									<td class="col-xs-4 visible-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team2_data.shortname]"><h4><a class = "team_link" href="/teams?teamid=$team2_data.id">$team2_data.shortname</a></h4></td>
+								</tr>
+								<tr>
+									<td class="col-xs-4">$team1_data.wins - $team1_data.losses - $team1_data.ties</td>
+									<td class="col-xs-4"><strong>Record</strong></td>
+									<td class="col-xs-4">$team2_data.wins - $team2_data.losses - $team2_data.ties</td>
+								</tr>
+								<tr>
+									<td class="col-xs-4">$team1_streak_type$team1_streak_total</td>
+									<td class="col-xs-4"><strong>Streak</strong></td>
+									<td class="col-xs-4">$team2_streak_type$team2_streak_total</td>
+								</tr>
+								<tr>
+									<td class="col-xs-4">$team1_last['wins'] - $team1_last['losses'] - $team1_last['ties']</td>
+									<td class="col-xs-4"><strong>Last 5</strong></td>
+									<td class="col-xs-4">$team2_last['wins'] - $team2_last['losses'] - $team2_last['ties']</td>
+								</tr>
+							</table>
+						</div>
+					</div>
+					<div class="panel panel-primary">
+						<div class="panel-heading text-center">Offensive Comparison</div>
+						<div class="panel-body">
+							<p><strong>Points Per Game</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_pointsfor_pct; background-color: $team_colors[team1_data.shortname]">$int(team1_points_per_game)</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_pointsfor_pct; background-color: $team_colors[team2_data.shortname]">$int(team2_points_per_game)</div>
+							</div>
+							<p><strong>Touchdown Passes</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_tdpass_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.tdpass</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_tdpass_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.tdpass</div>
+							</div>
+							<p><strong>Rouges</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_rouge_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.rouge</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_rouge_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.rouge</div>
+							</div>
+							<p><strong>PAT Conversion Rate</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_conv_pct; background-color: $team_colors[team1_data.shortname]">$team1_conv%</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_conv_pct; background-color: $team_colors[team2_data.shortname]">$team2_conv%</div>
+							</div>
+						</div>
+					</div>
+					<div class="panel panel-primary">
+						<div class="panel-heading text-center">Defensive Comparison</div>
+						<div class="panel-body">
+							<p><strong>Points Allowed Per Game</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_pointsagainst_pct; background-color: $team_colors[team1_data.shortname]">$int(team1_points_per_game_against)</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_pointsagainst_pct; background-color: $team_colors[team2_data.shortname]">$int(team2_points_per_game_against)</div>
+							</div>
+							<p><strong>Sacks</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_sack_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.sack</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_sack_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.sack</div>
+							</div>
+							<p><strong>Interceptions</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_interception_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.interception</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_interception_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.interception</div>
+							</div>
+							<p><strong>PAT Conversion Rate Against</strong></p>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_convagainst_pct; background-color: $team_colors[team1_data.shortname]">$team1_convagainst%</div>
+							</div>
+                            <div class="progress">
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_convagainst_pct; background-color: $team_colors[team2_data.shortname]">$team2_convagainst%</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2"></div>
+			</div>
+		</div>
+		
+		<div class="tab-pane fade" id="leaders">
+			<div class="row">
+				<div class="col-md-2"></div>
+				<div class="col-md-8 text-center">leaders go here</div>
+				<div class="col-md-2"></div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<hr>
+	<br>
+</div>

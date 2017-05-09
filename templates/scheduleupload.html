@@ -1,0 +1,22 @@
+$def with (teamsdb, scheduledb)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+<div class="container">
+	<div class="page-header">
+		<h1>Schedule Admin <small>upload schedule</small></h1>
+	</div>
+	<div class="row">
+		<form class="form-editpl" role="form" method="post" enctype="multipart/form-data" action="scheduleuploadsubmit"> 
+			<div class="form-group">
+				<label for="myfile">File input</label>
+				<input type="file" name="myfile" id="myfile">
+				<p class="help-block">Select file to upload.</p>
+			</div>
+			<button class="btn btn-lg btn-success btn-block" type="submit" style="margin-top: 20px;">Upload</button>
+		</form>
+	</div> 
+
+    </div>
+

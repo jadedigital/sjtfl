@@ -1,0 +1,45 @@
+$def with (teamsdb, scheduledb, newsdb)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+<script type="text/javascript" language="javascript" class="init">
+	$$(function() {
+		$$('#gameselect').dataTable( {
+			"pageLength": 50,
+			"dom": '<"btns">frtip'
+		 } );
+		$$("div.btns").html('<a class="btn btn-success" href="/admin/newsadd" role="button">Add News &raquo;</a>');
+	 } );
+</script>
+
+<div class="container">
+	<div class="page-header">
+		<h1>News Admin <small>add or edit news</small></h1>
+	</div>
+	<div class="row">
+	
+	<div class="col-md-12">
+		<table id="gameselect" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+			<thead>
+				<tr>
+					<th class="text-center">Post</th>
+					<th class="text-center">Post Title</th>
+					<th class="text-center">Date Posted</th>
+					<th class="text-center">Edit</th>
+				</tr>
+			</thead>
+			<tbody>
+			$for news in newsdb:
+				<tr>
+					<td class="text-center">$loop.index</td>
+					<td class="text-center">$news.title</td>
+					<td class="text-center">$news.posted.strftime('%A, %B %d, %Y') - $news.posted.strftime('%I:%M %p')</td>
+					<td class="text-center"><a class="btn btn-success" href="/admin/newsedit?id=$news.id" role="button">Edit &raquo;</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	</div>
+</div>
+

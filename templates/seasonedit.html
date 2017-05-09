@@ -1,0 +1,52 @@
+$def with (scheduledb, teamsdb, season_data)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+<script type="text/javascript" language="javascript" class="init">
+	$$(function() {
+		$$('input[type=text][name=year]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=text][name=playoff_teams_men]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=text][name=playoff_teams_women]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=text][name=bye_teams_men]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=text][name=bye_teams_women]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+	} );
+</script>
+
+<div class="container">
+	<div class="page-header">
+		<h1>Season Admin <small>edit season</small></h1>
+	</div>
+	<div class="row">
+	<form class="form-editpl" role="form" method="post" action="seasoneditsubmit">
+		<input type="hidden" name="id" class="form-control" id="id" value="$season_data.id">
+		<input data-toggle="tooltip" title="Year" type="text" name="year" class="form-control input-tp" id="year" value="$season_data.year" required>
+		<input data-toggle="tooltip" title="Number of Playoff Teams (Mens)" type="text" name="playoff_teams_men" class="form-control input-md" id="playoff_teams_men" value="$season_data.playoff_teams_men" required>
+		<input data-toggle="tooltip" title="Number of Playoff Teams (Womens)" type="text" name="playoff_teams_women" class="form-control input-md" id="playoff_teams_women" value="$season_data.playoff_teams_women" required>
+		<input data-toggle="tooltip" title="Number of Bye Teams (Mens)" type="text" name="bye_teams_men" class="form-control input-md" id="bye_teams_men" value="$season_data.bye_teams_men" required>
+		<input data-toggle="tooltip" title="Number of Bye Teams (Womens)" type="text" name="bye_teams_women" class="form-control input-btm" id="bye_teams_women" value="$season_data.bye_teams_women" required>
+	<button class="btn btn-lg btn-success btn-block" type="submit" style="margin-top: 20px;">Edit Season</button>
+	</form>
+	<form class="form-editpl" role="form" method="post" action="seasoncurrentsubmit">
+		<input type="hidden" name="year" class="form-control" id="year" value="$season_data.year">
+		<button class="btn btn-lg btn-success btn-block" type="submit">Set As Current</button>
+	</form>
+<hr>
+	</div>
+
+</div>

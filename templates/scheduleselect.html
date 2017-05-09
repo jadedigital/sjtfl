@@ -1,0 +1,49 @@
+$def with (teamsdb, scheduledb, scheduledb2)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+<script type="text/javascript" language="javascript" class="init">
+	$$(function() {
+		$$('#gameselect').dataTable( {
+			"pageLength": 50,
+			"dom": '<"btns">frtip'
+		 } );
+		$$("div.btns").html('<a class="btn btn-success btn-padding" href="/admin/scheduleupload" role="button">Upload Schedule &raquo;</a><a class="btn btn-success" href="/admin/scheduleadd" role="button">Add Game &raquo;</a>');
+	 } );
+</script>
+
+    <div class="container">
+    <div class="page-header">
+      <h1>Schedule Admin <small>add or edit schedule</small></h1>
+    </div>
+    <div class="row">
+	
+	<div class="col-md-12">	
+    <table id="gameselect" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th class="text-center">Game</th>
+			<th class="text-center">Team 1</th>
+			<th class="text-center">Team 2</th>
+			<th class="text-center">Date</th>
+			<th class="text-center">Edit</th>
+		</tr>	
+	</thead>
+	<tbody>
+		$for schedule in scheduledb2:
+			$if schedule.team1 is None:
+				$continue
+			$else:
+				<tr>
+					<td class="text-center">$loop.index</td>
+					<td class="text-center">$schedule.team1</td>
+					<td class="text-center">$schedule.team2</td>
+					<td class="text-center">$schedule.date.strftime('%A, %B %d, %Y') - $schedule.time.strftime('%I:%M %p')</td>
+					<td class="text-center"><a class="btn btn-success" href="/admin/scheduleedit?gameid=$schedule.gameid" role="button">Edit &raquo;</a></td>
+				</tr>
+	</tbody>
+	</table>
+	</div>
+	</div>	
+    </div>
+

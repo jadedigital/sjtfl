@@ -1,0 +1,70 @@
+$def with (scheduledb, teamsdb, team_list)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+<script type="text/javascript" language="javascript" class="init">
+	$$(function() {
+		$$('input[type=text][name=week]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=text][name=date]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('input[type=time][name=time]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('select[name=team1]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('select[name=team2]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+		$$('select[name=teamlines]').tooltip({ /*or use any other selector, class, ID*/
+			placement: "right",
+			trigger: "hover"
+		});
+	} );
+</script>
+
+<div class="container">
+	<div class="page-header">
+		<h1>Schedule Admin <small>add game</small></h1>
+	</div>
+	<div class="row">
+		<form class="form-editpl" role="form" method="post" action="scheduleaddsubmit">
+		<input type="hidden" name="gameid" class="form-control" id="gameid">
+		<input data-toggle="tooltip" title="Week" type="text" name="week" class="form-control input-tp" id="week" placeholder="Week" required>
+		<input data-toggle="tooltip" title="Date  (yyyy-mm-dd)" type="text" name="date" class="form-control input-md" id="date" placeholder="Date (yyyy-mm-dd)" required>
+		<input data-toggle="tooltip" title="Time (##:##:## PM)" type="time" name="time" class="form-control input-md" id="time" placeholder="Time" required>
+		<select name="gametype" class="form-control input-md" id="gametype" required>
+			<option value = "reg" selected="selected">Regular Season</option>
+			<option value = "post">Playoffs</option>
+		</select>
+		<select data-toggle="tooltip" title="Team 1" name="team1" class="form-control input-md" id="team1" required>
+			<option value="" disabled selected>Team 1</option>
+		$for t in team_list:
+				<option>$t.shortname</option>
+		</select>
+		<select data-toggle="tooltip" title="Team 2" name="team2" class="form-control input-md" id="team2" required>
+			<option value="" disabled selected>Team 2</option>
+		$for t in team_list:
+				<option>$t.shortname</option>
+		</select>
+		<select data-toggle="tooltip" title="Lines Team" name="teamlines" class="form-control input-btm" id="teamlines">
+				<option value="" disabled selected>Lines Team</option>
+		$for t in team_list:
+				<option>$t.shortname</option>
+		</select>
+		<button class="btn btn-lg btn-success btn-block" type="submit" style="margin-top: 20px;">Add Game</button>
+		</form>
+	</div> 
+	<br>
+	<hr>
+	<br>
+</div>

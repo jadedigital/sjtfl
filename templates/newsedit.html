@@ -1,0 +1,35 @@
+$def with (scheduledb, teamsdb, post_data)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+<script type="text/javascript" language="javascript" class="init" src="/static/js/news.js"></script>
+
+<div class="container">
+	<div class="page-header">
+		<h1>News Admin <small>edit post</small></h1>
+	</div>
+	<div class="row">
+		<form class="form-news" role="form" method="post" action="newseditsubmit">
+		<input type="hidden" name="id" class="form-control" id="id" value="$post_data.id">
+		<input data-toggle="tooltip" title="Post Title" type="text" name="title" class="form-control input-tp" id="title" value="$post_data.title" required>
+		<textarea data-toggle="tooltip" title="Post Body" name="body" class="form-control input-md" id="body" rows="20">$post_data.body</textarea>
+		<input data-toggle="tooltip" title="Embedded Content (ex: Twitter)" type="text" name="embed" class="form-control input-btm" id="embed" value="$post_data.embed">
+		<!--<input type="text" name="posted" class="form-control input-md" id="posted" value="$post_data.posted"> -->
+		
+		<button class="btn btn-lg btn-success btn-block" type="submit" style="margin-top: 20px;">Save Changes</button>
+		</form>
+		<form class="form-news" role="form" method="post" action="newsdeletesubmit">
+			<input type="hidden" name="id" class="form-control" id="id" value="$post_data.id">
+			<a class="btn btn-lg btn-danger btn-block popover-link" rel='popover' data-placement="top" data-original-title="Are you sure?" data-content=>Delete Post</a>
+			<div id="popoverhiddencontent" style="display: none">
+				<button class="btn btn-danger" type="submit">Delete</button>
+				<button id="close" class="btn" type="button">Cancel</button>
+			</div>
+		</form>
+	</div>
+	<br>
+	<hr>
+	<br>
+
+</div>

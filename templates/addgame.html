@@ -1,0 +1,167 @@
+$def with (gameid, statsdb, teamsdb, scheduledb, game_data, playersdb)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+$ player_stats = list(statsdb)
+$ gameplayed_dict = collections.defaultdict(int)
+$ touchdown_dict = collections.defaultdict(int)
+$ tdpass_dict = collections.defaultdict(int)
+$ oneconvert_dict = collections.defaultdict(int)
+$ twoconvert_dict = collections.defaultdict(int)
+$ rouge_dict = collections.defaultdict(int)
+$ safety_dict = collections.defaultdict(int)
+$ int_dict = collections.defaultdict(int)
+$ sack_dict = collections.defaultdict(int)
+
+$for p in player_stats:
+	$ gameplayed_dict[p.playerid] = p.gameplayed
+	$ touchdown_dict[p.playerid] = p.touchdowns
+	$ tdpass_dict[p.playerid] = p.tdpass
+	$ oneconvert_dict[p.playerid] = p.oneconvert
+	$ twoconvert_dict[p.playerid] = p.twoconvert
+	$ rouge_dict[p.playerid] = p.rouge
+	$ safety_dict[p.playerid] = p.safety
+	$ int_dict[p.playerid] = p.interception
+	$ sack_dict[p.playerid] = p.sack
+$ game_season = game_data.date.strftime('%Y')
+
+
+
+<div class="container">
+    <div class="page-header">
+      <h1>Input Game Data <small>Game $gameid</small></h1>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+    	<div>
+		<h3>Score</h3>
+		<form class="form-horizontal" role="form" method="post" action="addscore">
+		<div class="form-group">
+			<div><input type="hidden" name="gameid" class="form-control" id="gameid" value="$game_data.gameid"></div>
+			<div><input type="hidden" name="team1" class="form-control" id="team1" value="$game_data.team1"></div>
+			<div><input type="hidden" name="team2" class="form-control" id="team2" value="$game_data.team2"></div>
+			<div><input type="hidden" name="teamlines" class="form-control" id="teamlines" value="$game_data.teamlines"></div>
+			<div><input type="hidden" name="gametype" class="form-control" id="gametype" value="$game_data.gametype"></div>
+			<label for="team1score" class="col-md-1 pull-left control-label">$game_data.team1</label>
+			<div class="col-md-2"><input type="number" name="team1score" class="form-control" id="team1score" placeholder="$game_data.team1score" required></div>
+		</div>
+		<div class="form-group">
+			<label for="team2score" class="col-md-1 control-label">$game_data.team2</label>
+			<div class="col-md-2"><input type="number" name="team2score" class="form-control" id="team2score" placeholder="$game_data.team2score" required></div>
+		</div>
+		<hr>
+		<h3>Lines Team Points Lost</h3>
+		<div class="form-group">
+			<label for="teamlines_points_lost" class="col-md-1 control-label">$game_data.teamlines</label>
+			<div class="col-md-2"><input type="number" name="teamlines_points_lost" class="form-control" id="teamlines_points_lost" placeholder="$game_data.teamlines_points_lost" required></div>
+		</div>
+		
+		<div class="form-group">
+			<div class="col-md-offset-1 col-md-2">
+				<input type="submit" class="btn btn-success pull-right" value="Save">
+			</div>
+			<div class="col-md-3"></div>
+		</div>
+		</form>
+
+		<hr>
+
+		<h3>$game_data.team1 Player Stats</h3>
+		<form role="form" method="post" action="add">
+			<div class="panel panel-primary">
+    				<div class="panel-heading text-center">
+					<h1 class="panel-title">$game_data.team1 Player Stats</h1>
+				</div>
+			<div class="table-responsive">
+			<table class="table table-striped table-bordered table-hover table-condensed">
+				<tr>
+					<th class="col-xs-3 text-center">Player</th>
+					<th class="col-xs-1 text-center">GP</th>
+					<th class="col-xs-1 text-center">TDs</th>
+					<th class="col-xs-1 text-center">TDPs</th>
+					<th class="col-xs-1 text-center">1PTC</th>
+					<th class="col-xs-1 text-center">2PTC</th>
+					<th class="col-xs-1 text-center">RGS</th>
+					<th class="col-xs-1 text-center">SFTS</th>
+					<th class="col-xs-1 text-center">INTS</th>
+					<th class="col-xs-1 text-center">SCKS</th>
+				</tr>
+			$for players in playersdb:
+				$if players.teamname == game_data.team1:
+					<div class="form-group">
+					<div><input type="hidden" name="gameid" class="form-control" id="gameid" value="$game_data.gameid"></div>
+					<div><input type="hidden" name="playerid" class="form-control" id="playerid" value="$players.playerid"></div>
+					<div><input type="hidden" name="season" class="form-control" id="season" value="$game_season"></div>
+					<tr>
+						<td class="text-center col-xs-3">$players.firstname $players.lastname</td>
+						<td class="col-xs-1"><input type="number" name="gameplayed" class="form-control" id="gameplayed" value=$gameplayed_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="touchdowns" class="form-control" id="touchdowns" value=$touchdown_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="tdpass" class="form-control" id="tdpass" value=$tdpass_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="oneconvert" class="form-control" id="oneconvert" value=$oneconvert_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="twoconvert" class="form-control" id="twoconvert" value=$twoconvert_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="rouge" class="form-control" id="rouge" value=$rouge_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="safety" class="form-control" id="safety" value=$safety_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="interception" class="form-control" id="interception" value=$int_dict[players.playerid]></td>
+						<td class="col-xs-1"><input type="number" name="sack" class="form-control" id="sack" value=$sack_dict[players.playerid]></td>
+					</tr>
+					</div>
+			</table>
+			</div>
+			</div>
+			<div class="form-group">
+			</div>
+		
+		<hr>
+
+		<h3>$game_data.team2 Player Stats</h3>
+			<div class="panel panel-primary">
+				<div class="panel-heading text-center">
+					<h1 class="panel-title">$game_data.team2 Player Stats</h1>
+				</div>
+			<div class="table-responsive">
+			<table class="table table-striped table-hover table-condensed">
+				<tr>
+					<th class="col-sm-3 text-center">Player</th>
+					<th class="col-sm-1 text-center">GP</th>
+					<th class="col-sm-1 text-center">TDs</th>
+					<th class="col-sm-1 text-center">TDPs</th>
+					<th class="col-sm-1 text-center">1PTC</th>
+					<th class="col-sm-1 text-center">2PTC</th>
+					<th class="col-sm-1 text-center">RGS</th>
+					<th class="col-sm-1 text-center">SFTS</th>
+					<th class="col-sm-1 text-center">INTS</th>
+					<th class="col-sm-1 text-center">SCKS</th>
+				</tr>
+			$for players in playersdb:
+				$if players.teamname == game_data.team2:
+					<div class="form-group">
+					<div><input type="hidden" name="gameid" class="form-control" id="gameid" value="$game_data.gameid"></div>
+					<div><input type="hidden" name="playerid" class="form-control" id="playerid" value="$players.playerid"></div>
+					<div><input type="hidden" name="season" class="form-control" id="season" value="$game_season"></div>
+					<tr>
+						<td class="text-center col-sm-3">$players.firstname $players.lastname</td>
+						<td class="col-sm-1"><input type="number" name="gameplayed" class="form-control" id="gameplayed" value=$gameplayed_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="touchdowns" class="form-control" id="touchdowns" value=$touchdown_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="tdpass" class="form-control" id="tdpass" value=$tdpass_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="oneconvert" class="form-control" id="oneconvert" value=$oneconvert_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="twoconvert" class="form-control" id="twoconvert" value=$twoconvert_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="rouge" class="form-control" id="rouge" value=$rouge_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="safety" class="form-control" id="safety" value=$safety_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="interception" class="form-control" id="interception" value=$int_dict[players.playerid]></td>
+						<td class="col-sm-1"><input type="number" name="sack" class="form-control" id="sack" value=$sack_dict[players.playerid]></td>
+					</tr>
+					</div>
+			</table>
+			</div>
+			</div>
+			<div class="form-group">
+				<input type="submit" class="btn btn-success pull-right" value="Save">
+			</div>
+		</form>
+     	</div>
+
+    </div>
+    </div>
+
+</div>

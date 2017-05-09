@@ -1,0 +1,32 @@
+$def with (scheduledb, teamsdb, teamsdb2, leaguelist)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+<div class="container">
+	<div class="page-header">
+		<h1>Team Admin <small>edit team</small></h1>
+	</div>
+	<div class="row">
+		<form class="form-editpl" role="form" method="post" action="teameditsubmit">
+		$for team in teamsdb2:
+			<input type="hidden" name="id" class="form-control" id="id" value="$team.id">
+			<input type="text" name="name" class="form-control input-tp" id="name" value="$team.name" required autofocus>
+			<input type="text" name="shortname" class="form-control input-md" id="shortname" value="$team.shortname" required>
+			<select name="league" class="form-control input-btm" id="league" required>
+			$for league in leaguelist:
+				$if league.league == team.league:
+					<option selected="selected">$league.league</option>
+				$else:
+					<option>$league.league</option>
+			</select>
+			<button class="btn btn-lg btn-success btn-block" type="submit" style="margin-top: 20px;">Save Changes</button>
+			</form>
+			<form class="form-editpl" role="form" method="post" action="teamdeletesubmit">
+			<input type="hidden" name="id" class="form-control" id="id" value="$team.id">
+			<button class="btn btn-lg btn-danger btn-block" type="submit">Delete Team</button>
+		</form>
+	</div> 
+
+</div>
+

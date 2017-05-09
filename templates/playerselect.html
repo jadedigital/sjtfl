@@ -1,0 +1,46 @@
+$def with (scheduledb, teamsdb, playerdb)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "admin"
+
+<script type="text/javascript" language="javascript" class="init">
+	$$(function() {
+		$$('#playerselect').dataTable( {
+			"scrollX": true,
+			"pageLength": 50,
+			 "dom": '<"addpl-btn">frtip'
+		 } );
+		$$("div.addpl-btn").html('<a class="btn btn-success" href="/admin/playeradd" role="button">Add Player &raquo;</a>');
+	 } );
+</script>
+
+    <div class="container">
+    <div class="page-header">
+      <h1>Player Admin <small>add or edit players</small></h1>
+    </div>
+    <div class="row">
+    <div class="col-md-12">
+     <table id="playerselect" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th class="text-center">First Name</th>
+			<th class="text-center">Last Name</th>
+			<th class="text-center">Team</th>
+			<th class="text-center">Edit</th>
+		</tr>
+	</thead>
+	<tbody>
+		$for player in playerdb:
+
+		<tr>
+			<td class="text-center">$player.firstname</td>
+			<td class="text-center">$player.lastname</td>
+			<td class="text-center">$player.teamname</td>
+			<td class="text-center"><a class="btn btn-success" href="/admin/playeredit?playerid=$player.playerid" role="button">Edit &raquo;</a></td>
+		</tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+

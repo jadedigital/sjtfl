@@ -1,0 +1,155 @@
+$def with (page)
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<meta name="google-site-verification" content="-MmokLya_BNgw3d4Cc-JQwSA-Qg7EkcQ0Xwj1WJVmKg" />
+
+		<link rel="apple-touch-icon" sizes="57x57" href="/static/ico/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="/static/ico/apple-touch-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/static/ico/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/static/ico/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/static/ico/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/static/ico/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/static/ico/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/static/ico/apple-touch-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/static/ico/apple-touch-icon-180x180.png">
+		<link rel="icon" type="image/png" href="/static/ico/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="/static/ico/favicon-194x194.png" sizes="194x194">
+		<link rel="icon" type="image/png" href="/static/ico/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="/static/ico/android-chrome-192x192.png" sizes="192x192">
+		<link rel="icon" type="image/png" href="/static/ico/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="/static/ico/manifest.json">
+		<link rel="shortcut icon" href="/static/ico/favicon.ico">
+		<meta name="apple-mobile-web-app-title" content="SJTFL">
+		<meta name="application-name" content="SJTFL">
+		<meta name="msapplication-TileColor" content="#1253a4">
+		<meta name="msapplication-TileImage" content="/static/ico/mstile-144x144.png">
+		<meta name="msapplication-config" content="/static/ico/browserconfig.xml">
+		<meta name="theme-color" content="#1253a4">
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:site" content="@touchfootball" />
+		<meta name="twitter:title" content="St. John's Touch Football League" />
+		<meta name="twitter:description" content="The official site of the SJTFL" />
+		<meta name="twitter:image" content="http://www.sjtfl.com/static/img/twitter-sjtfl.PNG" />
+		
+		<title>St. John's Touch Football League</title>
+		
+		<!-- CSS -->
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="//cdn.datatables.net/plug-ins/725b2a2115b/integration/bootstrap/3/dataTables.bootstrap.css">
+		<link href="/static/css/sjtfl.css?version=1.992" rel="stylesheet">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		
+		<!-- fonts -->
+		<link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug-->
+		<!--<script src="/static/js/ie10-viewport-bug-workaround.js"></script>-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script type="text/javascript" charset="utf8" src="/static/js/jquery.dataTables.js"></script>
+		<script type="text/javascript" charset="utf8" src="/static/js/dataTables.bootstrap.js"></script>
+		<script type="text/javascript" charset="utf8" src="/static/js/sjtfl.js"></script>
+		<!-- include summernote css/js-->
+		<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.6.4/summernote.css" rel="stylesheet">
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.6.4/summernote.min.js"></script>
+	
+	</head>
+	
+$ navbar_class = collections.defaultdict(str)
+$ navbar_class[page.active_nav] = "active"
+
+	<body>
+	<div class="wrapper">
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div class="container container-header">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand">
+						<img class="img-brand" alt="Brand" src="/static/ico/mstile-70x70.png">
+					</a>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+						<li class="$navbar_class['home']"><a href="/"><i class="fa fa-home"></i> Home</a></li>
+						<li class="$navbar_class['news']"><a href="/news"><i class="fa fa-bullhorn"></i> News</a></li>
+						<li class="$navbar_class['standings']"><a href="/standings"><i class="fa fa-list"></i> Standings</a></li>
+						<li class="$navbar_class['schedule']"><a href="/schedule"><i class="fa fa-calendar"></i> Schedule</a></li>
+						$for schedule in page.scheduled:
+							$if schedule.team1score == None and schedule.team1 is not None:
+								<li class="$navbar_class['scores']"><a href="/scores?week=$schedule.week"><i class="fa fa-bullseye"></i> Scores</a></li>
+								$break
+							$if loop.last == True:
+								<li class="$navbar_class['scores']"><a href="/scores?week=$schedule.week"><i class="fa fa-bullseye"></i> Scores</a></li>
+								$break
+							$else:
+								$continue
+						<li class="$navbar_class['statistics']"><a href="/statistics"><i class="fa fa-bar-chart"></i> Statistics</a></li>
+						<li class="dropdown $navbar_class['teams']">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Teams <span class="caret"></span></a>
+							<ul class="dropdown-menu top-dropdown" role="menu">
+								$ divide_bool = False
+								$for teams in page.teamsd:
+									$if teams.league == "Womens" and divide_bool == False:
+										<li class="divider"></li>
+										$ divide_bool = True
+									<li><a href="/teams?teamid=$teams.id">$teams.name</a></li>
+							</ul>
+						</li>
+						<li class="$navbar_class['history']"><a href="/history"><i class="fa fa-trophy"></i> History</a></li>
+						<li class="dropdown $navbar_class['admin']">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> Admin <span class="caret"></span></a>
+							<ul class="dropdown-menu top-dropdown" role="menu">
+								<li><a href="/admin/scheduleselect">Schedule Admin</a></li>
+								<li><a href="/admin/newsselect">News Admin</a></li>
+							</ul>
+						</li>
+					</ul>
+					<form role="form" method="post" action="logout">
+						<ul class="navbar-form navbar-right">
+							<a><input id="logout" class="btn btn-default" type="submit" value="Log-out"></a>
+						</ul>
+					</form>
+				</div><!--/.navbar-collapse -->
+			</div>
+		</div>
+
+$:page
+
+<footer class="main-footer">
+	<p class="footer-title">St. John's Touch Football League</p>
+	<p class="footer-copy">Since 1981</p>
+	<div class="footer-social">
+	<a class="socialtip" href="http://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+		<i class="fa fa-twitter"></i>
+	</a>
+	·
+	<a class="socialtip" href="https://instagram.com/sjtouchfootball/" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
+		<i class="fa fa-instagram"></i>
+	</a>
+	·
+	<a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
+		<i class="fa fa-envelope"></i>
+	</a>
+	</div>
+	<p class="footer-links">
+		<a href="/static/2016 Roster Sheet.doc" target="_blank">Roster Sheet</a>
+		·
+		<a href="/static/SJTFL Constitution.pdf" target="_blank">SJTFL Constitution</a>
+		·
+		<a href="/static/TouchRB.pdf" target="_blank">Rule Book</a>
+	</p>
+	
+</footer>
+</div>
+	<script src="/static/js/bootstrap.min.js"></script>
+	</body>
+</html>

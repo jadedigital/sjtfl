@@ -1,0 +1,227 @@
+$def with (week, scheduledb, scheduledb2, teamsdb, footerdb, standingsdb, week_num, season_list, season, gametype, post_week_list, teams_list)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "scores"
+
+$ game_stats = list(footerdb)
+$ standings_dict = list(standingsdb)
+$ team1_tds = collections.defaultdict(str)
+$ team2_tds = collections.defaultdict(str)
+$ team1_tdps = collections.defaultdict(str)
+$ team2_tdps = collections.defaultdict(str)
+$ team1_ints = collections.defaultdict(str)
+$ team2_ints = collections.defaultdict(str)
+$ team1_sacks = collections.defaultdict(str)
+$ team2_sacks = collections.defaultdict(str)
+$ team_record = collections.defaultdict(str)
+$ team_gp = collections.defaultdict(int)
+
+$ week_dict = collections.defaultdict(str)
+
+$ team_id = collections.defaultdict(int)
+
+$for team in teams_list:
+	$ team_id[team.shortname] = team.id
+
+$for g in game_stats:
+	$if g.touchdowns > 0 and g.teamname == g.team1 and team1_tds[g.gameid] == '':
+		$ team1_tds[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.touchdowns) + ")"
+	$elif g.touchdowns > 0 and g.teamname == g.team1:
+		$ team1_tds[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.touchdowns) + ")"
+	$if g.touchdowns > 0 and g.teamname == g.team2 and team2_tds[g.gameid] == '':
+		$ team2_tds[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.touchdowns) + ")"
+	$elif g.touchdowns > 0 and g.teamname == g.team2:
+		$ team2_tds[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.touchdowns) + ")"
+	$if g.tdpass > 0 and g.teamname == g.team1 and team1_tdps[g.gameid] == '':
+		$ team1_tdps[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.tdpass) + ")"
+	$elif g.tdpass > 0 and g.teamname == g.team1:
+		$ team1_tdps[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.tdpass) + ")"
+	$if g.tdpass > 0 and g.teamname == g.team2 and team2_tdps[g.gameid] == '':
+		$ team2_tdps[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.tdpass) + ")"
+	$elif g.tdpass > 0 and g.teamname == g.team2:
+		$ team2_tdps[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.tdpass) + ")"
+	$if g.interception > 0 and g.teamname == g.team1 and team1_ints[g.gameid] == '':
+		$ team1_ints[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.interception) + ")"
+	$elif g.interception > 0 and g.teamname == g.team1:
+		$ team1_ints[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.interception) + ")"
+	$if g.interception > 0 and g.teamname == g.team2 and team2_ints[g.gameid] == '':
+		$ team2_ints[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.interception) + ")"
+	$elif g.interception > 0 and g.teamname == g.team2:
+		$ team2_ints[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.interception) + ")"
+	$if g.sack > 0 and g.teamname == g.team1 and team1_sacks[g.gameid] == '':
+		$ team1_sacks[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.sack) + ")"
+	$elif g.sack > 0 and g.teamname == g.team1:
+		$ team1_sacks[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.sack) + ")"
+	$if g.sack > 0 and g.teamname == g.team2 and team2_sacks[g.gameid] == '':
+		$ team2_sacks[g.gameid] += unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.sack) + ")"
+	$elif g.sack > 0 and g.teamname == g.team2:
+		$ team2_sacks[g.gameid] += ", " + unicode(g.firstname).encode("utf=8") + " " + unicode(g.lastname).encode("utf=8") + " (" + str(g.sack) + ")"
+
+$for team in standings_dict:
+	$ team_record[team.shortname] = "(" + str(team.wins) + "-" + str(team.losses) + "-" + str(team.ties) + ")"
+	$ team_gp[team.shortname] = team.gamesplayed
+
+$ week_dict[0] = "Play-Ins"
+$ week_dict[1] = "Quarter Finals"
+$ week_dict[2] = "Semi Finals"
+$ week_dict[3] = "Championships"
+
+	
+
+<div class="container">
+	<div class="page-header">
+		<h1>Scores
+			<span class="dropdown">
+				<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$season <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					$for s in season_list:
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="/scores?season=$s.year&week=$week&gametype=$gametype">$s.year</a></li>
+				</ul>
+			</span>
+			$if gametype == "reg":
+				<span class="dropdown visible-xs-inline">
+					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Week $week <span class="caret"></span></button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						$for i in range(int(week_num.count))
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="/scores?season=$season&week=$loop.index&gametype=$gametype">Week $loop.index</a></li>
+					</ul>
+				</span>
+			$elif gametype == "post":
+				<span class="dropdown visible-xs-inline">
+					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$week_dict[int(week)] <span class="caret"></span></button>
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+						$for i in post_week_list:
+							<li role="presentation"><a role="menuitem" tabindex="-1" href="/scores?season=$season&week=$i.week&gametype=$gametype">$week_dict[int(i.week)]</a></li>
+					</ul>
+				</span>
+			<span class="dropdown">
+				$if gametype == "reg":
+					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Regular Season <span class="caret"></span></button>
+				$else:
+					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Playoffs <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="/scores?season=$season&gametype=reg">Regular Season</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="/scores?season=$season&gametype=post">Playoffs</a></li>
+				</ul>
+			</span>
+		</h1>
+	</div>
+
+	<!-- pagination -->
+	$if gametype == "reg":
+		<div class="text-center">
+			<h3 class="pagination-heading hidden-xs"><strong>Week $week</strong></h3>
+			<ul class="pagination hidden-xs">
+				$ weekleft = int(week)-1
+				$ weekright = int(week)+1
+				$if int(week) == 1:
+					<li class="disabled"><a>&laquo;</a></li>
+				$else:
+					<li><a href="/scores?season=$season&week=$weekleft&gametype=$gametype">&laquo;</a></li>
+				$for i in range(int(week_num.count))
+					$if week == str(loop.index):
+						<li class="active"><a href="/scores?season=$season&week=$loop.index&gametype=$gametype">$loop.index</a></li>
+					$else:
+						<li><a href="/scores?season=$season&week=$loop.index&gametype=$gametype">$loop.index</a></li>
+				$if int(week) == int(week_num.count):
+					<li class="disabled"><a>&raquo;</a></li>
+				$else:
+					<li><a href="/scores?season=$season&week=$weekright&gametype=$gametype">&raquo;</a></li>
+			</ul>
+		</div><!-- close text center div -->
+	$elif gametype == "post":
+		<div class="text-center">
+			<h3 class="pagination-heading hidden-xs"><strong>$week_dict[int(week)]</strong></h3>
+			<ul class="pagination hidden-xs">
+				$ weekleft = int(week)-1
+				$ weekright = int(week)+1
+				$if int(week) == 0:
+					<li class="disabled"><a>&laquo;</a></li>
+				$else:
+					<li><a href="/scores?season=$season&week=$weekleft&gametype=$gametype">&laquo;</a></li>
+				$for i in post_week_list
+					$if int(week) == int(i.week):
+						<li class="active"><a href="/scores?season=$season&week=$i.week&gametype=$gametype">$week_dict[int(i.week)]</a></li>
+					$else:
+						<li><a href="/scores?season=$season&week=$i.week&gametype=$gametype">$week_dict[int(i.week)]</a></li>
+				$if int(week) == 3:
+					<li class="disabled"><a>&raquo;</a></li>
+				$else:
+					<li><a href="/scores?season=$season&week=$weekright&gametype=$gametype">&raquo;</a></li>
+			</ul>
+		</div><!-- close text center div -->
+
+	<!-- generate scores for selected week -->
+	<div class="row">
+		<!-- padding column -->
+		<div class="col-sm-1 col-md-2"></div>
+		<!-- scores column -->
+		<div class="col-sm-10 col-md-8">
+		$ clearfix_bool = False
+		$for schedule in scheduledb2:
+			$if schedule.team1 == None:
+				$continue
+			<div class="col-sm-6">
+			<div class="panel panel-primary text-center">
+			<!-- show heading for new dates only -->
+			<div class="panel-heading">$schedule.date.strftime('%A, %B %d, %Y')</div>
+			<div class="table-responsive">
+			<table class="table table-bordered text-center">
+				<tr>
+					<td class="col-md-2"><h4><a class = "team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1 </a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
+					<td class="col-md-1"><h4>$schedule.team1score</h4></td>
+					$if schedule.team1score is not None:
+						<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%-I:%M %p')<br><strong>Final</strong></td>
+					$else:
+						<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%-I:%M %p')</td>
+				</tr>
+				<tr>
+					<td class="col-md-2"><h4><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2 </a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
+					<td class="col-md-1"><h4>$schedule.team2score</h4></td>
+				</tr>
+			</table>
+			</div> <!-- close table div -->
+				<div class="panel-footer text-left">
+				$if schedule.team1score is not None:
+					<strong>Touchdowns:</strong><br>
+					$schedule.team1 -
+					<small class="stats-footer">$team1_tds[schedule.gameid]</small><br>
+					$schedule.team2 -
+					<small class="stats-footer">$team2_tds[schedule.gameid]</small><br>
+					<strong>Touchdown Passes:</strong><br>
+					$schedule.team1 -
+					<small class="stats-footer">$team1_tdps[schedule.gameid]</small><br>
+					$schedule.team2 -
+					<small class="stats-footer">$team2_tdps[schedule.gameid]</small><br>
+					<strong>Interceptions:</strong><br>
+					$schedule.team1 -
+					<small class="stats-footer">$team1_ints[schedule.gameid]</small><br>
+					$schedule.team2 -
+					<small class="stats-footer">$team2_ints[schedule.gameid]</small><br>
+					<strong>Sacks:</strong><br>
+					$schedule.team1 -
+					<small class="stats-footer">$team1_sacks[schedule.gameid]</small><br>
+					$schedule.team2 -
+					<small class="stats-footer">$team2_sacks[schedule.gameid]</small>
+				$elif team_gp[schedule.team1] == 0 or team_gp[schedule.team2] == 0:
+					<p style="margin: 0 0 0px;">No Preview Available</p>
+				$else:	
+					<a class="stats-footer" href="/preview?gameid=$schedule.gameid">Preview</a>
+				</div>
+			</div> <!-- close panel -->
+			</div>
+			$if clearfix_bool == True:
+				<div class="clearfix"></div>
+				$ clearfix_bool = False
+			$else:
+				$ clearfix_bool = True
+		
+		</div> <!-- close middle column -->
+		<div class=" col-sm-1 col-md-2"></div>
+		<!-- stats column
+
+		</div> <!-- close row -->
+	<br>
+	<hr>
+	<br>
+</div> <!-- close container -->

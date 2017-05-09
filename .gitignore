@@ -1,0 +1,8 @@
+*.sql
+*.pyc
+*.pid
+sessions/
+data/
+.vscode/
+.env
+.well-known/

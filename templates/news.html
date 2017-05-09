@@ -1,0 +1,56 @@
+$def with (newsdb, teamsdb, scheduledb, page, lastpage)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "news"
+
+$ pageleft = int(page)-1
+$ pageright = int(page)+1
+
+
+<div class="container">
+	<div class="page-header">
+		<h1>League News</h1>
+	</div>
+		
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<nav>
+				<ul class="pager">
+					$if int(page) == 1:
+						<li class="disabled previous"><a href="/news?page=1"><span aria-hidden="true">&larr;</span> Newer</a></li>
+					$else:
+						<li class="previous"><a href="/news?page=$pageleft"><span aria-hidden="true">&larr;</span> Newer</a></li>
+					$if int(page) == lastpage:
+						<li class="disabled next"><a href="/news?page=$pageright">Older <span aria-hidden="true">&rarr;</span></a></li>
+					$else:
+						<li class="next"><a href="/news?page=$pageright">Older <span aria-hidden="true">&rarr;</span></a></li>
+				</ul>
+			</nav>
+			$for news in newsdb:
+				<div class="blog-news">
+				<h2 class="blog-news-title">$news.title</h2>
+				<p class="blog-news-meta">$news.posted.strftime('%A, %B %d, %Y') - $news.posted.strftime('%I:%M %p')</p>
+				<div class="blog-body"><p>$:news.body</p></div>
+				<div class="blog-embed">$:news.embed</div>
+				</div>
+				<br>
+				<hr>
+				<br>
+		<nav>
+				<ul class="pager">
+					$if int(page) == 1:
+						<li class="disabled previous"><a href="/news?page=1"><span aria-hidden="true">&larr;</span> Newer</a></li>
+					$else:
+						<li class="previous"><a href="/news?page=$pageleft"><span aria-hidden="true">&larr;</span> Newer</a></li>
+					$if int(page) == lastpage:
+						<li class="disabled next"><a href="/news?page=$pageright">Older <span aria-hidden="true">&rarr;</span></a></li>
+					$else:
+						<li class="next"><a href="/news?page=$pageright">Older <span aria-hidden="true">&rarr;</span></a></li>
+				</ul>
+			</nav>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+
+</div>

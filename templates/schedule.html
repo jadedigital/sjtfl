@@ -1,0 +1,107 @@
+$def with (teamsdb, scheduledb, scheduledb2, season_list, season, gametype, teams_list)
+$var scheduled = scheduledb.list()
+$var teamsd = teamsdb.list()
+$var active_nav = "schedule"
+
+$ team_id = collections.defaultdict(int)
+$ team_gp = collections.defaultdict(int)
+
+$for team in teams_list:
+	$ team_id[team.shortname] = team.id
+	$ team_gp[team.shortname] = team.gamesplayed
+
+<div class="container">
+	<div class="page-header">
+		<h1>Schedule
+			<span class="dropdown">
+				<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$season <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					$for s in season_list:
+						<li role="presentation"><a role="menuitem" tabindex="-1" href="/schedule?season=$s.year">$s.year</a></li>
+				</ul>
+			</span>
+			<span class="dropdown">
+				$if gametype == "reg":
+					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Regular Season <span class="caret"></span></button>
+				$else:
+					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Playoffs <span class="caret"></span></button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="/schedule?season=$season&gametype=reg">Regular Season</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="/schedule?season=$season&gametype=post">Playoffs</a></li>
+				</ul>
+			</span>
+			<a class="btn btn-success" href="/schedule#next">Next Game</a>
+		</h1>
+	</div>
+
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+		$ date_check = None
+		$ next_check = False
+			$for schedule in scheduledb2:
+				$if schedule.team1 is None:
+					$if loop.last == True:
+						</table>
+						</div>
+						</div>
+					$continue
+				$else:
+					
+						$if schedule.date != date_check:
+							$if loop.first == False:
+								</table>
+								</div>
+								</div>
+							<div class="panel panel-primary text-center">
+							$if schedule.team1score is None and next_check == False:
+								<span class="anchor" id="next"></span>
+								$ next_check = True
+							<div class="panel-heading">$schedule.date.strftime('%A, %B %d, %Y')</div>
+							<div class="table-responsive">
+								<table class="table table-striped table-hover table-condensed">
+									<tr>
+										<th colspan="3" class="text-center col-md-8">Teams</th>
+										<th class="text-center col-md-2">Time</th>
+										<th class="text-center col-md-2">Lines Duty</th>
+									</tr>
+									<tr>
+										<td class="text-right col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5></td>
+										$if schedule.team1score is None:
+											<td class="text-center col-md-2"><strong>vs</strong></td>
+										$else:
+											<td class="text-center col-md-2"><strong>$schedule.team1score - $schedule.team2score</strong></td>
+										<td class="text-left col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
+										$if schedule.team1score is None and team_gp[schedule.team1] != 0 and team_gp[schedule.team2] != 0:
+											<td class="text-center col-md-2"><a class="stats-footer" href="/preview?gameid=$schedule.gameid">$schedule.time.strftime('%-I:%M %p')</a></td>
+										$else:
+											<td class="text-center col-md-2">$schedule.time.strftime('%-I:%M %p')</td>
+										<td class="text-center col-md-2"><a class="team_link" href="/teams?teamid=$team_id[schedule.teamlines]">$schedule.teamlines</a></td>
+									</tr>
+						$else:
+									<tr>
+										<td class="text-right col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5></td>
+										$if schedule.team1score is None:
+											<td class="text-center col-md-2"><strong>vs</strong></td>
+										$else:
+											<td class="text-center col-md-2"><strong>$schedule.team1score - $schedule.team2score</strong></td>
+										<td class="text-left col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
+										$if schedule.team1score is None and team_gp[schedule.team1] != 0 and team_gp[schedule.team2] != 0:
+											<td class="text-center col-md-2"><a class="stats-footer" href="/preview?gameid=$schedule.gameid">$schedule.time.strftime('%-I:%M %p')</a></td>
+										$else:
+											<td class="text-center col-md-2">$schedule.time.strftime('%-I:%M %p')</td>
+										<td class="text-center col-md-2"><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.teamlines</a></td>
+									</tr>
+
+					$ date_check = schedule.date
+					$if loop.last == True:
+						</table>
+						</div>
+						</div>
+		<br>
+		<hr>
+		<br>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</div>

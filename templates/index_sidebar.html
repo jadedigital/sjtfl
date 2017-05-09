@@ -1,0 +1,172 @@
+$def with (teamsdb, standingsmen, standingswomen, standingsdb1, standingsdb2, scheduledb, scheduledb2, scheduledbrev)
+
+    $var scheduled = scheduledb.list()
+    $var teamsd = teamsdb.list()
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+<div class="jumbotron">
+	<div class="container">
+		<h1>St. John's Touch Football League</h1>
+		<p>The official site of the SJTFL</p>
+	<!-- <div class="row text-center">
+	<div class="col-md-4"></div>
+	<div class="col-md-4"><img src="/static/img/league_logo_header.png" class="img-responsive center-block img-logo"></div>
+	<div class="col-md-4"></div>
+	</div>
+	<p><a class="btn btn-lg btn-jumbotron" role="button">Learn more &raquo;</a></p>
+	<p class="version">v1.0 "Allandale" - Beta</p> -->
+	</div>
+</div>
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-9">
+			<h2 class="blog-news-title">2014 Champions</h2>
+			<p class="blog-news-meta"> September 28, 2014</p>
+			<p class="blog-body">Another season is in the books. Thanks to all players, teams, refs, and execs for another great year. See you all in 2015.</p>
+			<hr></hr>
+			<p class="blog-body">
+				Congrats to all 2014 champions:<br>
+				Mens A Champions - Chargers<br>
+				Womens Champions - Hickmans<br>
+				Mens B Champions - Buccaneers
+			</p>
+			<div class="blog-embed">
+			<blockquote class="twitter-tweet text-center" lang="en"><p>2014 Men&#39;s A champs. Congrats to the Chargers! <a href="http://t.co/WZ9wDnGiRw">pic.twitter.com/WZ9wDnGiRw</a></p>&mdash; St. John&#39;s Football (@touchfootball) <a href="https://twitter.com/touchfootball/status/515938655417143296">September 27, 2014</a></blockquote>
+<script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script> 
+			</div>
+		</div>
+		<div class="col-sm-3 blog-sidebar">
+			<div class="sidebar-module sidebar-module-inset">
+        		<h4>Contact</h4>
+				<a href="mailto:#">contact@sjtfl.com</a>
+				<h4>Downloads</h4>
+				<a href="#">SJTFL Constitution</a><br>
+				<a href="#">Rule Book</a><br>
+				<a href="#">Roster Sheet</a><br>
+			</div>
+			<div class="twitter-sidebar">
+				<a class="twitter-timeline"  href="https://twitter.com/touchfootball" data-widget-id="567001029720698881">Tweets by @touchfootball</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-4">
+			<h2>Standings</h2>
+			<div class="panel panel-primary text-center">
+				<div class="panel-heading"><b>Men's League</b></div>
+				<table class="table table-hover table-condensed">
+					<tr>
+						<th class="text-center">Team</th>
+						<th class="text-center">W</th>
+						<th class="text-center">L</th>
+						<th class="text-center">T</th>
+						<th class="text-center">Pts</th>
+					</tr>
+					$for standings in standingsmen:
+						<tr>
+							<td>$standings.shortname</td>
+							<td>$standings.wins</td>
+							<td>$standings.losses</td>
+							<td>$standings.ties</td>
+							<td>$standings.points</td>
+						</tr>
+				</table>
+			</div>
+			<div class="panel panel-primary text-center">
+				<div class="panel-heading"><b>Women's League</b></div>
+				<table class="table table-hover table-condensed">
+					<tr>
+						<th class="text-center">Team</th>
+						<th class="text-center">W</th>
+						<th class="text-center">L</th>
+						<th class="text-center">T</th>
+						<th class="text-center">Pts</th>
+					</tr>
+					$for standings in standingswomen:
+						<tr>
+							<td>$standings.shortname</td>
+							<td>$standings.wins</td>
+							<td>$standings.losses</td>
+							<td>$standings.ties</td>
+							<td>$standings.points</td>
+						</tr>
+				</table>
+			</div>
+			<p><a class="btn btn-success btn-lg btn-block" href="/standings" role="button">View detailed standings &raquo;</a></p>
+		</div>
+
+		<div class="col-md-4">
+			<h2>Recent Scores</h2>
+			$ a = None
+			$ b = 1
+			$for schedule in scheduledbrev:
+				$if schedule.team1score is not None and schedule.team1 is not None:
+					<div class="panel panel-primary text-center">
+					$if schedule.date != a:
+						<div class="panel-heading"><b>$schedule.date.strftime('%A, %B %d, %Y')</b></div>
+					<table class="table table-bordered text-center">
+						<tr>
+							<td class="col-md-2">$schedule.team1</td>
+							<td class="col-md-1">$schedule.team1score</td>
+							<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%I:%M %p')<br>Final</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">$schedule.team2</td>
+							<td class="col-md-1">$schedule.team2score</td>
+						</tr>
+					</table>
+					$ a = schedule.date
+					$if b == 6:
+						</div>
+						$break
+					$ b = b + 1
+					</div>
+				$else:
+					$continue
+			$for schedule in scheduledbrev:
+				$if schedule.team1score is not None and schedule.team1 is not None:
+					<p><a class="btn btn-success btn-lg btn-block" href="/scores?weakid=$schedule.week" role="button">View all scores &raquo;</a></p>
+					$break
+				$else:
+					$continue
+		</div>
+        
+		<div class="col-md-4">
+			<h2>Upcoming Games</h2>
+			$ a = None
+			$ b = 1
+			$for schedule in scheduledb2:
+				$if schedule.team1score == None and schedule.team1 is not None:
+					<div class="panel panel-primary text-center">
+					$if schedule.date != a:
+						<div class="panel-heading"><b>$schedule.date.strftime('%A, %B %d, %Y')</b></div>
+					<table class="table table-bordered text-center">
+						<tr>
+							<td class="col-md-2">$schedule.team1</td>
+							<td class="col-md-1">$schedule.team1score</td>
+							<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%I:%M %p')</td>
+						</tr>
+						<tr>
+							<td class="col-md-2">$schedule.team2</td>
+							<td class="col-md-1">$schedule.team2score</td>
+						</tr>
+					</table>
+					$ a = schedule.date
+					$if b == 6:
+						</div>
+						$break
+					$ b = b + 1
+					</div>
+				$else:
+					$continue
+			<p><a class="btn btn-success btn-lg btn-block" href="#" role="button">View full schedule &raquo;</a></p>
+		</div>
+	</div>
+	
+	<hr>
+	<footer>
+		<p>&copy; SJTFL 2014</p>
+	</footer>
+</div> <!-- /container -->
