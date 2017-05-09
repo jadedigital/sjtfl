@@ -6,10 +6,15 @@ import collections
 import operator
 import math
 import os
+from os.path import join, dirname
+from dotenv import load_dotenv
+
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
 
 web.config.debug = False
 
-db = web.database(dbn='postgres', user='aaron', pw=os.environ.get('DATABASE_PASSWORD'), db='sjtfl')
+db = web.database(dbn='postgres', user=os.environ.get('DATABASE_USER'), pw=os.environ.get('DATABASE_PASSWORD'), db=os.environ.get('DATABASE_NAME'))
 
 urls = (
 	'/', 'index',
