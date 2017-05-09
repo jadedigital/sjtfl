@@ -134,8 +134,8 @@ class login:
 	def POST(self):
 		username, password = web.input().username, web.input().password
 		ident = db.select('users', where='username=$username', vars=locals())[0]
-		if bcrypt.checkpw(password, ident['password'])
-			session.logged = True;
+		if bcrypt.checkpw(password, ident['password']):
+			session.logged = True
 			session.privilege = ident['privilege']
 			session.username = ident['username']
 			render = create_render(session.privilege)
@@ -146,7 +146,7 @@ class login:
 class logout:
 	def POST(self):
 		session.kill()
-		session.logged = False;
+		session.logged = False
 		render = create_render(session.privilege)
 		raise web.seeother('/')
 
