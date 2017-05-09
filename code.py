@@ -94,11 +94,8 @@ def notfound():
 	i = dict(season=season_current.year)
 	teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
 	scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
-	#return web.notfound("Sorry, the page you were looking for was not found. Double check your URL. To order a special typing wand press the any key.")
-	# You can use template result like below, either is ok:
 	render = create_render(session.privilege)
 	return web.notfound(render.notfound(teamsdb, scheduledb))
-	#return web.notfound(str(render.notfound()))
 	
 app.notfound = notfound
 
@@ -135,14 +132,12 @@ class login:
 		username, password = web.input().username, web.input().password
 		ident = db.select('users', where='username=$username', vars=locals())[0]
 		if bcrypt.checkpw(password.encode('utf8'), ident['password'].encode('utf8')):
-			print('correct')
 			session.logged = True
 			session.privilege = ident['privilege']
 			session.username = ident['username']
 			render = create_render(session.privilege)
 			raise web.seeother('/')
 		else:
-			print('nope')
 			return "Wrong username or password"
 
 class logout:
