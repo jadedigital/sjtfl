@@ -134,7 +134,7 @@ class login:
 	def POST(self):
 		username, password = web.input().username, web.input().password
 		ident = db.select('users', where='username=$username', vars=locals())[0]
-		if bcrypt.checkpw(password.encode('utf8'), ident['password']):
+		if bcrypt.checkpw(password.encode('utf8'), ident['password'].encode('utf8')):
 			print('correct')
 			session.logged = True
 			session.privilege = ident['privilege']
