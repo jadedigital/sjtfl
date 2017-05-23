@@ -643,7 +643,7 @@ class scheduleupload:
 class scheduleuploadsubmit:
 	def POST(self):
 		i = web.input(myfile={})
-		filedir = '/opt/myenv/sjtfl/data'
+		filedir = os.environ.get('DATA_PATH')
 		#filedir = '/home/aaron/psqldata'
 		if 'myfile' in i: # to check if the file-object is created
 			filepath=i.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
