@@ -7,13 +7,14 @@ import operator
 import math
 import os
 import bcrypt
+import requests
 from os.path import join, dirname
 from dotenv import load_dotenv
 
 dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 
-web.config.debug = False
+#web.config.debug = False
 
 db = web.database(dbn='postgres', user=os.environ.get('DATABASE_USER'), pw=os.environ.get('DATABASE_PASSWORD'), db=os.environ.get('DATABASE_NAME'))
 
@@ -124,8 +125,11 @@ class index:
 		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		newsdb = db.select('news', order="posted DESC", limit=2)
+		instagram_token = os.environ.get('INSTAGRAM_ACCESS_TOKEN')
+		payload = {'access_token': instagram_token, 'count': 1}
+		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb)
+		return render.index(teamsdb, scheduledb, newsdb, media.json())
 
 class login:
 	def POST(self):

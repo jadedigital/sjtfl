@@ -110,7 +110,7 @@ $ week_dict[3] = "Championships"
 	<!-- pagination -->
 	$if gametype == "reg":
 		<div class="text-center">
-			<h3 class="pagination-heading hidden-xs"><strong>Week $week</strong></h3>
+			<h3 class="pagination-heading hidden-xs"><div>Week $week</div></h3>
 			<ul class="pagination hidden-xs">
 				$ weekleft = int(week)-1
 				$ weekright = int(week)+1
@@ -131,7 +131,7 @@ $ week_dict[3] = "Championships"
 		</div><!-- close text center div -->
 	$elif gametype == "post":
 		<div class="text-center">
-			<h3 class="pagination-heading hidden-xs"><strong>$week_dict[int(week)]</strong></h3>
+			<h3 class="pagination-heading hidden-xs"><div>$week_dict[int(week)]</div></h3>
 			<ul class="pagination hidden-xs">
 				$ weekleft = int(week)-1
 				$ weekright = int(week)+1
