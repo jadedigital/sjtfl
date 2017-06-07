@@ -4,6 +4,8 @@ $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "home"
 
+$ indicator_class = collections.defaultdict(str)
+$ indicator_class[0] = "active"
 
 <div class="container">
 	<div class="row row-home">
@@ -11,23 +13,54 @@ $var active_nav = "home"
 			<div class="home-header">Scores</div>
 		</div>
 		<div class="col-md-7">
-			<div class="section-wrapper home">
-				$for data in media['data']:
-					<video width="400" height="400" controls>
-						<source src="$data['videos']['low_bandwidth']['url']" type="video/mp4">
-					</video>
-					<div class="home-header highlights">$data['caption']['text']</div>
-			</div>
+      <!-- Carousel -->
+			<div id="carousel-highlights" class="section-wrapper home carousel slide" data-ride="carousel" data-interval="8000">
+        <!-- Slides -->
+        <div class="carousel-inner" role="listbox">
+          $for data in media['data']:
+            <div class="home item $indicator_class[loop.index0]">
+              $if data['type'] == 'video':
+                <video width="500" height="500" controls>
+                  <source src="$data['videos']['low_bandwidth']['url']" type="video/mp4">
+                </video>
+              $elif data['type'] == 'image':
+                <img class="highlights-img" src="$data['images']['low_resolution']['url']" width="500" height="500">
+              <div class="highlights-username"><img src="$data['user']['profile_picture']">$data['user']['username']</div>
+              <div class="home-header highlights">$data['caption']['text']
+                <div class="highlights-date">$time.strftime("%A, %B %d, %Y", time.localtime(int(data['caption']['created_time'])))</div>
+              </div>
+            </div>
+        </div>
+        <!-- Close Slides -->
+        <!-- Controls -->
+        <a class="left carousel-control" href="#carousel-highlights" role="button" data-slide="prev">
+          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="right carousel-control" href="#carousel-highlights" role="button" data-slide="next">
+          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+        <!-- Close Controls -->
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+          $for data in media['data']:
+            <li data-target="#carousel-highlights" data-slide-to="$loop.index0" class="$indicator_class[loop.index0]"></li>
+        </ol>
+      </div>
+      <!-- Close Carousel -->
+			<!-- News -->
 			<div class="section-wrapper home">
 			$for news in newsdb:
 				<div class="blog-news">
-					<div class="home-header highlights">$news.title</div>
+					<div class="home-header news">$news.title</div>
 					<p class="blog-news-meta">$news.posted.strftime('%A, %B %d, %Y') - $news.posted.strftime('%I:%M %p')</p>
 					<div class="blog-body"><p>$:news.body</p></div>
 					<div class="blog-embed">$:news.embed</div>
 				</div>
 				<br>
 			</div>
+			<!-- Close News -->
 		</div>
 		<div class="col-md-3 section-wrapper">
 			<div class="home-header">Standings</div>

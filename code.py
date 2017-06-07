@@ -124,9 +124,9 @@ class index:
 		i = dict(season=season_current.year)
 		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
-		newsdb = db.select('news', order="posted DESC", limit=2)
+		newsdb = db.select('news', order="posted DESC", limit=4)
 		instagram_token = os.environ.get('INSTAGRAM_ACCESS_TOKEN')
-		payload = {'access_token': instagram_token, 'count': 1}
+		payload = {'access_token': instagram_token, 'count': 5}
 		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
 		return render.index(teamsdb, scheduledb, newsdb, media.json())
