@@ -11,6 +11,8 @@ $(document).ready(function() {
       console.log($(window).scrollTop())
     if ($(window).scrollTop() > 80) {
       $('#navbar').addClass('navbar-fixed-top');
+			var scores_width = $('#home-scores').width();
+			$('#home-scores').width(scores_width);
 			$('#home-scores').addClass('fix-scores');
     }
     if ($(window).scrollTop() < 80) {
