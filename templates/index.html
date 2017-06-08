@@ -1,4 +1,4 @@
-$def with (teamsdb, scheduledb, newsdb, media)
+$def with (teamsdb, scheduledb, newsdb, media, standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb)
 
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
@@ -9,44 +9,58 @@ $ indicator_class[0] = "active"
 
 <div class="container">
 	<div class="row row-home">
-		<div class="col-md-2 section-wrapper">
-			<div class="home-header">Scores</div>
-		</div>
-		<div class="col-md-7">
+		<div class="col-md-2 col-pad">
+      <div id="home-scores" class="section-wrapper home">
+        <div class="home-header">Scores</div>
+        <div class="home-leaders">
+          <ul>
+            $for scores in scoresdb:
+              <li>
+                <div class="home-scores">
+                  <img src="/static/img/banner_logo.svg" class="scores-logo">
+                  $scores.team1[:4]
+                  <div class="lead-stat">$scores.team1score</div>
+                </div>
+                <div class="home-scores">
+                  <img src="/static/img/banner_logo.svg" class="scores-logo">
+                  $scores.team2[:4]
+                  <div class="lead-stat">$scores.team2score</div>
+                </div>
+              </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+		<div class="col-md-7 col-pad">
       <!-- Carousel -->
-			<div id="carousel-highlights" class="section-wrapper home carousel slide" data-ride="carousel" data-interval="8000">
+			<div id="carousel-highlights" class="section-wrapper home carousel slide" data-ride="carousel" data-interval="false">
         <!-- Slides -->
         <div class="carousel-inner" role="listbox">
           $for data in media['data']:
             <div class="home item $indicator_class[loop.index0]">
               $if data['type'] == 'video':
-                <video width="500" height="500" controls>
+                <video width="60%" controls>
                   <source src="$data['videos']['low_bandwidth']['url']" type="video/mp4">
                 </video>
               $elif data['type'] == 'image':
-                <img class="highlights-img" src="$data['images']['low_resolution']['url']" width="500" height="500">
-              <div class="highlights-username"><img src="$data['user']['profile_picture']">$data['user']['username']</div>
+                <img class="highlights-img" src="$data['images']['low_resolution']['url']" width="60%">
+              <!-- <div class="highlights-username"><img src="$data['user']['profile_picture']">$data['user']['username']</div> -->
               <div class="home-header highlights">$data['caption']['text']
                 <div class="highlights-date">$time.strftime("%A, %B %d, %Y", time.localtime(int(data['caption']['created_time'])))</div>
               </div>
             </div>
         </div>
         <!-- Close Slides -->
-        <!-- Controls -->
-        <a class="left carousel-control" href="#carousel-highlights" role="button" data-slide="prev">
-          <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="right carousel-control" href="#carousel-highlights" role="button" data-slide="next">
-          <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-        <!-- Close Controls -->
-        <!-- Indicators -->
-        <ol class="carousel-indicators">
-          $for data in media['data']:
-            <li data-target="#carousel-highlights" data-slide-to="$loop.index0" class="$indicator_class[loop.index0]"></li>
-        </ol>
+        <div class="carousel-links"> <div class="home-header links">Must See Highlights</div>
+          <ul>
+            $for data in media['data']:
+              <div class="link-wrapper">
+                <li data-target="#carousel-highlights" data-slide-to="$loop.index0" class="$indicator_class[loop.index0]">$data['caption']['text']</li>
+              </div>
+          </ul>
+        </div>
       </div>
       <!-- Close Carousel -->
 			<!-- News -->
@@ -62,8 +76,121 @@ $ indicator_class[0] = "active"
 			</div>
 			<!-- Close News -->
 		</div>
-		<div class="col-md-3 section-wrapper">
-			<div class="home-header">Standings</div>
+		<div class="col-md-3 col-pad">
+      <div class="section-wrapper home">
+        <div class="home-header">Standings</div>
+        <ul class="nav nav-home" role="tablist">
+          <li class="active"><a href="#mens_stand" role="tab" data-toggle="tab">Men's</a></li>
+          <li><a href="#womens_stand" role="tab" data-toggle="tab">Women's</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="mens_stand" class="tab-pane fade in active">
+            <div class="table-responsive">
+              <table class="table table-hover table-condensed bordered">
+                <tr>
+                  <th class="col-xs-5 text-center">Team</th>
+                  <th class="col-xs-1 text-center">W</th>
+                  <th class="col-xs-1 text-center">L</th>
+                  <th class="col-xs-1 text-center">T</th>
+                  <th class="col-xs-1 text-center">PTS</th>
+                </tr>
+                $for standings in standingsmen:
+                  <tr>
+                    <td class="text-center">$standings.shortname</td>
+                    <td class="text-center">$standings.wins</td>
+                    <td class="text-center">$standings.losses</td>
+                    <td class="text-center">$standings.ties</td>
+                    <td class="text-center">$standings.points</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+
+          <div id="womens_stand" class="tab-pane fade in">
+            <div class="table-responsive">
+              <table class="table table-hover table-condensed bordered">
+                <tr>
+                  <th class="col-xs-5 text-center">Team</th>
+                  <th class="col-xs-1 text-center">W</th>
+                  <th class="col-xs-1 text-center">L</th>
+                  <th class="col-xs-1 text-center">T</th>
+                  <th class="col-xs-1 text-center">PTS</th>
+                </tr>
+                $for standings in standingswomen:
+                  <tr>
+                    <td class="text-center">$standings.shortname</td>
+                    <td class="text-center">$standings.wins</td>
+                    <td class="text-center">$standings.losses</td>
+                    <td class="text-center">$standings.ties</td>
+                    <td class="text-center">$standings.points</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+		  </div>
+
+      <div class="section-wrapper home">
+        <div class="home-header">League Leaders</div>
+        <ul class="nav nav-home" role="tablist">
+          <li class="active"><a href="#mens_lead" role="tab" data-toggle="tab">Men's</a></li>
+          <li><a href="#womens_lead" role="tab" data-toggle="tab">Women's</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="mens_lead" class="tab-pane fade in active home-leaders">
+            <ul class="list">
+              <li>
+                <div class="lead-type">Points Scored</div>
+                $pointsdbmen.firstname $pointsdbmen.lastname
+                <div class="lead-stat">$pointsdbmen.points</div>
+              </li>
+              <li>
+                <div class="lead-type">Touchdown Passes</div>
+                $tdpsdbmen.firstname $tdpsdbmen.lastname
+                <div class="lead-stat">$tdpsdbmen.tdpass</div>
+              </li>
+              <li>
+                <div class="lead-type">Interceptions</div>
+                $interceptionsdbmen.firstname $interceptionsdbmen.lastname
+                <div class="lead-stat">$interceptionsdbmen.interception</div>
+              </li>
+              <li>
+                <div class="lead-type">Sacks</div>
+                $sacksdbmen.firstname $sacksdbmen.lastname
+                <div class="lead-stat">$sacksdbmen.sack</div>
+              </li>
+            </ul>
+          </div>
+
+          <div id="womens_lead" class="tab-pane fade in home-leaders">
+            <ul class="list">
+              <li>
+                <div class="lead-type">Points Scored</div>
+                $pointsdbwomen.firstname $pointsdbwomen.lastname
+                <div class="lead-stat">$pointsdbwomen.points</div>
+              </li>
+              <li>
+                <div class="lead-type">Touchdown Passes</div>
+                $tdpsdbwomen.firstname $tdpsdbwomen.lastname
+                <div class="lead-stat">$tdpsdbwomen.tdpass</div>
+              </li>
+              <li>
+                <div class="lead-type">Interceptions</div>
+                $interceptionsdbwomen.firstname $interceptionsdbwomen.lastname
+                <div class="lead-stat">$interceptionsdbwomen.interception</div>
+              </li>
+              <li>
+                <div class="lead-type">Sacks</div>
+                $sacksdbwomen.firstname $sacksdbwomen.lastname
+                <div class="lead-stat">$sacksdbwomen.sack</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+		  </div>
+
 		</div>
 	</div>	
 </div> <!-- /container -->

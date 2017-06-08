@@ -4,3 +4,18 @@ $(function() {
 			trigger: "hover"
 		});
 } );
+
+$(document).ready(function() {
+
+  $(window).scroll(function () {  
+      console.log($(window).scrollTop())
+    if ($(window).scrollTop() > 80) {
+      $('#navbar').addClass('navbar-fixed-top');
+			$('#home-scores').addClass('fix-scores');
+    }
+    if ($(window).scrollTop() < 80) {
+      $('#navbar').removeClass('navbar-fixed-top');
+			$('#home-scores').removeClass('fix-scores');
+    }
+  });
+});
