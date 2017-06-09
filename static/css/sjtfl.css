@@ -807,6 +807,7 @@ body {
   padding-right: 8px;
 }
 
+<<<<<<< HEAD
 .btn.home {
   margin: 20px;
 }
@@ -814,4 +815,22 @@ body {
 .btn.home:hover {
   text-decoration: none;
  color: #1253A4;
+=======
+.sponsor {
+  font-size: 18px;
+  font-weight: bold;
+  font-style: italic;
+}
+
+.team-name {
+  font-size: 36px;
+  font-style: italic;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.team-name small{
+  font-size: 20px;
+  font-weight: normal;
+>>>>>>> 155f5b0433062c09f03dd0048f2d64a25ec61e76
 }
