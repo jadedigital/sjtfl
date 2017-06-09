@@ -17,13 +17,23 @@ $ indicator_class[0] = "active"
             $for scores in scoresdb:
               <li>
                 <div class="home-scores">
-                  <img src="/static/img/banner_logo.svg" class="scores-logo">
-                  $scores.team1[:4]
+                  $if scores.team1 == 'Hurricanes':
+                    <img src="/static/img/Canes.JPG" class="scores-logo">
+                  $elif scores.team1 == 'Gators':
+                    <img src="/static/img/gators.png" class="scores-logo">
+                  $else:
+                    <img src="/static/img/banner_logo.svg" class="scores-logo">
+                  $scores.team1
                   <div class="lead-stat">$scores.team1score</div>
                 </div>
                 <div class="home-scores">
-                  <img src="/static/img/banner_logo.svg" class="scores-logo">
-                  $scores.team2[:4]
+                  $if scores.team2 == 'Hurricanes':
+                    <img src="/static/img/Canes.JPG" class="scores-logo">
+                  $elif scores.team2 == 'Gators':
+                    <img src="/static/img/gators.png" class="scores-logo">
+                  $else:
+                    <img src="/static/img/banner_logo.svg" class="scores-logo">
+                  $scores.team2
                   <div class="lead-stat">$scores.team2score</div>
                 </div>
               </li>
@@ -189,6 +199,7 @@ $ indicator_class[0] = "active"
             </ul>
           </div>
         </div>
+        <a class"btn home" href="/statistics">Sortable Stats</a>
 		  </div>
 
 		</div>

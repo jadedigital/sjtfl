@@ -790,7 +790,8 @@ body {
 }
 
 .scores-logo {
-  height: 20px;
+  max-height: 20px;
+  max-width: 20px;
   float: left;
   margin-right: 6px;
 }
@@ -804,4 +805,13 @@ body {
 .col-pad {
   padding-left: 8px;
   padding-right: 8px;
+}
+
+.btn.home {
+  margin: 20px;
+}
+
+.btn.home:hover {
+  text-decoration: none;
+ color: #1253A4;
 }
