@@ -1,34 +1,140 @@
-$def with (teamid, teamsdb, standingsdb, scheduledb, scheduledb2, statsdb, teams_list)
+$def with (teamid, teamsdb, team1_data, scheduledb, scheduledb2, statsdb, teams_list, team1_stats, team1_last, team1_streak)
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "teams"
 
 $ team_id = collections.defaultdict(int)
+$ team_png = team1_data.shortname + ".png"
 
 $for team in teams_list:
   $ team_id[team.shortname] = team.id
+
+$ team1_streak_total = 0
+
+$for game in team1_streak:
+	$if game.team1score <= game.team2score and game.team1 == team1_data.shortname:
+		$break
+	$elif game.team1score >= game.team2score and game.team2 == team1_data.shortname:
+		$break
+	$else:
+		$ team1_streak_type = "W"
+		$ team1_streak_total = team1_streak_total + 1
+
+$for game in team1_streak:
+	$if game.team1score >= game.team2score and game.team1 == team1_data.shortname:
+		$break
+	$elif game.team1score <= game.team2score and game.team2 == team1_data.shortname:
+		$break
+	$else:
+		$ team1_streak_type = "L"
+		$ team1_streak_total = team1_streak_total + 1
+		
+$for game in team1_streak:
+	$if game.team1score != game.team2score and game.team1 == team1_data.shortname:
+		$break
+	$elif game.team1score != game.team2score and game.team2 == team1_data.shortname:
+		$break
+	$else:
+		$ team1_streak_type = "T"
+		$ team1_streak_total = team1_streak_total + 1
+
+$ team1_points_per_game = team1_stats.pointsfor/team1_data.gamesplayed
+$ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplayed
    
-<div class="container">
-  <div class="page-header">
-    <div class="sponsor">$standingsdb.name.replace(standingsdb.shortname, '')</div>
-    <div class="team-name">$standingsdb.shortname<small> ($standingsdb.wins - $standingsdb.losses - $standingsdb.ties)</small></div>
-    $ t = standingsdb.shortname
+
+<div class="team-header" style="background: linear-gradient(180deg, #EE5431 0%, #013372 91.16%);">
+  <div class="team-bg" style="background: url(/static/img/$team_png) no-repeat center center;"></div>
+  <div class="team-name-helper">
+    <img src="/static/img/$team_png" class="team-header-logo">
+    <div class="team-name-wrap"> 
+      <div class="sponsor">$team1_data.name.replace(team1_data.shortname, '')</div>
+      <div class="team-name">$team1_data.shortname<small> </small></div>
+      $ t = team1_data.shortname
+    </div>
   </div>
-  <ul class="nav nav-pills nav-stats" role="tablist">
-    <li class="active"><a href="#roster" role="tab" data-toggle="tab">Roster</a></li>
-    <li><a href="#schedule" role="tab" data-toggle="tab">Schedule</a></li>
-  </ul>
+</div>
+
+<div class="team-stat-banner" style="border-top:1px solid #fff">
+    <div class="team-stat-header">Record
+      <div class="team-stat-value">$team1_data.wins - $team1_data.losses - $team1_data.ties</div>
+    </div>
+    <div class="team-stat-header">Last 5
+      <div class="team-stat-value">$team1_last['wins'] - $team1_last['losses'] - $team1_last['ties']</div>
+    </div>
+    <div class="team-stat-header">Streak
+      <div class="team-stat-value">$team1_streak_type$team1_streak_total</div>
+    </div>
+    <div class="team-stat-header">PPG
+      <div class="team-stat-value">$round(team1_points_per_game, 1)</div>
+    </div>
+    <div class="team-stat-header">OPPG
+      <div class="team-stat-value">$round(team1_points_per_game_against, 1)</div>
+    </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-5">
+      <div class="section-wrapper home">
+        <div class="home-header">Schedule</div>
+        <ul class="nav nav-home" role="tablist">
+          <li class="active"><a href="#games" role="tab" data-toggle="tab">Games</a></li>
+          <li><a href="#lines" role="tab" data-toggle="tab">Line Duty</a></li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane fade in active" id="games">
+            <div class="home-leaders">
+              <ul>
+                $for schedule in scheduledb2:
+                  $if schedule.team1 == t or schedule.team2 == t:  
+                    <li>
+                      <div class="home-scores">
+                        <img src="/static/img/banner_logo.svg" class="scores-logo">
+                        $schedule.team1
+                        <div class="lead-stat">$schedule.team1score</div>
+                      </div>
+                      <div class="home-scores">                    
+                        <img src="/static/img/banner_logo.svg" class="scores-logo">
+                        $schedule.team2
+                        <div class="lead-stat">$schedule.team2score</div>
+                      </div>
+                    </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-pane fade in" id="lines">
+            <div class="home-leaders">
+              <ul>
+                $for schedule in scheduledb2:
+                  $if schedule.teamlines == t:  
+                    <li>
+                      <div class="home-scores">
+                        <img src="/static/img/banner_logo.svg" class="scores-logo">
+                        $schedule.team1
+                        <div class="lead-stat">$schedule.team1score</div>
+                      </div>
+                      <div class="home-scores">                    
+                        <img src="/static/img/banner_logo.svg" class="scores-logo">
+                        $schedule.team2
+                        <div class="lead-stat">$schedule.team2score</div>
+                      </div>
+                    </li>
+              </ul>
+            </div>
+          </div>      
+      </div>
+    </div>
+  </div>
 
     <!-- Tab panes -->
-  <div class="tab-content">
-    <div class="tab-pane fade in active" id="roster">
-      <div class="row">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-          <div class="panel panel-primary">
-            <div class="panel-heading text-center">Team Stats</div>
+
+    <div class="col-md-7">
+      <div class="section-wrapper home">
+          
+          <div class="home-header">Roster</div>
             <div class="table-responsive">
-              <table class="table table-striped table-hover table-condensed">
+              <table class="table table-hover table-condensed no-head">
                 <tr>
                 <th class="text-center col-md-5">Player</th>
                 <th class="text-center col-md-1"> GP </th>
@@ -49,75 +155,10 @@ $for team in teams_list:
                 </tr>
               </table>
             </div>
-          </div>
+          
         </div>
-        <div class="col-md-3"></div>
-      </div>
     </div>
     
-    <div class="tab-pane fade" id="schedule">
-      <div class="row">
-        <div class="col-md-2"></div>
-        <div class="col-md-8">
-          <div class="panel panel-primary text-center">
-            <div class="panel-heading">Game Schedule</div>
-            <div class="table-responsive">
-              <table class="table table-striped table-hover table-condensed">
-              
-                <tr>
-                  <th colspan="3" class="text-center col-xs-6">Score</th>
-                  <th class="text-center col-xs-6">Date</th>
-                </tr>
-                $for schedule in scheduledb2:
-                  $if schedule.team1 == t:
-                    <tr>
-                      <td class="text-right col-xs-2"><h5>$schedule.team1</h5></td>
-                      $if schedule.team1score is None:
-                        <td class="text-center col-xs-2"><strong><a class="team_link" href="/preview?gameid=$schedule.gameid">vs</a></strong></td>
-                      $else:
-                        <td class="text-center col-xs-2"><strong>$schedule.team1score - $schedule.team2score</strong></td>
-                      <td class="text-left col-xs-2"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
-                      <td class="text-center col-xs-6">$schedule.date.strftime('%A, %B %d, %Y') - $schedule.time.strftime('%I:%M %p')</td>
-                    </tr>
-                  $if schedule.team2 == t:
-                    <tr>
-                      <td class="text-right col-xs-2"><h5>$schedule.team2</h5></td>
-                      $if schedule.team2score is None:
-                        <td class="text-center col-xs-2"><strong><a class="team_link" href="/preview?gameid=$schedule.gameid">vs</a></strong></td>
-                      $else:
-                        <td class="text-center col-xs-2"><strong>$schedule.team2score - $schedule.team1score</strong></td>
-                      <td class="text-left col-xs-2"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5></td>
-                      <td class="text-center col-xs-6">$schedule.date.strftime('%A, %B %d, %Y') - $schedule.time.strftime('%I:%M %p')</td>
-                    </tr>
-              </table>
-            </div>
-          </div>
-          <div class="panel panel-primary text-center">
-            <div class="panel-heading">Lines Schedule</div>
-            <div class="table-responsive">
-              <table class="table table-striped table-hover table-condensed">
-                <tr>
-                  <th colspan="3" class="text-center col-xs-6">Score</th>
-                  <th class="text-center col-xs-6">Date</th>
-                </tr>
-                $for schedule in scheduledb2:
-                  $if schedule.teamlines == t:
-                    <tr>
-                      <td class="text-right col-xs-2"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5></td>
-                      $if schedule.team1score is None:
-                        <td class="text-center col-xs-2"><strong><a class="team_link" href="/preview?gameid=$schedule.gameid">vs</a></strong></td>
-                      $else:
-                        <td class="text-center col-xs-2"><strong>$schedule.team1score - $schedule.team2score</strong></td>
-                      <td class="text-left col-xs-2"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
-                      <td class="text-center col-xs-6">$schedule.date.strftime('%A, %B %d, %Y') - $schedule.time.strftime('%I:%M %p')</td>
-                    </tr>
-              </table>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-2"></div>
-      </div>
-    </div>
   </div>
   <br>
   <hr>

@@ -83,11 +83,11 @@ else:
 def create_render(privilege):
 	if session.logged == True:
 		if privilege == 1:
-			render = web.template.render('templates/', base='baselight', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted})
+			render = web.template.render('templates/', base='baselight', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round})
 		elif privilege == 2:
-			render = web.template.render('templates/', base='base', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted})
+			render = web.template.render('templates/', base='base', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round})
 	else:
-		render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted})
+		render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round})
 	return render
 
 def notfound():
@@ -276,13 +276,27 @@ class teams:
 		j = dict(season=season_current.year)
 		teamsdb = db.select('standings', j, order="league, shortname", where="season=$season")
 		scheduledb = db.select('schedule', j, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
-		standingsdb = db.select('standings', i, where="id = $teamid")[0]
-		i.season = standingsdb.season
+		team1_data = db.select('standings', i, where="id = $teamid")[0]
+		i.season = team1_data.season
 		scheduledb2 = db.select('schedule', order="gameid", where="EXTRACT(YEAR FROM date) = $season", vars=i).list()
 		statsdb = db.query("SELECT play.playerid, play.teamid, play.firstname, play.lastname, COALESCE(stats.gameplayed, 0) AS gameplayed, COALESCE(stats.touchdowns, 0) AS touchdowns, COALESCE(stats.tdpass, 0) AS tdpass, COALESCE(stats.oneconvert, 0) AS oneconvert, COALESCE(stats.twoconvert, 0) AS twoconvert, COALESCE(stats.rouge, 0) AS rouge, COALESCE(stats.safety, 0) AS safety, COALESCE(stats.interception, 0) AS interception, COALESCE(stats.sack, 0) AS sack FROM (SELECT st.playerid, sum(st.gameplayed) AS gameplayed, sum(st.touchdowns) AS touchdowns, sum(st.tdpass) AS tdpass, sum(st.oneconvert) AS oneconvert, sum(st.twoconvert) AS twoconvert, sum(st.rouge) AS rouge, sum(st.safety) AS safety, sum(st.interception) AS interception, sum(st.sack) AS sack FROM (SELECT p.playerid, p.teamid, p.firstname, p.lastname, s.gameplayed, s.touchdowns, s.tdpass, s.oneconvert, s.twoconvert, s.rouge, s.safety, s.interception, s.sack FROM (SELECT stat.playerid, sum(stat.gameplayed) AS gameplayed, sum(stat.touchdowns) AS touchdowns, sum(stat.tdpass) AS tdpass, sum(stat.oneconvert) AS oneconvert, sum(stat.twoconvert) AS twoconvert, sum(stat.rouge) AS rouge, sum(stat.safety) AS safety, sum(stat.interception) AS interception, sum(stat.sack) AS sack FROM statistics stat, schedule sched WHERE stat.gameid=sched.gameid AND stat.season = $season AND sched.gametype = 'reg' GROUP BY stat.playerid) s, players p WHERE s.playerid = p.playerid AND p.teamid = $teamid UNION ALL SELECT playerid, teamid, firstname, lastname, null AS gameplayed, null AS touchdowns, null AS tdpass, null AS oneconvert, null AS twoconvert, null AS rouge, null AS safety, null AS interception, null AS sack FROM players WHERE teamid = $teamid AND season = $season) AS st GROUP BY st.playerid) stats, players play WHERE stats.playerid = play.playerid ORDER BY play.lastname, play.firstname;", vars=i)
 		teams_list = db.select('standings', i, order="league, shortname", where="season=$season").list()
+		
+		i.league = team1_data.league
+		i.team1 = team1_data.shortname
+		
+		team1_stats = db.query("SELECT * FROM (SELECT j.teamname AS shortname, sum(j.pointsfor) AS pointsfor, sum(j.pointsagainst) AS pointsagainst, sum(j.touchdowns) AS touchdowns, sum(j.touchdownsagainst) AS touchdownsagainst, sum(j.tdpass) AS tdpass, sum(j.tdpassagainst) AS tdpassagainst, sum(j.oneconvert) AS oneconvert, sum(j.oneconvertagainst) AS oneconvertagainst, sum(j.twoconvert) AS twoconvert, sum(j.twoconvertagainst) AS twoconvertagainst, sum(j.rouge) AS rouge, sum(j.rougeagainst) AS rougeagainst, sum(j.safety) AS safety, sum(j.safetyagainst) AS safetyagainst, sum(j.interception) AS interception, sum(j.interceptionagainst) AS interceptionagainst, sum(j.sack) AS sack, sum(j.sackagainst) AS sackagainst FROM (SELECT i.teamname, sum(i.touchdowns * 6 + i.twoconvert * 2 + i.safety * 2 + i.oneconvert + i.rouge) AS pointsfor, 0 AS pointsagainst, sum(i.touchdowns) AS touchdowns, 0 AS touchdownsagainst, sum(i.tdpass) AS tdpass, 0 AS tdpassagainst, sum(i.oneconvert) AS oneconvert, 0 AS oneconvertagainst, sum(i.twoconvert) AS twoconvert, 0 AS twoconvertagainst, sum(i.rouge) AS rouge, 0 AS rougeagainst, sum(i.safety) AS safety, 0 AS safetyagainst, sum(i.interception) AS interception, 0 AS interceptionagainst, sum(i.sack) AS sack, 0 AS sackagainst FROM (SELECT * FROM statistics stat, schedule sched, players play WHERE stat.gameid = sched.gameid AND stat.playerid = play.playerid AND stat.season = $season AND play.season = $season AND EXTRACT(YEAR FROM sched.date) = $season) i GROUP BY i.teamname UNION SELECT i.team1 AS team, 0 AS pointsfor, sum(i.touchdowns * 6 + i.twoconvert * 2 + i.safety * 2 + i.oneconvert + i.rouge) AS pointsagainst, 0 AS touchdowns, sum(i.touchdowns) AS touchdownsagainst, 0 AS tdpass, sum (i.tdpass) AS tdpassagainst, 0 AS oneconvert, sum (i.oneconvert) AS oneconvertagainst, 0 AS twoconvert, sum (i.twoconvert) AS twoconvertagainst, 0 AS rouge, sum (i.rouge) AS rougeagainst, 0 AS safety, sum (i.safety) AS safetyagainst, 0 AS interception, sum(i.interception) AS interceptionagainst, 0 AS sack, sum(i.sack) AS sackagainst FROM (SELECT * FROM statistics stat, schedule sched, players play WHERE stat.gameid = sched.gameid AND stat.playerid = play.playerid AND stat.season = $season AND play.season = $season AND EXTRACT(YEAR FROM sched.date) = $season) i WHERE i.team1 != i.teamname GROUP BY i.team1 UNION SELECT i.team2 AS team ,0 AS pointsfor, sum(i.touchdowns * 6 + i.twoconvert * 2 + i.safety * 2 + i.oneconvert + i.rouge) AS pointsagainst, 0 AS touchdowns, sum(i.touchdowns) AS touchdownsagainst, 0 AS tdpass, sum (i.tdpass) AS tdpassagainst, 0 AS oneconvert, sum (i.oneconvert) AS oneconvertagainst, 0 AS twoconvert, sum (i.twoconvert) AS twoconvertagainst, 0 AS rouge, sum (i.rouge) AS rougeagainst, 0 AS safety, sum (i.safety) AS safetyagainst, 0 AS interception, sum(i.interception) AS interceptionagainst, 0 AS sack, sum(i.sack) AS sackagainst FROM (SELECT * FROM statistics stat, schedule sched, players play WHERE stat.gameid = sched.gameid AND stat.playerid = play.playerid AND stat.season = $season AND play.season = $season AND EXTRACT(YEAR FROM sched.date) = $season) i WHERE i.team2 != i.teamname GROUP BY i.team2) j GROUP BY j.teamname ORDER BY j.teamname) v WHERE v.shortname = $team1;", vars=i)[0]
+		
+		team1_last_wins = db.query("SELECT COUNT(*) FROM (SELECT * FROM schedule WHERE (team1 = $team1 OR team2 = $team1) AND EXTRACT(YEAR FROM date) = $season AND team1score IS NOT NULL ORDER BY date DESC LIMIT 5) AS a WHERE (team1score > team2score AND team1 = $team1) OR (team1score < team2score AND team2 = $team1);", vars=i)[0]
+		team1_last_losses = db.query("SELECT COUNT(*) FROM (SELECT * FROM schedule WHERE (team1 = $team1 OR team2 = $team1) AND EXTRACT(YEAR FROM date) = $season AND team1score IS NOT NULL ORDER BY date DESC LIMIT 5) AS a WHERE (team1score < team2score AND team1 = $team1) OR (team1score > team2score AND team2 = $team1);", vars=i)[0]
+		team1_last_ties = db.query("SELECT COUNT(*) FROM (SELECT * FROM schedule WHERE (team1 = $team1 OR team2 = $team1) AND EXTRACT(YEAR FROM date) = $season AND team1score IS NOT NULL ORDER BY date DESC LIMIT 5) AS a WHERE (team1score = team2score AND team1 = $team1) OR (team1score = team2score AND team2 = $team1);", vars=i)[0]
+		
+		team1_last = dict(wins=team1_last_wins.count, losses=team1_last_losses.count, ties=team1_last_ties.count)
+		
+		team1_streak = db.select('schedule', i, order="date DESC", where="(team1 = $team1 OR team2 = $team1) AND EXTRACT(YEAR FROM date) = $season AND team1score IS NOT NULL").list()
+
 		render = create_render(session.privilege)
-		return render.teams(i.teamid, teamsdb, standingsdb, scheduledb, scheduledb2, statsdb, teams_list)
+		return render.teams(i.teamid, teamsdb, team1_data, scheduledb, scheduledb2, statsdb, teams_list, team1_stats, team1_last, team1_streak)
 
 class scores:
 	def GET(self):
