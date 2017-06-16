@@ -14,6 +14,8 @@ $ team2_ints = collections.defaultdict(str)
 $ team1_sacks = collections.defaultdict(str)
 $ team2_sacks = collections.defaultdict(str)
 $ team_record = collections.defaultdict(str)
+$ team_color = collections.defaultdict(str)
+$ team_png = collections.defaultdict(str)
 $ team_gp = collections.defaultdict(int)
 
 $ week_dict = collections.defaultdict(str)
@@ -60,6 +62,8 @@ $for g in game_stats:
 $for team in standings_dict:
 	$ team_record[team.shortname] = "(" + str(team.wins) + "-" + str(team.losses) + "-" + str(team.ties) + ")"
 	$ team_gp[team.shortname] = team.gamesplayed
+	$ team_color[team.shortname] = team.color
+	$ team_png[team.shortname] = "/static/img/" + team.shortname + ".png"
 
 $ week_dict[0] = "Play-Ins"
 $ week_dict[1] = "Quarter Finals"
@@ -110,7 +114,6 @@ $ week_dict[3] = "Championships"
 	<!-- pagination -->
 	$if gametype == "reg":
 		<div class="text-center">
-			<h3 class="pagination-heading hidden-xs"><div>Week $week</div></h3>
 			<ul class="pagination hidden-xs">
 				$ weekleft = int(week)-1
 				$ weekright = int(week)+1
@@ -120,7 +123,7 @@ $ week_dict[3] = "Championships"
 					<li><a href="/scores?season=$season&week=$weekleft&gametype=$gametype">&laquo;</a></li>
 				$for i in range(int(week_num.count))
 					$if week == str(loop.index):
-						<li class="active"><a href="/scores?season=$season&week=$loop.index&gametype=$gametype">$loop.index</a></li>
+						<li class="active"><a href="/scores?season=$season&week=$loop.index&gametype=$gametype">Week $loop.index</a></li>
 					$else:
 						<li><a href="/scores?season=$season&week=$loop.index&gametype=$gametype">$loop.index</a></li>
 				$if int(week) == int(week_num.count):
@@ -154,9 +157,9 @@ $ week_dict[3] = "Championships"
 	<!-- generate scores for selected week -->
 	<div class="row">
 		<!-- padding column -->
-		<div class="col-sm-1 col-md-2"></div>
+		<div class="col-md-1"></div>
 		<!-- scores column -->
-		<div class="col-sm-10 col-md-8">
+		<div class="col-md-10">
 		$ clearfix_bool = False
 		$for schedule in scheduledb2:
 			$if schedule.team1 == None:
@@ -164,11 +167,11 @@ $ week_dict[3] = "Championships"
 			<div class="col-sm-6">
 			<div class="panel panel-primary text-center">
 			<!-- show heading for new dates only -->
-			<div class="panel-heading">$schedule.date.strftime('%A, %B %d, %Y')</div>
+			<div class="panel-header scores">$schedule.date.strftime('%A, %B %d, %Y')</div>
 			<div class="table-responsive">
-			<table class="table table-bordered text-center">
+			<table class="table text-center scores">
 				<tr>
-					<td class="col-md-2"><h4><a class = "team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1 </a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
+					<td class="col-md-2"><span class="standings-logo-wrap"><img src="$team_png[schedule.team1]" class="standings-logo"></span><h4 class="scores-team"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1 </a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
 					<td class="col-md-1"><h4>$schedule.team1score</h4></td>
 					$if schedule.team1score is not None:
 						<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%-I:%M %p')<br><strong>Final</strong></td>
@@ -176,7 +179,7 @@ $ week_dict[3] = "Championships"
 						<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%-I:%M %p')</td>
 				</tr>
 				<tr>
-					<td class="col-md-2"><h4><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2 </a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
+					<td class="col-md-2"><span class="standings-logo-wrap"><img src="$team_png[schedule.team2]" class="standings-logo"></span><h4 class="scores-team"><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2 </a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
 					<td class="col-md-1"><h4>$schedule.team2score</h4></td>
 				</tr>
 			</table>
@@ -185,24 +188,24 @@ $ week_dict[3] = "Championships"
 				$if schedule.team1score is not None:
 					<strong>Touchdowns:</strong><br>
 					$schedule.team1 -
-					<small class="stats-footer">$team1_tds[schedule.gameid]</small><br>
+					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_tds[schedule.gameid]</small><br>
 					$schedule.team2 -
-					<small class="stats-footer">$team2_tds[schedule.gameid]</small><br>
+					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_tds[schedule.gameid]</small><br>
 					<strong>Touchdown Passes:</strong><br>
 					$schedule.team1 -
-					<small class="stats-footer">$team1_tdps[schedule.gameid]</small><br>
+					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_tdps[schedule.gameid]</small><br>
 					$schedule.team2 -
-					<small class="stats-footer">$team2_tdps[schedule.gameid]</small><br>
+					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_tdps[schedule.gameid]</small><br>
 					<strong>Interceptions:</strong><br>
 					$schedule.team1 -
-					<small class="stats-footer">$team1_ints[schedule.gameid]</small><br>
+					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_ints[schedule.gameid]</small><br>
 					$schedule.team2 -
-					<small class="stats-footer">$team2_ints[schedule.gameid]</small><br>
+					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_ints[schedule.gameid]</small><br>
 					<strong>Sacks:</strong><br>
 					$schedule.team1 -
-					<small class="stats-footer">$team1_sacks[schedule.gameid]</small><br>
+					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_sacks[schedule.gameid]</small><br>
 					$schedule.team2 -
-					<small class="stats-footer">$team2_sacks[schedule.gameid]</small>
+					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_sacks[schedule.gameid]</small>
 				$elif team_gp[schedule.team1] == 0 or team_gp[schedule.team2] == 0:
 					<p style="margin: 0 0 0px;">No Preview Available</p>
 				$else:	
@@ -217,7 +220,7 @@ $ week_dict[3] = "Championships"
 				$ clearfix_bool = True
 		
 		</div> <!-- close middle column -->
-		<div class=" col-sm-1 col-md-2"></div>
+		<div class=" col-md-1"></div>
 		<!-- stats column
 
 		</div> <!-- close row -->

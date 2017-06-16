@@ -1,4 +1,4 @@
-$def with (teamsdb, scheduledb, newsdb, media, standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb)
+$def with (teamsdb, scheduledb, newsdb, media, standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list)
 
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
@@ -6,6 +6,10 @@ $var active_nav = "home"
 
 $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
+$ scores_png = collections.defaultdict(str)
+
+$for team in teams_list:
+  $ scores_png[team.shortname] = team.shortname + ".png"
 
 <div class="container">
 	<div class="row row-home">
@@ -17,23 +21,13 @@ $ indicator_class[0] = "active"
             $for scores in scoresdb:
               <li>
                 <div class="home-scores">
-                  $if scores.team1 == 'Hurricanes':
-                    <img src="/static/img/Canes.JPG" class="scores-logo">
-                  $elif scores.team1 == 'Gators':
-                    <img src="/static/img/gators.png" class="scores-logo">
-                  $else:
-                    <img src="/static/img/banner_logo.svg" class="scores-logo">
-                  $scores.team1
+                  <img src="/static/img/$scores_png[scores.team1]" class="scores-logo">
+                  $scores.team1[:4]
                   <div class="lead-stat">$scores.team1score</div>
                 </div>
                 <div class="home-scores">
-                  $if scores.team2 == 'Hurricanes':
-                    <img src="/static/img/Canes.JPG" class="scores-logo">
-                  $elif scores.team2 == 'Gators':
-                    <img src="/static/img/gators.png" class="scores-logo">
-                  $else:
-                    <img src="/static/img/banner_logo.svg" class="scores-logo">
-                  $scores.team2
+                  <img src="/static/img/$scores_png[scores.team2]" class="scores-logo">
+                  $scores.team2[:4]
                   <div class="lead-stat">$scores.team2score</div>
                 </div>
               </li>

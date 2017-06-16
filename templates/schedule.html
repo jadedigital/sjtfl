@@ -57,7 +57,7 @@ $for team in teams_list:
 							$if schedule.team1score is None and next_check == False:
 								<span class="anchor" id="next"></span>
 								$ next_check = True
-							<div class="panel-heading">$schedule.date.strftime('%A, %B %d, %Y')</div>
+							<div class="panel-header">$schedule.date.strftime('%A, %B %d, %Y')</div>
 							<div class="table-responsive">
 								<table class="table table-striped table-hover table-condensed">
 									<tr>

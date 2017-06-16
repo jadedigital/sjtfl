@@ -4,10 +4,13 @@ $var teamsd = teamsdb.list()
 $var active_nav = "teams"
 
 $ team_id = collections.defaultdict(int)
+$ scores_png = collections.defaultdict(str)
 $ team_png = team1_data.shortname + ".png"
+$ sponsor_png = team1_data.shortname + "_sponsor.png"
 
 $for team in teams_list:
   $ team_id[team.shortname] = team.id
+  $ scores_png[team.shortname] = team.shortname + ".png"
 
 $ team1_streak_total = 0
 
@@ -42,7 +45,7 @@ $ team1_points_per_game = team1_stats.pointsfor/team1_data.gamesplayed
 $ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplayed
    
 
-<div class="team-header" style="background: linear-gradient(180deg, #EE5431 0%, #013372 91.16%);">
+<div class="team-header" style="background: linear-gradient(180deg, $team1_data.color 0%, #013372 91.16%);">
   <div class="team-bg" style="background: url(/static/img/$team_png) no-repeat center center;"></div>
   <div class="team-name-helper">
     <img src="/static/img/$team_png" class="team-header-logo">
@@ -51,10 +54,11 @@ $ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplay
       <div class="team-name">$team1_data.shortname<small> </small></div>
       $ t = team1_data.shortname
     </div>
+    <img src="/static/img/$sponsor_png" class="team-sponsor-logo">
   </div>
 </div>
 
-<div class="team-stat-banner" style="border-top:1px solid #fff">
+<div class="team-stat-banner" style="border-top:1px solid $team1_data.color">
     <div class="team-stat-header">Record
       <div class="team-stat-value">$team1_data.wins - $team1_data.losses - $team1_data.ties</div>
     </div>
@@ -84,21 +88,35 @@ $ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplay
 
         <div class="tab-content">
           <div class="tab-pane fade in active" id="games">
-            <div class="home-leaders">
+            <div class="team-schedule">
               <ul>
                 $for schedule in scheduledb2:
                   $if schedule.team1 == t or schedule.team2 == t:  
                     <li>
-                      <div class="home-scores">
-                        <img src="/static/img/banner_logo.svg" class="scores-logo">
-                        $schedule.team1
-                        <div class="lead-stat">$schedule.team1score</div>
-                      </div>
-                      <div class="home-scores">                    
-                        <img src="/static/img/banner_logo.svg" class="scores-logo">
-                        $schedule.team2
-                        <div class="lead-stat">$schedule.team2score</div>
-                      </div>
+                      <div class="team-scores-header">$schedule.date.strftime('%A, %B %d, %Y')</div>
+                      <span class="team-scores-wrap">
+                        <span class="team-scores-wrap-helper">  
+                          <div class="team-scores">
+                            <span class="team-scores-logo-wrap"><img src="/static/img/$scores_png[schedule.team1]" class="team-scores-logo"></span>
+                            $if schedule.team1score > schedule.team2score:
+                              <div class="team-scores-name"><strong>$schedule.team1</strong></div>
+                              <div class="lead-stat"><strong>$schedule.team1score</strong></div>
+                            $else:
+                              <div class="team-scores-name">$schedule.team1</div>
+                              <div class="lead-stat">$schedule.team1score</div>
+                          </div>
+                          <div class="team-scores">                    
+                            <span class="team-scores-logo-wrap"><img src="/static/img/$scores_png[schedule.team2]" class="team-scores-logo"></span>
+                            $if schedule.team2score > schedule.team1score:
+                              <div class="team-scores-name"><strong>$schedule.team2</strong></div>
+                              <div class="lead-stat"><strong>$schedule.team2score</strong></div>
+                            $else:
+                              <div class="team-scores-name">$schedule.team2</div>
+                              <div class="lead-stat">$schedule.team2score</div>
+                          </div>
+                        </span>
+                        <span class="team-scores-time">$schedule.time.strftime('%I:%M %p')</span>
+                      </span>
                     </li>
               </ul>
             </div>
@@ -127,7 +145,7 @@ $ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplay
     </div>
   </div>
 
-    <!-- Tab panes -->
+    <!-- roster -->
 
     <div class="col-md-7">
       <div class="section-wrapper home">

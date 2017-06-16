@@ -13,6 +13,10 @@ $var active_nav = "admin"
 			<input type="hidden" name="id" class="form-control" id="id" value="$team.id">
 			<input type="text" name="name" class="form-control input-tp" id="name" value="$team.name" required autofocus>
 			<input type="text" name="shortname" class="form-control input-md" id="shortname" value="$team.shortname" required>
+			<div id="color" class="input-group colorpicker-component">
+    		<input type="text" name="color" value="$team.color" class="form-control input-md" id="color" required>
+    		<span class="input-group-addon"><i></i></span>
+			</div>
 			<select name="league" class="form-control input-btm" id="league" required>
 			$for league in leaguelist:
 				$if league.league == team.league:

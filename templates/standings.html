@@ -1,7 +1,12 @@
-$def with (standingsmen, standingswomen, teamsdb, scheduledb, season_list, season, scheduledb2, mens_games, womens_games, season_displayed, points_lost)
+$def with (standingsmen, standingswomen, teamsdb, scheduledb, season_list, season, scheduledb2, mens_games, womens_games, season_displayed, points_lost, teams_list)
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "standings"
+
+$ scores_png = collections.defaultdict(str)
+
+$for team in teams_list:
+	$ scores_png[team.shortname] = team.shortname + ".png"
 
 $# convert iterables to lists
 $ standings_dict_men = list(standingsmen)
@@ -213,9 +218,9 @@ $for team in sorted_standings_women:
 		<div class="col-md-1"></div>
 		<div class="col-md-10">
 			<div class="panel panel-primary">
-				<div class="panel-heading text-center">Men's League</div>
+				<div class="panel-header">Men's League</div>
 				<div class="table-responsive">
-					<table class="table table-striped table-hover table-condensed">
+					<table class="table table-hover table-condensed standings">
 						<tr>
 							<th class="col-xs-1 text-center">RNK</th>
 							<th class="col-xs-5 text-center">Team</th>
@@ -229,7 +234,7 @@ $for team in sorted_standings_women:
 						$for standings in sorted_standings_men:
 							<tr>
 								<td class="text-center">$loop.index</td>
-								<td class="text-center">$clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_png[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
 								<td class="text-center">$standings.wins</td>
 								<td class="text-center">$standings.losses</td>
 								<td class="text-center">$standings.ties</td>
@@ -246,9 +251,9 @@ $for team in sorted_standings_women:
 				</div>
 			</div>
 			<div class="panel panel-primary">
-				<div class="panel-heading text-center">Women's League</div>
+				<div class="panel-header">Women's League</div>
 				<div class="table-responsive">
-					<table class="table table-striped table-hover table-condensed">
+					<table class="table table-hover table-condensed standings">
 						<tr>
 							<th class="col-xs-1 text-center">RNK</th>
 							<th class="col-xs-5 text-center">Team</th>
@@ -262,7 +267,7 @@ $for team in sorted_standings_women:
 						$for standings in sorted_standings_women:
 							<tr>
 								<td class="text-center">$loop.index</td>
-								<td class="text-center">$clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_png[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
 								<td class="text-center">$standings.wins</td>
 								<td class="text-center">$standings.losses</td>
 								<td class="text-center">$standings.ties</td>

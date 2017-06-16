@@ -8,7 +8,7 @@ import math
 import os
 import bcrypt
 import requests
-from os.path import join, dirname
+from os.path import join, dirname, isfile
 from dotenv import load_dotenv
 
 dotenv_path = join(dirname(__file__), '.env')
@@ -128,6 +128,7 @@ class index:
 		standingsmen = db.select('standings', order="points DESC, gamesplayed, pointsagainst", where="league = 'Mens' AND season = $season", vars=i).list()
 		standingswomen = db.select('standings', order="points DESC, gamesplayed, pointsagainst", where="league = 'Womens' AND season = $season", vars=i).list()
 		scoresdb = db.select('schedule', i, where="EXTRACT(YEAR FROM date) = $season AND team1score IS NOT NULL", order="date DESC, time DESC", limit="8").list()
+		teams_list = db.select('standings', i, order="league, shortname", where="season=$season").list()
 
 		pointsdbmen = db.query("SELECT p.playerid, p.teamid, p.firstname, p.lastname, s.points FROM (SELECT m.playerid, sum(m.touchdowns * 6 + m.twoconvert * 2 + m.safety * 2 + m.oneconvert + m.rouge) AS points FROM (SELECT * FROM statistics stat, schedule sched WHERE stat.gameid = sched.gameid AND (EXTRACT(YEAR FROM sched.date))=$season AND sched.gametype='reg') m GROUP BY playerid) s, players p, standings t WHERE p.playerid = s.playerid AND p.teamid = t.id AND t.league = 'Mens' AND p.season = $season AND t.season = $season ORDER BY points DESC, lastname LIMIT 1;", vars=i)[0]
 		sacksdbmen = db.query("SELECT p.playerid, p.teamid, p.firstname, p.lastname, s.sack FROM (SELECT m.playerid, sum(m.sack) AS sack FROM (SELECT * FROM statistics stat, schedule sched WHERE stat.gameid = sched.gameid AND (EXTRACT(YEAR FROM sched.date))=$season AND sched.gametype='reg') m GROUP BY playerid) s, players p, standings t WHERE p.playerid = s.playerid AND p.teamid = t.id AND t.league = 'Mens' AND p.season = $season AND t.season = $season ORDER BY sack DESC, lastname LIMIT 1;", vars=i)[0]
@@ -142,7 +143,7 @@ class index:
 		payload = {'access_token': instagram_token, 'count': 5}
 		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb, media.json(), standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb)
+		return render.index(teamsdb, scheduledb, newsdb, media.json(), standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list)
 
 class login:
 	def POST(self):
@@ -251,8 +252,10 @@ class standings:
 		womens_games = db.query("SELECT COUNT(*) FROM schedule WHERE (team1 = $womensteam AND EXTRACT(YEAR FROM date) = $season AND gametype = 'reg') OR (team2 = $womensteam AND EXTRACT(YEAR FROM date) = $season AND gametype = 'reg')", vars=i)[0]
 		season_displayed = db.select('season', i, where="year = $season")[0]
 		
+		teams_list = db.select('standings', j, order="league, shortname", where="season=$season").list()
+
 		render = create_render(session.privilege)
-		return render.standings(standingsmen, standingswomen, teamsdb, scheduledb, season_list, i.season, scheduledb2, mens_games, womens_games, season_displayed, points_lost)
+		return render.standings(standingsmen, standingswomen, teamsdb, scheduledb, season_list, i.season, scheduledb2, mens_games, womens_games, season_displayed, points_lost, teams_list)
 
 class schedule:
 	def GET(self):

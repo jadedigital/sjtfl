@@ -66,6 +66,10 @@ body {
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.02), 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
 
+h1 .btn {
+  padding: 10px 15px;
+}
+
 .btn-success:hover {
     color: #fff;
     background-color: #1253A4;
@@ -633,6 +637,11 @@ body {
   padding-right: 15px;
 }
 
+.page-header h1 {
+  font-style: italic;
+  font-weight:bold;
+}
+
 .team-header {
   margin: 0;
   padding-top: 40px;
@@ -644,6 +653,11 @@ body {
 .team-header-logo {
   max-height: 100px;
   float: left;
+}
+
+.team-sponsor-logo {
+  max-height: 100px;
+  float: right;
 }
 
 .team-name-wrap {
@@ -672,6 +686,18 @@ body {
   right: 0;
   opacity: .1;
   background-size: 100%;
+}
+
+.panel-header {
+  font-style: italic;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.panel-header.scores {
+  border-bottom: 1px solid #ddd;
 }
 
 .home-header {
@@ -809,6 +835,14 @@ body {
   border-top: none;
 }
 
+.table.standings>tbody>tr>td {
+  height: 50px;
+}
+
+.table.scores>tbody>tr>td {
+  border-top: 0;
+}
+
 .home-leaders ul {
   padding-left: 0;
 }
@@ -903,4 +937,93 @@ body {
   font-size: 24px;
   font-weight: bold;
   font-style: italic; 
+}
+
+.team-scores {
+  font-size: 12px;
+  position: relative;
+  border-bottom: 1px solid #ececec;
+  border-left: 1px solid #ececec;
+  border-right: 1px solid #ececec;
+  padding: 0 15px;
+}
+
+.team-scores-header {
+  background-color: #f7f7f7;
+  text-align: center;
+  border: 1px solid #ececec;
+}
+
+.team-schedule li {
+  font-size: 12px;
+  line-height: 30px;
+  height: 100px;
+  margin: 4px 0px 0px;
+  padding: 6px;
+  list-style-type: none;
+}
+
+.team-schedule ul {
+  padding-left: 0;
+}
+
+.team-scores-logo {
+  max-height: 30px;
+  max-width: 30px;
+}
+
+.team-scores-logo-wrap {
+  display: inline-block;
+  vertical-align: middle;
+  width: 40px;
+}
+
+.standings-logo {
+  max-height: 40px;
+  max-width: 40px;
+}
+
+.standings-logo-wrap {
+  display: inline-block;
+  vertical-align: middle;
+  width: 50px;
+}
+
+.team-scores-name {
+  display: inline;
+}
+
+.team-scores-wrap {
+  display: flex;
+  width: 100%;
+}
+
+.team-scores-wrap-helper {
+  width: 70%;
+}
+
+.team-scores-time {
+  width: 19%;
+  line-height: 60px;
+  width: 30%;
+  text-align: center;
+  border-bottom: 1px solid #ececec;
+  border-right: 1px solid #ececec;
+}
+
+.numberCircle {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  padding: 8px;
+  
+  background: #fff;
+  border: 2px solid #666;
+  color: #666;
+  text-align: center;
+  font: 32px Arial, sans-serif;
+}
+
+.scores-team {
+  display: inline-block;
 }
