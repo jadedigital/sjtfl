@@ -616,6 +616,12 @@ h1 .btn {
   margin: 10px;
 }
 
+.banner-sponsor {
+  height: 60px;
+  margin: 10px;
+  float: right;
+}
+
 .banner-text {
   display: inline;
   font-size: 32px;
