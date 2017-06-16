@@ -3,10 +3,10 @@ $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "standings"
 
-$ scores_png = collections.defaultdict(str)
+$ scores_svg = collections.defaultdict(str)
 
 $for team in teams_list:
-	$ scores_png[team.shortname] = team.shortname + ".png"
+	$ scores_svg[team.shortname] = team.shortname + ".svg"
 
 $# convert iterables to lists
 $ standings_dict_men = list(standingsmen)
@@ -234,7 +234,7 @@ $for team in sorted_standings_women:
 						$for standings in sorted_standings_men:
 							<tr>
 								<td class="text-center">$loop.index</td>
-								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_png[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
 								<td class="text-center">$standings.wins</td>
 								<td class="text-center">$standings.losses</td>
 								<td class="text-center">$standings.ties</td>
@@ -267,7 +267,7 @@ $for team in sorted_standings_women:
 						$for standings in sorted_standings_women:
 							<tr>
 								<td class="text-center">$loop.index</td>
-								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_png[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
 								<td class="text-center">$standings.wins</td>
 								<td class="text-center">$standings.losses</td>
 								<td class="text-center">$standings.ties</td>

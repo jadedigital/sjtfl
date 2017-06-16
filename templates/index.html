@@ -6,10 +6,10 @@ $var active_nav = "home"
 
 $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
-$ scores_png = collections.defaultdict(str)
+$ scores_svg = collections.defaultdict(str)
 
 $for team in teams_list:
-  $ scores_png[team.shortname] = team.shortname + ".png"
+  $ scores_svg[team.shortname] = team.shortname + ".svg"
 
 <div class="container">
 	<div class="row row-home">
@@ -21,12 +21,12 @@ $for team in teams_list:
             $for scores in scoresdb:
               <li>
                 <div class="home-scores">
-                  <img src="/static/img/$scores_png[scores.team1]" class="scores-logo">
+                  <img src="/static/img/$scores_svg[scores.team1]" class="scores-logo">
                   $scores.team1[:4]
                   <div class="lead-stat">$scores.team1score</div>
                 </div>
                 <div class="home-scores">
-                  <img src="/static/img/$scores_png[scores.team2]" class="scores-logo">
+                  <img src="/static/img/$scores_svg[scores.team2]" class="scores-logo">
                   $scores.team2[:4]
                   <div class="lead-stat">$scores.team2score</div>
                 </div>

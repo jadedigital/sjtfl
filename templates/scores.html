@@ -15,7 +15,7 @@ $ team1_sacks = collections.defaultdict(str)
 $ team2_sacks = collections.defaultdict(str)
 $ team_record = collections.defaultdict(str)
 $ team_color = collections.defaultdict(str)
-$ team_png = collections.defaultdict(str)
+$ team_svg = collections.defaultdict(str)
 $ team_gp = collections.defaultdict(int)
 
 $ week_dict = collections.defaultdict(str)
@@ -63,7 +63,7 @@ $for team in standings_dict:
 	$ team_record[team.shortname] = "(" + str(team.wins) + "-" + str(team.losses) + "-" + str(team.ties) + ")"
 	$ team_gp[team.shortname] = team.gamesplayed
 	$ team_color[team.shortname] = team.color
-	$ team_png[team.shortname] = "/static/img/" + team.shortname + ".png"
+	$ team_svg[team.shortname] = "/static/img/" + team.shortname + ".svg"
 
 $ week_dict[0] = "Play-Ins"
 $ week_dict[1] = "Quarter Finals"
@@ -171,7 +171,7 @@ $ week_dict[3] = "Championships"
 			<div class="table-responsive">
 			<table class="table text-center scores">
 				<tr>
-					<td class="col-md-2"><span class="standings-logo-wrap"><img src="$team_png[schedule.team1]" class="standings-logo"></span><h4 class="scores-team"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1 </a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
+					<td class="col-md-2"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team1]" class="standings-logo"></span><h4 class="scores-team"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1 </a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
 					<td class="col-md-1"><h4>$schedule.team1score</h4></td>
 					$if schedule.team1score is not None:
 						<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%-I:%M %p')<br><strong>Final</strong></td>
@@ -179,7 +179,7 @@ $ week_dict[3] = "Championships"
 						<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%-I:%M %p')</td>
 				</tr>
 				<tr>
-					<td class="col-md-2"><span class="standings-logo-wrap"><img src="$team_png[schedule.team2]" class="standings-logo"></span><h4 class="scores-team"><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2 </a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
+					<td class="col-md-2"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team2]" class="standings-logo"></span><h4 class="scores-team"><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2 </a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
 					<td class="col-md-1"><h4>$schedule.team2score</h4></td>
 				</tr>
 			</table>

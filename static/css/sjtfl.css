@@ -589,13 +589,6 @@ h1 .btn {
   margin-left: 0px;
 }
 
-#next {
-  display: block;
-  height: 60px; /*same height as header*/
-  margin-top: -60px; /*same height as header*/
-  visibility: hidden;
-}
-
 .error-body {
   padding-bottom: 20px;
 }
@@ -691,7 +684,9 @@ h1 .btn {
   left: 0;
   right: 0;
   opacity: .1;
-  background-size: 100%;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
 }
 
 .panel-header {
@@ -948,16 +943,16 @@ h1 .btn {
 .team-scores {
   font-size: 12px;
   position: relative;
-  border-bottom: 1px solid #ececec;
-  border-left: 1px solid #ececec;
-  border-right: 1px solid #ececec;
+  border-bottom: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
   padding: 0 15px;
 }
 
 .team-scores-header {
   background-color: #f7f7f7;
   text-align: center;
-  border: 1px solid #ececec;
+  border: 1px solid #ddd;
 }
 
 .team-schedule li {
@@ -990,9 +985,19 @@ h1 .btn {
 }
 
 .standings-logo-wrap {
-  display: inline-block;
   vertical-align: middle;
   width: 50px;
+  float: left;
+}
+
+.schedule-logo-wrap {
+  vertical-align: middle;
+  width: 50px;
+  display: inline-block;
+}
+
+.schedule h5 {
+  display: inline-block;
 }
 
 .team-scores-name {
@@ -1013,8 +1018,8 @@ h1 .btn {
   line-height: 60px;
   width: 30%;
   text-align: center;
-  border-bottom: 1px solid #ececec;
-  border-right: 1px solid #ececec;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
 }
 
 .numberCircle {
