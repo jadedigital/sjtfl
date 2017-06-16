@@ -81,13 +81,13 @@ else:
 	session = web.config._session
 
 def create_render(privilege):
-	if session.logged == True:
-		if privilege == 1:
-			render = web.template.render('templates/', base='baselight', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round})
-		elif privilege == 2:
-			render = web.template.render('templates/', base='base', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
-	else:
-		render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
+	#if session.logged == True:
+		#if privilege == 1:
+			#render = web.template.render('templates/', base='baselight', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round})
+		#elif privilege == 2:
+			#render = web.template.render('templates/', base='base', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
+	#else:
+	render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
 	return render
 
 def notfound():
