@@ -99,6 +99,7 @@ h1 .btn {
 
 .navbar {
   margin-bottom: 0;
+  z-index: 1030;
 }
 
 .navbar-inverse {
@@ -358,7 +359,9 @@ h1 .btn {
 
 .blog-news-title {
   margin-bottom: 5px;
-  font-size: 40px;
+  font-style: italic;
+  font-size: 32px;
+  font-weight: bold;
 }
 .blog-news-meta {
   margin-bottom: 20px;
@@ -613,6 +616,7 @@ h1 .btn {
 .banner-logo {
   height: 60px;
   margin: 10px;
+  margin-left: 20px;
 }
 
 .banner-sponsor {
@@ -807,6 +811,10 @@ h1 .btn {
   cursor: pointer;
 }
 
+.carousel-inner video {
+  width: 60%;
+}
+
 .link-wrapper {
   padding: 6px;
   border-bottom: 1px solid #d2d2d2;
@@ -843,12 +851,13 @@ h1 .btn {
   border: 1px solid #d2d2d2;
 }
 
-.table.no-head>tbody>tr>th {
-  border-top: none;
+.panel-header.bordered {
+  border-bottom: 1px solid #ddd;
 }
 
-.table.standings>tbody>tr>td {
-  height: 50px;
+
+.table.no-head>tbody>tr>th {
+  border-top: none;
 }
 
 .table.scores>tbody>tr>td {
@@ -1114,4 +1123,97 @@ h1 .dropdown:first-child {
 .section-link:hover {
   text-decoration: none;
   color: #013372;
+}
+
+@media (max-width:411px) {
+  .banner-logo {
+    height:40px;
+  }
+  .banner-sponsor {
+    height:40px;
+  }
+  .table.standings {
+  width: 400px;
+  }
+  .nav-home.condensed li {
+    width: 33%;
+  }
+}
+
+@media (max-width:359px) {
+  .banner-text {
+    font-size:24px;
+  }
+}
+
+@media (max-width:319px) {
+  .banner-sponsor {
+    display:none;
+  }
+}
+
+@media (max-width:768px) {
+  .carousel-links {
+    position:relative;
+    width: 100%;
+  }
+  .carousel-inner video {
+    width:100%;
+  }
+  .home-header.highlights {
+    font-size: 18px;
+  }
+}
+
+@media (max-width:415px) {
+  .team-header {
+    padding-top:10px;
+  }
+  .team-name-helper {
+    top: inherit;
+    transform: none;
+  }
+  .team-name-helper img {
+    max-height: 80px;
+  }
+  .team-name-wrap {
+    display: block;
+    top: inherit;
+    transform: none;
+    margin-top: 100px;
+  }
+  .team-stat-value {
+    font-size: 16px;
+  }
+  .team-stat-header {
+    padding-left: 12px
+  }
+  .team_record {
+    display: flex;
+    padding-top: 6px;
+  }
+  h1 .dropdown {
+    display: flex;
+    flex-direction: column;
+    padding: 2px 0;
+  }
+  h1 .dropdown:first-child {
+    padding-left: 0;
+  }
+}
+
+.logo-fixed-top {
+  position: fixed;
+  top: 0;
+  z-index: 1040;
+}
+
+.logo-margin-fix {
+  margin: 6px 10px;
+}
+
+@media (min-width:1001px) {
+  .navbar-nav {
+    padding-left: 50px;
+  }
 }

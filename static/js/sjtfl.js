@@ -6,22 +6,48 @@ $(function() {
 } );
 
 $(document).ready(function() {
+  $(window).load(function () {
+    $('#banner-logo-wrapper').addClass('logo-fixed-top');      
+  });
 
   $(window).scroll(function () {  
-      console.log($(window).scrollTop())
     if ($(window).scrollTop() > 80) {
       $('#banner').addClass('banner-fix');      
-      $('#navbar').addClass('navbar-fixed-top');      
-			/*var scores_width = $('#home-scores').width();
+      $('#navbar').addClass('navbar-fixed-top');
+      /*$('#banner-logo').addClass('logo-margin-fix');      
+			var scores_width = $('#home-scores').width();
 			$('#home-scores').width(scores_width);
 			$('#home-scores').addClass('fix-scores');*/
     }
     if ($(window).scrollTop() < 80) {
       $('#banner').removeClass('banner-fix');
-      $('#navbar').removeClass('navbar-fixed-top');  
-			/*$('#home-scores').removeClass('fix-scores');*/
+      $('#navbar').removeClass('navbar-fixed-top');
+      /*$('#banner-logo').removeClass('logo-margin-fix');  
+			$('#home-scores').removeClass('fix-scores');*/
     }
+    var bannerTextColor = "255,255,255";//color attr for rgba
+    var bannerHeight = $('#banner').height(); 
+    var navbarHeight = $('#navbar').height();
+    var bannerLogoHeight = 60; 
+    
+    var textOpacity = (1-($(window).scrollTop() / bannerHeight)); 
+    var logoHeight = ((1-($(window).scrollTop() / bannerHeight))*bannerLogoHeight); 
+
+    if (textOpacity > 1) { textOpacity = 1; }
+    if (textOpacity < 0 ) { textOpacity = 0; }
+    if (logoHeight > 60) { logoHeight = 60; }
+    if (logoHeight < 32 ) { logoHeight = 32; }
+    var newBannerTextColor = 'rgba(' + bannerTextColor + ',' + textOpacity + ')';
+    $('.banner-text').css({"color": newBannerTextColor});
+    $('#banner-logo').css({"height": logoHeight});
   });
+});
+
+
+
+$(window).scroll(function() {
+  
+
 });
 
 $(function() {

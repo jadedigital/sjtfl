@@ -73,8 +73,10 @@ $ navbar_class[page.active_nav] = "active"
     <!-- End Google Tag Manager -->
   <div class="wrapper">
     <div id="banner">
-      <img src="/static/img/banner_logo.svg" class="banner-logo">
-      <div class="banner-text">SJTFL<div class="banner-subtext">.COM</div></div>
+      <div id="banner-logo-wrapper">
+        <a href="/"><img src="/static/img/banner_logo.svg" id="banner-logo" class="banner-logo"></a>
+        <div class="banner-text">SJTFL<div class="banner-subtext">.COM</div></div>
+      </div>
       <img src="/static/img/michelob.svg" class="banner-sponsor">
     </div>
     <div id="navbar" class="navbar navbar-inverse" role="navigation">
@@ -89,7 +91,7 @@ $ navbar_class[page.active_nav] = "active"
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="$navbar_class['home']"><a href="/"><i class="fa fa-home"></i> Home</a></li>
+            <!-- <li class="$navbar_class['home']"><a href="/"><i class="fa fa-home"></i> Home</a></li> -->
             <li class="$navbar_class['news']"><a href="/news"><i class="fa fa-bullhorn"></i> News</a></li>
             <li class="$navbar_class['standings']"><a href="/standings"><i class="fa fa-list"></i> Standings</a></li>
             <li class="$navbar_class['schedule']"><a href="/schedule"><i class="fa fa-calendar"></i> Schedule</a></li>

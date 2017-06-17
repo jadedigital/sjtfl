@@ -13,7 +13,51 @@ $for team in teams_list:
 
 <div class="container">
 	<div class="row row-home">
-		<div class="col-md-2 col-pad">
+
+		<div class="col-md-7 col-pad col-md-push-2">
+      <!-- Carousel -->
+			<div id="carousel-highlights" class="section-wrapper home carousel slide" data-ride="carousel" data-interval="false">
+        <!-- Slides -->
+        <div class="carousel-inner" role="listbox">
+          $for data in media['data']:
+            <div class="home item $indicator_class[loop.index0]">
+              $if data['type'] == 'video':
+                <video width="60%" controls>
+                  <source src="$data['videos']['low_bandwidth']['url']" type="video/mp4">
+                </video>
+              $elif data['type'] == 'image':
+                <img class="highlights-img" src="$data['images']['low_resolution']['url']" width="60%">
+              <!-- <div class="highlights-username"><img src="$data['user']['profile_picture']">$data['user']['username']</div> -->
+              <div class="home-header highlights">$data['caption']['text']
+                <div class="highlights-date">$time.strftime("%A, %B %d, %Y", time.localtime(int(data['caption']['created_time'])))</div>
+              </div>
+            </div>
+        </div>
+        <!-- Close Slides -->
+        <div class="carousel-links"> <div class="home-header links">Must See Highlights</div>
+          <ul>
+            $for data in media['data']:
+              <div class="link-wrapper">
+                <li data-target="#carousel-highlights" data-slide-to="$loop.index0" class="$indicator_class[loop.index0]">$data['caption']['text']</li>
+              </div>
+          </ul>
+        </div>
+      </div>
+      <!-- Close Carousel -->
+			<!-- News -->
+			<div class="section-wrapper home">
+			$for news in newsdb:
+				<div class="blog-news">
+					<div class="home-header news">$news.title</div>
+					<p class="blog-news-meta">$news.posted.strftime('%A, %B %d, %Y') - $news.posted.strftime('%I:%M %p')</p>
+					<div class="blog-body"><p>$:news.body</p></div>
+					<div class="blog-embed">$:news.embed</div>
+				</div>
+				<br>
+			</div>
+			<!-- Close News -->
+		</div>
+    <div class="col-md-2 col-pad col-md-pull-7">
       <div id="home-scores" class="section-wrapper home">
         <div class="home-header">Scores</div>
         <div class="home-scores">
@@ -68,51 +112,6 @@ $for team in teams_list:
         </div>
       </div>
     </div>
-
-
-		<div class="col-md-7 col-pad">
-      <!-- Carousel -->
-			<div id="carousel-highlights" class="section-wrapper home carousel slide" data-ride="carousel" data-interval="false">
-        <!-- Slides -->
-        <div class="carousel-inner" role="listbox">
-          $for data in media['data']:
-            <div class="home item $indicator_class[loop.index0]">
-              $if data['type'] == 'video':
-                <video width="60%" controls>
-                  <source src="$data['videos']['low_bandwidth']['url']" type="video/mp4">
-                </video>
-              $elif data['type'] == 'image':
-                <img class="highlights-img" src="$data['images']['low_resolution']['url']" width="60%">
-              <!-- <div class="highlights-username"><img src="$data['user']['profile_picture']">$data['user']['username']</div> -->
-              <div class="home-header highlights">$data['caption']['text']
-                <div class="highlights-date">$time.strftime("%A, %B %d, %Y", time.localtime(int(data['caption']['created_time'])))</div>
-              </div>
-            </div>
-        </div>
-        <!-- Close Slides -->
-        <div class="carousel-links"> <div class="home-header links">Must See Highlights</div>
-          <ul>
-            $for data in media['data']:
-              <div class="link-wrapper">
-                <li data-target="#carousel-highlights" data-slide-to="$loop.index0" class="$indicator_class[loop.index0]">$data['caption']['text']</li>
-              </div>
-          </ul>
-        </div>
-      </div>
-      <!-- Close Carousel -->
-			<!-- News -->
-			<div class="section-wrapper home">
-			$for news in newsdb:
-				<div class="blog-news">
-					<div class="home-header news">$news.title</div>
-					<p class="blog-news-meta">$news.posted.strftime('%A, %B %d, %Y') - $news.posted.strftime('%I:%M %p')</p>
-					<div class="blog-body"><p>$:news.body</p></div>
-					<div class="blog-embed">$:news.embed</div>
-				</div>
-				<br>
-			</div>
-			<!-- Close News -->
-		</div>
 		<div class="col-md-3 col-pad">
       <div class="section-wrapper home">
         <div class="home-header">Standings</div>

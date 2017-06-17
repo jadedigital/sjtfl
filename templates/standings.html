@@ -222,25 +222,25 @@ $for team in sorted_standings_women:
 				<div class="table-responsive">
 					<table class="table table-hover table-condensed standings">
 						<tr>
-							<th class="col-xs-1 text-center">RNK</th>
-							<th class="col-xs-5 text-center">Team</th>
-							<th class="col-xs-1 text-center">W</th>
-							<th class="col-xs-1 text-center">L</th>
-							<th class="col-xs-1 text-center">T</th>
-							<th class="col-xs-1 text-center">PTS</th>
-							<th class="col-xs-1 text-center">PF</th>
-							<th class="col-xs-1 text-center">PA</th>
+							<th class="col-md-1 text-center">RNK</th>
+							<th class="col-md-5 text-center">Team</th>
+							<th class="col-md-1 text-center">W</th>
+							<th class="col-md-1 text-center">L</th>
+							<th class="col-md-1 text-center">T</th>
+							<th class="col-md-1 text-center">PTS</th>
+							<th class="col-md-1 text-center">PF</th>
+							<th class="col-md-1 text-center">PA</th>
 						</tr>
 						$for standings in sorted_standings_men:
 							<tr>
-								<td class="text-center">$loop.index</td>
-								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
-								<td class="text-center">$standings.wins</td>
-								<td class="text-center">$standings.losses</td>
-								<td class="text-center">$standings.ties</td>
-								<td class="text-center">$standings.points$penalty_symbol[standings.shortname]</td>
-								<td class="text-center">$standings.pointsfor</td>
-								<td class="text-center">$standings.pointsagainst</td>
+								<td class="col-md-1 text-center">$loop.index</td>
+								<td class="col-md-5"><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class="col-md-1 text-center">$standings.wins</td>
+								<td class="col-md-1 text-center">$standings.losses</td>
+								<td class="col-md-1 text-center">$standings.ties</td>
+								<td class="col-md-1 text-center">$standings.points$penalty_symbol[standings.shortname]</td>
+								<td class="col-md-1 text-center">$standings.pointsfor</td>
+								<td class="col-md-1 text-center">$standings.pointsagainst</td>
 						</tr>
 					</table>
 				</div>
@@ -253,27 +253,27 @@ $for team in sorted_standings_women:
 			<div class="panel panel-primary">
 				<div class="panel-header">Women's League</div>
 				<div class="table-responsive">
-					<table class="table table-hover table-condensed standings">
+					<table class="table table-hover standings">
 						<tr>
-							<th class="col-xs-1 text-center">RNK</th>
-							<th class="col-xs-5 text-center">Team</th>
-							<th class="col-xs-1 text-center">W</th>
-							<th class="col-xs-1 text-center">L</th>
-							<th class="col-xs-1 text-center">T</th>
-							<th class="col-xs-1 text-center">PTS</th>
-							<th class="col-xs-1 text-center">PF</th>
-							<th class="col-xs-1 text-center">PA</th>
+							<th class="col-md-1 text-center">RNK</th>
+							<th class="col-md-5 text-center">Team</th>
+							<th class="col-md-1 text-center">W</th>
+							<th class="col-md-1 text-center">L</th>
+							<th class="col-md-1 text-center">T</th>
+							<th class="col-md-1 text-center">PTS</th>
+							<th class="col-md-1 text-center">PF</th>
+							<th class="col-md-1 text-center">PA</th>
 						</tr>
 						$for standings in sorted_standings_women:
 							<tr>
-								<td class="text-center">$loop.index</td>
-								<td class=""><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
-								<td class="text-center">$standings.wins</td>
-								<td class="text-center">$standings.losses</td>
-								<td class="text-center">$standings.ties</td>
-								<td class="text-center">$standings.points $penalty_symbol[standings.shortname]</td>
-								<td class="text-center">$standings.pointsfor</td>
-								<td class="text-center">$standings.pointsagainst</td>
+								<td class="col-md-1 text-center">$loop.index</td>
+								<td class="col-md-5"><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class="col-md-1 text-center">$standings.wins</td>
+								<td class="col-md-1 text-center">$standings.losses</td>
+								<td class="col-md-1 text-center">$standings.ties</td>
+								<td class="col-md-1 text-center">$standings.points $penalty_symbol[standings.shortname]</td>
+								<td class="col-md-1 text-center">$standings.pointsfor</td>
+								<td class="col-md-1 text-center">$standings.pointsagainst</td>
 						</tr>
 					</table>
 				</div>
