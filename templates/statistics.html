@@ -32,477 +32,478 @@ $ month_dict[11] = "November"
 $ month_dict[12] = "December"
 
 $for p in playersdb:
-	$ player_league[p.playerid] = p.league
+  $ player_league[p.playerid] = p.league
 
 $for t in teamlistdb:
-	$ team_league[t.shortname] = t.league
+  $ team_league[t.shortname] = t.league
 
 <script type="text/javascript" language="javascript" class="init">
-	$$(function() {
-		$$('#menstats').dataTable( {
-			"columns": [
-				null,
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-			]
-		 } );
-	 } );
+  $$(function() {
+    $$('#menstats').dataTable( {
+      "columns": [
+        null,
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+      ]
+     } );
+   } );
 </script>
 <script type="text/javascript" language="javascript" class="init">
-	$$(function() {
-		$$('#womenstats').dataTable( {
-			"columns": [
-				null,
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-			]
-		 } );
-	 } );
+  $$(function() {
+    $$('#womenstats').dataTable( {
+      "columns": [
+        null,
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+      ]
+     } );
+   } );
 </script>
 <script type="text/javascript" language="javascript" class="init">
-	$$(function() {
-		$$('#menteamstats').dataTable( {
-			"paging": false,
-			"info": false,
-			"lengthChange": false,
-			"columns": [
-				null,
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-			]
-		} );
-	} );
+  $$(function() {
+    $$('#menteamstats').dataTable( {
+      "paging": false,
+      "info": false,
+      "lengthChange": false,
+      "columns": [
+        null,
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+      ]
+    } );
+  } );
 </script>
 <script type="text/javascript" language="javascript" class="init">
-	$$(function() {
-		$$('#womenteamstats').dataTable( {
-			"paging": false,
-			"info": false,
-			"lengthChange": false,
-			"columns": [
-				null,
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-				{ "orderSequence": [ "desc", "asc"] },
-			]
-		} );
-	} );
+  $$(function() {
+    $$('#womenteamstats').dataTable( {
+      "paging": false,
+      "info": false,
+      "lengthChange": false,
+      "columns": [
+        null,
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+        { "orderSequence": [ "desc", "asc"] },
+      ]
+    } );
+  } );
 </script>
 
-	<div class="container">
-	<div class="page-header">
-		<h1>Statistics
-		<span class="dropdown">
-				<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$season <span class="caret"></span></button>
-				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-					$for s in season_list:
-						$if month is None:
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$s.year&gametype=$gametype">$s.year</a></li>
-						$else:
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$s.year&month=$month&gametype=$gametype">$s.year</a></li>
-				</ul>
-			</span>
-		<span class="dropdown">
-			$if month is None:
-				<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">Month <span class="caret"></span></button>
-			$else:
-				<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">$month_dict[int(month)] <span class="caret"></span></button>
-			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
-				<li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season">All</a></li>
-				<li role="presentation" class="divider"></li>
-				$for m in month_list:
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season&month=$int(m.date_part)&gametype=$gametype">$month_dict[m.date_part]</a></li>
-			</ul>
-		</span>
-		<span class="dropdown">
-				$if gametype == "reg":
-					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Regular Season <span class="caret"></span></button>
-				$else:
-					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Playoffs <span class="caret"></span></button>
-				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season&gametype=reg">Regular Season</a></li>
-					<li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season&gametype=post">Playoffs</a></li>
-				</ul>
-		</span>
-		</h1>
-	</div>
-	<ul class="nav nav-pills nav-stats" role="tablist">
-		<li class="active"><a href="#leaders" role="tab" data-toggle="tab">Leaders</a></li>
-		<li><a href="#individualstats" role="tab" data-toggle="tab">Player Stats</a></li>
-		<li><a href="#teamstats" role="tab" data-toggle="tab">Team Stats</a></li>
-	</ul>
+  <div class="container">
+  <div class="page-header">
+    <h1>Statistics
+    <span class="dropdown">
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$season <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          $for s in season_list:
+            $if month is None:
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$s.year&gametype=$gametype">$s.year</a></li>
+            $else:
+              <li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$s.year&month=$month&gametype=$gametype">$s.year</a></li>
+        </ul>
+      </span>
+    <span class="dropdown">
+      $if month is None:
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">Month <span class="caret"></span></button>
+      $else:
+        <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-expanded="true">$month_dict[int(month)] <span class="caret"></span></button>
+      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season">All</a></li>
+        <li role="presentation" class="divider"></li>
+        $for m in month_list:
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season&month=$int(m.date_part)&gametype=$gametype">$month_dict[m.date_part]</a></li>
+      </ul>
+    </span>
+    <span class="dropdown">
+        $if gametype == "reg":
+          <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Regular Season <span class="caret"></span></button>
+        $else:
+          <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Playoffs <span class="caret"></span></button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season&gametype=reg">Regular Season</a></li>
+          <li role="presentation"><a role="menuitem" tabindex="-1" href="/statistics?season=$season&gametype=post">Playoffs</a></li>
+        </ul>
+    </span>
+    </h1>
+  </div>
+  <div class="section-wrapper home">
+    <ul class="nav nav-home condensed" role="tablist">
+      <li class="active"><a href="#leaders" role="tab" data-toggle="tab">Leaders</a></li>
+      <li><a href="#individualstats" role="tab" data-toggle="tab">Player Stats</a></li>
+      <li><a href="#teamstats" role="tab" data-toggle="tab">Team Stats</a></li>
+    </ul>
 
-    <!-- Tab panes -->
-	<div class="tab-content">
-	<div class="tab-pane fade in active" id="leaders">
-		
-		<div>
-			<h3 class="stats-header"><div>Men's Stat Leaders</div></h3>
-				<div class="row">
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Points</div>
-							<table class="table table-hover table-condensed">
-								$for point in men_points_list:
-									$if point.points == 0:
-										$break
-									$else:
-										<tr>
-											<td>$point.firstname $point.lastname</td>
-											<td>$point.points</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Sacks</div>
-							<table class="table table-hover table-condensed">
-								$for sacks in men_sack_list:
-									$if sacks.sack == 0:
-										$break
-									$else:
-										<tr>
-											<td>$sacks.firstname $sacks.lastname</td>
-											<td>$sacks.sack</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Interceptions</div>
-							<table class="table table-hover table-condensed">
-								$for ints in men_int_list:
-									$if ints.interception == 0:
-										$break
-									$else:
-										<tr>
-											<td>$ints.firstname $ints.lastname</td>
-											<td>$ints.interception</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Touchdown Passes</div>
-							<table class="table table-hover table-condensed">
-								$for tdps in men_tdps_list:
-									$if tdps.tdpass == 0:
-										$break
-									$else:
-										<tr>
-											<td>$tdps.firstname $tdps.lastname</td>
-											<td>$tdps.tdpass</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-				</div>
-			
-		</div>
+      <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane fade in active" id="leaders">
+        <div>
+          <h3 class="stats-header"><div>Men's Stat Leaders</div></h3>
+            <div class="row">
+              <div class="col-sm-6 col-md-3">
+                <div class="panel no-shadow text-center">
+                  <div class="panel-header text-center">Points</div>
+                  <table class="table table-hover table-condensed">
+                    $for point in men_points_list:
+                      $if point.points == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$point.firstname $point.lastname</td>
+                          <td>$point.points</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="panel no-shadow text-center">
+                  <div class="panel-header text-center">Sacks</div>
+                  <table class="table table-hover table-condensed">
+                    $for sacks in men_sack_list:
+                      $if sacks.sack == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$sacks.firstname $sacks.lastname</td>
+                          <td>$sacks.sack</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="panel no-shadow text-center">
+                  <div class="panel-header text-center">Interceptions</div>
+                  <table class="table table-hover table-condensed">
+                    $for ints in men_int_list:
+                      $if ints.interception == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$ints.firstname $ints.lastname</td>
+                          <td>$ints.interception</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="panel no-shadow text-center">
+                  <div class="panel-header text-center">Touchdown Passes</div>
+                  <table class="table table-hover table-condensed">
+                    $for tdps in men_tdps_list:
+                      $if tdps.tdpass == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$tdps.firstname $tdps.lastname</td>
+                          <td>$tdps.tdpass</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          
+        </div>
 
-		<div>
-			<h3 class="stats-header"><div>Women's Stat Leaders</div></h3>
-				<div class="row">
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Points</div>
-							<table class="table table-hover table-condensed">
-								$for point in women_points_list:
-									$if point.points == 0:
-										$break
-									$else:
-										<tr>
-											<td>$point.firstname $point.lastname</td>
-											<td>$point.points</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Sacks</div>
-							<table class="table table-hover table-condensed">
-								$for sacks in women_sack_list:
-									$if sacks.sack == 0:
-										$break
-									$else:
-										<tr>
-											<td>$sacks.firstname $sacks.lastname</td>
-											<td>$sacks.sack</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Interceptions</div>
-							<table class="table table-hover table-condensed">
-								$for ints in women_int_list:
-									$if ints.interception == 0:
-										$break
-									$else:
-										<tr>
-											<td>$ints.firstname $ints.lastname</td>
-											<td>$ints.interception</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-					<div class="col-sm-6 col-md-3">
-						<div class="panel panel-primary text-center">
-							<div class="panel-header text-center">Touchdown Passes</div>
-							<table class="table table-hover table-condensed">
-								$for tdps in women_tdps_list:
-									$if tdps.tdpass == 0:
-										$break
-									$else:
-										<tr>
-											<td>$tdps.firstname $tdps.lastname</td>
-											<td>$tdps.tdpass</td>
-										</tr>
-							</table>
-						</div>
-					</div>
-				</div>
-			
-		</div>
-	</div>
-	<div class="tab-pane fade" id="individualstats">
-		<div>
-			<h3 class="stats-header"><div>Men's Stats</div></h3>
-		<div class="table-responsive">
-		<table id="menstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<th class="text-center ">Player</th>
-					<th class="text-center">PTS</th>
-					<th class="text-center">TDS</th>
-					<th class="text-center">TDPS</th>
-					<th class="text-center">1PTC</th>
-					<th class="text-center">2PTC</th>
-					<th class="text-center">RGS</th>
-					<th class="text-center">SFTS</th>
-					<th class="text-center">INTS</th>
-					<th class="text-center">SCKS</th>
-				</tr>
-			</thead>
-			<tbody>
-				$for stats in stat_list:
-					$if player_league[stats.playerid] != "Mens":
-						$continue
-					$ points = stats.touchdowns * 6 + stats.oneconvert + stats.twoconvert * 2 + stats.rouge + stats.safety * 2
-					<tr>
-						<td class="text-nowrap">$stats.firstname $stats.lastname</td>
-						<td class="text-center">$points</td>
-						<td class="text-center">$stats.touchdowns</td>
-						<td class="text-center">$stats.tdpass</td>
-						<td class="text-center">$stats.oneconvert</td>
-						<td class="text-center">$stats.twoconvert</td>
-						<td class="text-center">$stats.rouge</td>
-						<td class="text-center">$stats.safety</td>
-						<td class="text-center">$stats.interception</td>
-						<td class="text-center">$stats.sack</td>
-					</tr>
-			</tbody>
-		</table>
-		</div>
-		</div>
-		<div>
-			<h3 class="stats-header"><div>Women's Stats</div></h3>
-		<div class="table-responsive">
-		<table id="womenstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
-			<thead>
-				<tr>
-					<th class="text-center">Player</th>
-					<th class="text-center">PTS</th>
-					<th class="text-center">TDS</th>
-					<th class="text-center">TDPS</th>
-					<th class="text-center">1PTC</th>
-					<th class="text-center">2PTC</th>
-					<th class="text-center">RGS</th>
-					<th class="text-center">SFTS</th>
-					<th class="text-center">INTS</th>
-					<th class="text-center">SCKS</th>
-				</tr>
-			</thead>
-			<tbody>
-				$for stats in stat_list:
-					$if player_league[stats.playerid] != "Womens":
-						$continue
-					$ points = stats.touchdowns * 6 + stats.oneconvert + stats.twoconvert * 2 + stats.rouge + stats.safety * 2
-					<tr>
-						<td class="text-nowrap">$stats.firstname $stats.lastname</td>
-						<td class="text-center">$points</td>
-						<td class="text-center">$stats.touchdowns</td>
-						<td class="text-center">$stats.tdpass</td>
-						<td class="text-center">$stats.oneconvert</td>
-						<td class="text-center">$stats.twoconvert</td>
-						<td class="text-center">$stats.rouge</td>
-						<td class="text-center">$stats.safety</td>
-						<td class="text-center">$stats.interception</td>
-						<td class="text-center">$stats.sack</td>
-					</tr>
-			</tbody>
-		</table>
-		</div>
-		</div>
-		<div>
-			<strong>Legend:</strong><br>
-			PTS = Points<br>
-			TDS = Touchdowns<br>
-			TDPS = Touchdown Passes<br>
-			1PTC = 1 Point Convert<br>
-			2PTC = 2 Point Convert<br>
-			RGS = Rouges<br>
-			SFTS = Safeties<br>
-			INTS = Interceptions<br>
-			SCKS = Sacks
-		</div>
-	</div>
-		<div class="tab-pane fade" id="teamstats">
-			<div>
-			<h3 class="stats-header"><div>Men's Team Stats</div></h3>
-			<div class="table-responsive">
-			<table id="menteamstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th class="text-center">Team</th>
-						<th class="text-center">PTSF</th>
-						<th class="text-center">PTSA</th>
-						<th class="text-center">TDS</th>
-						<th class="text-center">TDPS</th>
-						<th class="text-center">1PTC</th>
-						<th class="text-center">2PTC</th>
-						<th class="text-center">PAT%</th>
-						<th class="text-center">RGS</th>
-						<th class="text-center">SFTS</th>
-						<th class="text-center">INTS</th>
-						<th class="text-center">SCKS</th>
-					</tr>
-				</thead>
-				<tbody>
-					$for teamstats in teamstat_list:
-						$if team_league[teamstats.shortname] == "Womens" or teamstats.shortname == "Free Agent":
-							$continue
-						$elif teamstats.touchdowns == 0:
-							$ conv_pct = "0%"
-						$else:
-							$ conv_pct = str(int(((teamstats.oneconvert + teamstats.twoconvert) / teamstats.touchdowns) * 100)) + "%"
-						<tr>
-							<td>$teamstats.shortname</td>
-							<td class="text-center">$teamstats.pointsfor</td>
-							<td class="text-center">$teamstats.pointsagainst</td>
-							<td class="text-center">$teamstats.touchdowns</td>
-							<td class="text-center">$teamstats.tdpass</td>
-							<td class="text-center">$teamstats.oneconvert</td>
-							<td class="text-center">$teamstats.twoconvert</td>
-							<td class="text-center">$conv_pct</td>
-							<td class="text-center">$teamstats.rouge</td>
-							<td class="text-center">$teamstats.safety</td>
-							<td class="text-center">$teamstats.interception</td>
-							<td class="text-center">$teamstats.sack</td>
-						</tr>
-				</tbody>
-			</table>
-			</div>
-			</div>
-			<div>
-			<h3 class="stats-header"><div>Women's Team Stats</div></h3>
-			<div class="table-responsive">
-			<table id="womenteamstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
-				<thead>
-					<tr>
-						<th class="text-center">Team</th>
-						<th class="text-center">PTSF</th>
-						<th class="text-center">PTSA</th>
-						<th class="text-center">TDS</th>
-						<th class="text-center">TDPS</th>
-						<th class="text-center">1PTC</th>
-						<th class="text-center">2PTC</th>
-						<th class="text-center">PAT%</th>
-						<th class="text-center">RGS</th>
-						<th class="text-center">SFTS</th>
-						<th class="text-center">INTS</th>
-						<th class="text-center">SCKS</th>
-					</tr>
-				</thead>
-				<tbody>
-					$for teamstats in teamstat_list:
-						$if team_league[teamstats.shortname] == "Mens" or teamstats.shortname == "Free Agent":
-							$continue
-						$elif teamstats.touchdowns == 0:
-							$ conv_pct = "0%"
-						$else:
-							$ conv_pct = str(int(((teamstats.oneconvert + teamstats.twoconvert) / teamstats.touchdowns) * 100)) + "%"
-						<tr>
-							<td>$teamstats.shortname</td>
-							<td class="text-center">$teamstats.pointsfor</td>
-							<td class="text-center">$teamstats.pointsagainst</td>
-							<td class="text-center">$teamstats.touchdowns</td>
-							<td class="text-center">$teamstats.tdpass</td>
-							<td class="text-center">$teamstats.oneconvert</td>
-							<td class="text-center">$teamstats.twoconvert</td>
-							<td class="text-center">$conv_pct</td>
-							<td class="text-center">$teamstats.rouge</td>
-							<td class="text-center">$teamstats.safety</td>
-							<td class="text-center">$teamstats.interception</td>
-							<td class="text-center">$teamstats.sack</td>
-						</tr>
-				</tbody>
-			</table>
-			</div>
-			</div>
-			<div>
-				<strong>Legend:</strong><br>
-				PTSF = Points For<br>
-				PTSA = Points Against<br>
-				TDS = Touchdowns<br>
-				TDPS = Touchdown Passes<br>
-				1PTC = 1 Point Convert<br>
-				2PTC = 2 Point Convert<br>
-				PAT% = Point After Touchdown Conversion Percentage<br>
-				RGS = Rouges<br>
-				SFTS = Safeties<br>
-				INTS = Interceptions<br>
-				SCKS = Sacks
-			</div>
-		</div>
-		</div>
-	<br>
-	<hr>
-	<br>
+        <div>
+          <h3 class="stats-header"><div>Women's Stat Leaders</div></h3>
+            <div class="row">
+              <div class="col-sm-6 col-md-3">
+                <div class="panel no-shadow text-center">
+                  <div class="panel-header text-center">Points</div>
+                  <table class="table table-hover table-condensed">
+                    $for point in women_points_list:
+                      $if point.points == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$point.firstname $point.lastname</td>
+                          <td>$point.points</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="panel no-shadow text-center">
+                  <div class="panel-header text-center">Sacks</div>
+                  <table class="table table-hover table-condensed">
+                    $for sacks in women_sack_list:
+                      $if sacks.sack == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$sacks.firstname $sacks.lastname</td>
+                          <td>$sacks.sack</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="panel no-shadow text-center">
+                  <div class="panel-header text-center">Interceptions</div>
+                  <table class="table table-hover table-condensed">
+                    $for ints in women_int_list:
+                      $if ints.interception == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$ints.firstname $ints.lastname</td>
+                          <td>$ints.interception</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="col-sm-6 col-md-3">
+                <div class="panel panel-primary text-center">
+                  <div class="panel-header text-center">Touchdown Passes</div>
+                  <table class="table table-hover table-condensed">
+                    $for tdps in women_tdps_list:
+                      $if tdps.tdpass == 0:
+                        $break
+                      $else:
+                        <tr>
+                          <td>$tdps.firstname $tdps.lastname</td>
+                          <td>$tdps.tdpass</td>
+                        </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+          
+        </div>
+      </div>
+      <div class="tab-pane fade" id="individualstats">
+        <div>
+          <h3 class="stats-header"><div>Men's Stats</div></h3>
+        <div class="table-responsive">
+        <table id="menstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th class="text-center ">Player</th>
+              <th class="text-center">PTS</th>
+              <th class="text-center">TDS</th>
+              <th class="text-center">TDPS</th>
+              <th class="text-center">1PTC</th>
+              <th class="text-center">2PTC</th>
+              <th class="text-center">RGS</th>
+              <th class="text-center">SFTS</th>
+              <th class="text-center">INTS</th>
+              <th class="text-center">SCKS</th>
+            </tr>
+          </thead>
+          <tbody>
+            $for stats in stat_list:
+              $if player_league[stats.playerid] != "Mens":
+                $continue
+              $ points = stats.touchdowns * 6 + stats.oneconvert + stats.twoconvert * 2 + stats.rouge + stats.safety * 2
+              <tr>
+                <td class="text-nowrap">$stats.firstname $stats.lastname</td>
+                <td class="text-center">$points</td>
+                <td class="text-center">$stats.touchdowns</td>
+                <td class="text-center">$stats.tdpass</td>
+                <td class="text-center">$stats.oneconvert</td>
+                <td class="text-center">$stats.twoconvert</td>
+                <td class="text-center">$stats.rouge</td>
+                <td class="text-center">$stats.safety</td>
+                <td class="text-center">$stats.interception</td>
+                <td class="text-center">$stats.sack</td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+        </div>
+        <div>
+          <h3 class="stats-header"><div>Women's Stats</div></h3>
+        <div class="table-responsive">
+        <table id="womenstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th class="text-center">Player</th>
+              <th class="text-center">PTS</th>
+              <th class="text-center">TDS</th>
+              <th class="text-center">TDPS</th>
+              <th class="text-center">1PTC</th>
+              <th class="text-center">2PTC</th>
+              <th class="text-center">RGS</th>
+              <th class="text-center">SFTS</th>
+              <th class="text-center">INTS</th>
+              <th class="text-center">SCKS</th>
+            </tr>
+          </thead>
+          <tbody>
+            $for stats in stat_list:
+              $if player_league[stats.playerid] != "Womens":
+                $continue
+              $ points = stats.touchdowns * 6 + stats.oneconvert + stats.twoconvert * 2 + stats.rouge + stats.safety * 2
+              <tr>
+                <td class="text-nowrap">$stats.firstname $stats.lastname</td>
+                <td class="text-center">$points</td>
+                <td class="text-center">$stats.touchdowns</td>
+                <td class="text-center">$stats.tdpass</td>
+                <td class="text-center">$stats.oneconvert</td>
+                <td class="text-center">$stats.twoconvert</td>
+                <td class="text-center">$stats.rouge</td>
+                <td class="text-center">$stats.safety</td>
+                <td class="text-center">$stats.interception</td>
+                <td class="text-center">$stats.sack</td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+        </div>
+        <div>
+          <strong>Legend:</strong><br>
+          PTS = Points<br>
+          TDS = Touchdowns<br>
+          TDPS = Touchdown Passes<br>
+          1PTC = 1 Point Convert<br>
+          2PTC = 2 Point Convert<br>
+          RGS = Rouges<br>
+          SFTS = Safeties<br>
+          INTS = Interceptions<br>
+          SCKS = Sacks
+        </div>
+      </div>
+      <div class="tab-pane fade" id="teamstats">
+        <div>
+        <h3 class="stats-header"><div>Men's Team Stats</div></h3>
+        <div class="table-responsive">
+        <table id="menteamstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th class="text-center">Team</th>
+              <th class="text-center">PTSF</th>
+              <th class="text-center">PTSA</th>
+              <th class="text-center">TDS</th>
+              <th class="text-center">TDPS</th>
+              <th class="text-center">1PTC</th>
+              <th class="text-center">2PTC</th>
+              <th class="text-center">PAT%</th>
+              <th class="text-center">RGS</th>
+              <th class="text-center">SFTS</th>
+              <th class="text-center">INTS</th>
+              <th class="text-center">SCKS</th>
+            </tr>
+          </thead>
+          <tbody>
+            $for teamstats in teamstat_list:
+              $if team_league[teamstats.shortname] == "Womens" or teamstats.shortname == "Free Agent":
+                $continue
+              $elif teamstats.touchdowns == 0:
+                $ conv_pct = "0%"
+              $else:
+                $ conv_pct = str(int(((teamstats.oneconvert + teamstats.twoconvert) / teamstats.touchdowns) * 100)) + "%"
+              <tr>
+                <td>$teamstats.shortname</td>
+                <td class="text-center">$teamstats.pointsfor</td>
+                <td class="text-center">$teamstats.pointsagainst</td>
+                <td class="text-center">$teamstats.touchdowns</td>
+                <td class="text-center">$teamstats.tdpass</td>
+                <td class="text-center">$teamstats.oneconvert</td>
+                <td class="text-center">$teamstats.twoconvert</td>
+                <td class="text-center">$conv_pct</td>
+                <td class="text-center">$teamstats.rouge</td>
+                <td class="text-center">$teamstats.safety</td>
+                <td class="text-center">$teamstats.interception</td>
+                <td class="text-center">$teamstats.sack</td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+        </div>
+        <div>
+        <h3 class="stats-header"><div>Women's Team Stats</div></h3>
+        <div class="table-responsive">
+        <table id="womenteamstats" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th class="text-center">Team</th>
+              <th class="text-center">PTSF</th>
+              <th class="text-center">PTSA</th>
+              <th class="text-center">TDS</th>
+              <th class="text-center">TDPS</th>
+              <th class="text-center">1PTC</th>
+              <th class="text-center">2PTC</th>
+              <th class="text-center">PAT%</th>
+              <th class="text-center">RGS</th>
+              <th class="text-center">SFTS</th>
+              <th class="text-center">INTS</th>
+              <th class="text-center">SCKS</th>
+            </tr>
+          </thead>
+          <tbody>
+            $for teamstats in teamstat_list:
+              $if team_league[teamstats.shortname] == "Mens" or teamstats.shortname == "Free Agent":
+                $continue
+              $elif teamstats.touchdowns == 0:
+                $ conv_pct = "0%"
+              $else:
+                $ conv_pct = str(int(((teamstats.oneconvert + teamstats.twoconvert) / teamstats.touchdowns) * 100)) + "%"
+              <tr>
+                <td>$teamstats.shortname</td>
+                <td class="text-center">$teamstats.pointsfor</td>
+                <td class="text-center">$teamstats.pointsagainst</td>
+                <td class="text-center">$teamstats.touchdowns</td>
+                <td class="text-center">$teamstats.tdpass</td>
+                <td class="text-center">$teamstats.oneconvert</td>
+                <td class="text-center">$teamstats.twoconvert</td>
+                <td class="text-center">$conv_pct</td>
+                <td class="text-center">$teamstats.rouge</td>
+                <td class="text-center">$teamstats.safety</td>
+                <td class="text-center">$teamstats.interception</td>
+                <td class="text-center">$teamstats.sack</td>
+              </tr>
+          </tbody>
+        </table>
+        </div>
+        </div>
+        <div>
+          <strong>Legend:</strong><br>
+          PTSF = Points For<br>
+          PTSA = Points Against<br>
+          TDS = Touchdowns<br>
+          TDPS = Touchdown Passes<br>
+          1PTC = 1 Point Convert<br>
+          2PTC = 2 Point Convert<br>
+          PAT% = Point After Touchdown Conversion Percentage<br>
+          RGS = Rouges<br>
+          SFTS = Safeties<br>
+          INTS = Interceptions<br>
+          SCKS = Sacks
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr>
+  <br>
 </div>

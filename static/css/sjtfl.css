@@ -144,6 +144,11 @@ h1 .btn {
   box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.02), 0px 1px 4px rgba(0, 0, 0, 0.25);
 }
 
+.panel.no-shadow {
+  border: 1px solid #ddd;
+  box-shadow: none;
+}
+
 .panel-heading {
   border-radius: 0px;
 }
@@ -325,6 +330,7 @@ h1 .btn {
 	margin-top: 20px;
 	text-align: center;
   margin-bottom: 20px;
+  font-weight: bold;
 }
 
 .well {
@@ -819,6 +825,11 @@ h1 .btn {
   float: left;
 }
 
+.nav-home.condensed li {
+  width: auto;
+  float: left;
+}
+
 .nav-home li a {
   color: #333;
   font-weight: bold;
@@ -867,9 +878,29 @@ h1 .btn {
   float: right;
 }
 
-.home-scores {
+.home-scores-team {
   text-transform: uppercase;
   font-size: 12px;
+}
+
+.home-scores ul {
+  padding-left: 0;
+}
+
+.home-scores li {
+  font-size: 16px;
+  line-height: 20px;
+  margin: 4px 0px 0px;
+  padding-top: 6px;
+  border-bottom: 1px solid #d2d2d2;
+  list-style-type: none;
+}
+
+.home-scores-date {
+  width: 100%;
+  font-size: 10px;
+  text-align: center;
+  background-color: #ececec;
 }
 
 .scores-logo {
@@ -1043,4 +1074,44 @@ h1 .btn {
   clip-path: circle(20px at center);
   /* OLD VALUE example: circle(245px, 140px, 50px); */
   /* Yep, even the new clip-path has deprecated stuff. */
+}
+
+h1 .dropdown:first-child {
+    padding-left: 15px;
+}
+
+.banner-fix {
+  margin-bottom: 52px;
+}
+
+.social-twitter {
+  background-color: #55acee;
+}
+
+.social-instagram {
+  background: radial-gradient(circle farthest-corner at 35% 90%,#fec564,rgba(254,197,100,0) 50%),radial-gradient(circle farthest-corner at 0 140%,#fec564,rgba(254,197,100,0) 50%),radial-gradient(ellipse farthest-corner at 0 -25%,#5258cf,rgba(82,88,207,0) 50%),radial-gradient(ellipse farthest-corner at 20% -50%,#5258cf,rgba(82,88,207,0) 50%),radial-gradient(ellipse farthest-corner at 100% 0,#893dc2,rgba(137,61,194,0) 50%),radial-gradient(ellipse farthest-corner at 60% -20%,#893dc2,rgba(137,61,194,0) 50%),radial-gradient(ellipse farthest-corner at 100% 100%,#d9317a,rgba(217,49,122,0)),linear-gradient(#6559ca,#bc318f 30%,#e33f5f 50%,#f77638 70%,#fec66d 100%);
+}
+
+.social-facebook {
+  background-color: #3b5998;
+}
+
+.social-mail {
+  background-color: #30302F;
+}
+
+.social-row {
+  padding-top: 10px;
+}
+
+.section-link {
+  color: #30302F;
+  padding-top: 20px;
+  display: block;
+  padding-left: 6px;
+}
+
+.section-link:hover {
+  text-decoration: none;
+  color: #013372;
 }

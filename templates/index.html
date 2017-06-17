@@ -16,22 +16,55 @@ $for team in teams_list:
 		<div class="col-md-2 col-pad">
       <div id="home-scores" class="section-wrapper home">
         <div class="home-header">Scores</div>
-        <div class="home-leaders">
+        <div class="home-scores">
           <ul>
             $for scores in scoresdb:
               <li>
-                <div class="home-scores">
+                <div class="home-scores-team">
                   <img src="/static/img/$scores_svg[scores.team1]" class="scores-logo">
                   $scores.team1[:4]
                   <div class="lead-stat">$scores.team1score</div>
                 </div>
-                <div class="home-scores">
+                <div class="home-scores-team">
                   <img src="/static/img/$scores_svg[scores.team2]" class="scores-logo">
                   $scores.team2[:4]
                   <div class="lead-stat">$scores.team2score</div>
                 </div>
+                <div class="home-scores-date">
+                  $scores.date.strftime('%a, %b %d')
+                </div>
               </li>
           </ul>
+        </div>
+        <a class="section-link" href="/standings">All Scores &raquo;</a>
+      </div>
+      <div class="section-wrapper home">
+        <div class="home-header">Follow</div>
+        <div class="social-row"> 
+          <a class="socialtip" href="http://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+            <span class="fa-stack">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-twitter fa-stack-1x fa-inverse social-twitter"></i>
+            </span>
+          </a>
+          <a class="socialtip" href="https://instagram.com/sjtouchfootball/" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
+            <span class="fa-stack">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-instagram fa-stack-1x fa-inverse social-instagram"></i>
+            </span>
+          </a>
+          <a class="socialtip" href="https://facebook.com/StJohnsTouchFootball/" data-toggle="tooltip" title="Like us on Facebook" target="_blank">  
+            <span class="fa-stack">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-facebook fa-stack-1x fa-inverse social-facebook"></i>
+            </span>
+          </a>
+          <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
+            <span class="fa-stack">
+              <i class="fa fa-square fa-stack-2x"></i>
+              <i class="fa fa-envelope fa-stack-1x fa-inverse social-mail"></i>
+            </span>
+          </a>
         </div>
       </div>
     </div>
@@ -133,6 +166,7 @@ $for team in teams_list:
             </div>
           </div>
         </div>
+        <a class="section-link" href="/standings">Full Standings &raquo;</a>
 		  </div>
 
       <div class="section-wrapper home">
@@ -193,7 +227,7 @@ $for team in teams_list:
             </ul>
           </div>
         </div>
-        <a class"btn home" href="/statistics">Sortable Stats</a>
+        <a class="section-link" href="/statistics">Sortable Stats &raquo;</a>
 		  </div>
 
 		</div>

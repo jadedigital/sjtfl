@@ -10,14 +10,16 @@ $(document).ready(function() {
   $(window).scroll(function () {  
       console.log($(window).scrollTop())
     if ($(window).scrollTop() > 80) {
-      $('#navbar').addClass('navbar-fixed-top');
-			var scores_width = $('#home-scores').width();
+      $('#banner').addClass('banner-fix');      
+      $('#navbar').addClass('navbar-fixed-top');      
+			/*var scores_width = $('#home-scores').width();
 			$('#home-scores').width(scores_width);
-			$('#home-scores').addClass('fix-scores');
+			$('#home-scores').addClass('fix-scores');*/
     }
     if ($(window).scrollTop() < 80) {
-      $('#navbar').removeClass('navbar-fixed-top');
-			$('#home-scores').removeClass('fix-scores');
+      $('#banner').removeClass('banner-fix');
+      $('#navbar').removeClass('navbar-fixed-top');  
+			/*$('#home-scores').removeClass('fix-scores');*/
     }
   });
 });
