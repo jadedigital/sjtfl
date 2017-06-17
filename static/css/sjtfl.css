@@ -1217,3 +1217,9 @@ h1 .dropdown:first-child {
     padding-left: 50px;
   }
 }
+
+@media (min-width:767px) {
+  .dropdown.score-week {
+    display: none;
+  }
+}

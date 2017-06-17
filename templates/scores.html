@@ -83,7 +83,7 @@ $ week_dict[3] = "Championships"
 				</ul>
 			</span>
 			$if gametype == "reg":
-				<span class="dropdown visible-xs-inline">
+				<span class="dropdown score-week">
 					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Week $week <span class="caret"></span></button>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 						$for i in range(int(week_num.count))
@@ -91,7 +91,7 @@ $ week_dict[3] = "Championships"
 					</ul>
 				</span>
 			$elif gametype == "post":
-				<span class="dropdown visible-xs-inline">
+				<span class="dropdown score-week">
 					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">$week_dict[int(week)] <span class="caret"></span></button>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 						$for i in post_week_list:
