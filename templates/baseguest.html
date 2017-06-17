@@ -93,8 +93,8 @@ $ navbar_class[page.active_nav] = "active"
             <li class="$navbar_class['news']"><a href="/news"><i class="fa fa-bullhorn"></i> News</a></li>
             <li class="$navbar_class['standings']"><a href="/standings"><i class="fa fa-list"></i> Standings</a></li>
             <li class="$navbar_class['schedule']"><a href="/schedule"><i class="fa fa-calendar"></i> Schedule</a></li>
-            $for schedule in page.scheduled:
-              $if schedule.team1score == None and schedule.team1 is not None:
+            $for schedule in reversed(page.scheduled):
+              $if schedule.team1score is not None:
                 <li class="$navbar_class['scores']"><a href="/scores?week=$schedule.week"><i class="fa fa-bullseye"></i> Scores</a></li>
                 $break
               $if loop.last == True:
