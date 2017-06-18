@@ -14,6 +14,7 @@ $(document).ready(function() {
     if ($(window).scrollTop() > 80) {
       $('#banner').addClass('banner-fix');      
       $('#navbar').addClass('navbar-fixed-top');
+      $('.banner-text').css({"display": "none"});
       /*$('#banner-logo').addClass('logo-margin-fix');      
 			var scores_width = $('#home-scores').width();
 			$('#home-scores').width(scores_width);
@@ -22,6 +23,7 @@ $(document).ready(function() {
     if ($(window).scrollTop() < 80) {
       $('#banner').removeClass('banner-fix');
       $('#navbar').removeClass('navbar-fixed-top');
+      $('.banner-text').css({"display": "inline"});
       /*$('#banner-logo').removeClass('logo-margin-fix');  
 			$('#home-scores').removeClass('fix-scores');*/
     }
