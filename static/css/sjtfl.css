@@ -351,6 +351,7 @@ h1 .btn {
 
 .section-wrapper.home {
   padding: 20px;
+  position: relative;
 }
 
 .blog-news {
@@ -1131,6 +1132,22 @@ h1 .dropdown:first-child {
   color: #013372;
 }
 
+.section-link.highlights {
+  position: absolute;
+  padding: 6px;
+  bottom: 15px;
+  right: 10px;
+  border: 1px solid #30302F;
+  border-radius: 4px;
+  z-index: 200;
+}
+
+.section-link.highlights:hover {
+  background-color: #30302F;
+  color: #fff;
+}
+
+
 @media (max-width:411px) {
   .banner-logo {
     height:40px;
@@ -1158,7 +1175,7 @@ h1 .dropdown:first-child {
   }
 }
 
-@media (max-width:768px) {
+@media (max-width:500px) {
   .carousel-links {
     position:relative;
     width: 100%;
@@ -1168,6 +1185,9 @@ h1 .dropdown:first-child {
   }
   .home-header.highlights {
     font-size: 18px;
+  }
+  .section-wrapper.home {
+    padding-bottom: 80px;
   }
 }
 
