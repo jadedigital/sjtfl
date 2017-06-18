@@ -41,6 +41,9 @@ $for game in team1_streak:
 		$ team1_streak_type = "T"
 		$ team1_streak_total = team1_streak_total + 1
 
+$if team1_data.gamesplayed == 0:
+  $ team1_streak_type = ""
+
 $if team1_stats is None:
   $ team1_points_per_game = 0
   $ team1_points_per_game_against = 0
