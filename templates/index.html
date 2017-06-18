@@ -64,6 +64,9 @@ $for team in teams_list:
           <ul>
             $for scores in scoresdb:
               <li>
+                <div class="home-scores-date">
+                  $scores.date.strftime('%a, %b %d')
+                </div>
                 <div class="home-scores-team">
                   <img src="/static/img/$scores_svg[scores.team1]" class="scores-logo">
                   $scores.team1[:4]
@@ -73,9 +76,6 @@ $for team in teams_list:
                   <img src="/static/img/$scores_svg[scores.team2]" class="scores-logo">
                   $scores.team2[:4]
                   <div class="lead-stat">$scores.team2score</div>
-                </div>
-                <div class="home-scores-date">
-                  $scores.date.strftime('%a, %b %d')
                 </div>
               </li>
           </ul>
