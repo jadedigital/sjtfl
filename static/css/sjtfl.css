@@ -826,6 +826,11 @@ h1 .btn {
   border-bottom: 1px solid #d2d2d2;
 }
 
+.link-wrapper.active {
+  border-bottom: 2px solid #1253A4;
+  background-color: #ececec;
+}
+
 .link-wrapper:hover {
   background-color: #d2d2d2;
 }
@@ -1248,4 +1253,8 @@ h1 .dropdown:first-child {
   .dropdown.score-week {
     display: none;
   }
+}
+
+.socialtip {
+  display: inline-block;
 }

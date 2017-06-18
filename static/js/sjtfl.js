@@ -46,10 +46,13 @@ $(document).ready(function() {
 });
 
 
+$(function() {
+var selector = '.link-wrapper';
 
-$(window).scroll(function() {
-  
-
+  $(selector).on('click', function(){
+      $(selector).removeClass('active');
+      $(this).addClass('active');
+  });
 });
 
 $(function() {

@@ -27,7 +27,6 @@ $for team in teams_list:
                 </video>
               $elif data['type'] == 'image':
                 <img class="highlights-img" src="$data['images']['low_resolution']['url']" width="60%">
-              <!-- <div class="highlights-username"><img src="$data['user']['profile_picture']">$data['user']['username']</div> -->
               <div class="home-header highlights">$data['caption']['text']
                 <div class="highlights-date">$time.strftime("%A, %B %d, %Y", time.localtime(int(data['caption']['created_time'])))</div>
               </div>
@@ -37,8 +36,8 @@ $for team in teams_list:
         <div class="carousel-links"> <div class="home-header links">Must See Highlights</div>
           <ul>
             $for data in media['data']:
-              <div class="link-wrapper">
-                <li data-target="#carousel-highlights" data-slide-to="$loop.index0" class="$indicator_class[loop.index0]">$data['caption']['text']</li>
+              <div data-target="#carousel-highlights" data-slide-to="$loop.index0" class="link-wrapper $indicator_class[loop.index0]">
+                <li>$data['caption']['text']</li>
               </div>
           </ul>
         </div>
