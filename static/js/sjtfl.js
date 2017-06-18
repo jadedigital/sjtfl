@@ -31,7 +31,7 @@ $(document).ready(function() {
     var bannerLogoHeight = 60; 
     
     var textOpacity = (1-($(window).scrollTop() / bannerHeight)); 
-    var logoHeight = ((1-($(window).scrollTop() / bannerHeight))*bannerLogoHeight); 
+    var logoHeight = ((1-($(window).scrollTop() / (bannerHeight+navbarHeight)))*bannerLogoHeight); 
 
     if (textOpacity > 1) { textOpacity = 1; }
     if (textOpacity < 0 ) { textOpacity = 0; }
