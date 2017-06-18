@@ -3,28 +3,8 @@ $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "scores"
 
-$ team_colors = collections.defaultdict(str)
 $ team1_streak_total = 0
 $ team2_streak_total = 0
-
-$ team_colors['1949ers'] = "#000000"
-$ team_colors['Buccaneers'] = "#D60A0B"
-$ team_colors['Chargers'] = "#C4C8CB"
-$ team_colors['Gators'] = "#FF4A00"
-$ team_colors['Grizzlies'] = "#7F411C"
-$ team_colors['Hitmen'] = "#4EAE47"
-$ team_colors['Hurricanes'] = "#4F2682"
-$ team_colors['Mustangs'] = "#CC092F"
-$ team_colors['Spartans'] = "#18453b"
-$ team_colors['Warriors'] = "#860038"
-
-
-$ team_colors['Bears'] = "#FF0000"
-$ team_colors['Heat'] = "#000000"
-$ team_colors['Motors'] = "#003B7B"
-$ team_colors['Mavericks'] = "#39FF14"
-$ team_colors['Rockets'] = "#E58B9B"
-$ team_colors['Steelers'] = "#4F2682"
 
 $for game in team1_streak:
 	$if game.team1score <= game.team2score and game.team1 == team1_data.shortname:
@@ -228,11 +208,11 @@ $else:
 						<div class="table-responsive">
 							<table class="table text-center">
 								<tr>
-									<td class="col-xs-4 hidden-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team1_data.shortname]"><h2><a class = "team_link" href="/teams?teamid=$team1_data.id">$team1_data.shortname</a></h2></td>
-									<td class="col-xs-4 visible-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team1_data.shortname]"><h4><a class = "team_link" href="/teams?teamid=$team1_data.id">$team1_data.shortname</a></h4></td>
+									<td class="col-xs-4 hidden-xs" style="border-bottom-style: solid; border-bottom-color: $team1_data.color"><h2><a class = "team_link" href="/teams?teamid=$team1_data.id">$team1_data.shortname</a></h2></td>
+									<td class="col-xs-4 visible-xs" style="border-bottom-style: solid; border-bottom-color: $team1_data.color"><h4><a class = "team_link" href="/teams?teamid=$team1_data.id">$team1_data.shortname</a></h4></td>
 									<td class="col-xs-4"></td>
-									<td class="col-xs-4 hidden-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team2_data.shortname]"><h2><a class = "team_link" href="/teams?teamid=$team2_data.id">$team2_data.shortname</a></h2></td>
-									<td class="col-xs-4 visible-xs" style="border-bottom-style: solid; border-bottom-color: $team_colors[team2_data.shortname]"><h4><a class = "team_link" href="/teams?teamid=$team2_data.id">$team2_data.shortname</a></h4></td>
+									<td class="col-xs-4 hidden-xs" style="border-bottom-style: solid; border-bottom-color: $team2_data.color"><h2><a class = "team_link" href="/teams?teamid=$team2_data.id">$team2_data.shortname</a></h2></td>
+									<td class="col-xs-4 visible-xs" style="border-bottom-style: solid; border-bottom-color: $team2_data.color"><h4><a class = "team_link" href="/teams?teamid=$team2_data.id">$team2_data.shortname</a></h4></td>
 								</tr>
 								<tr>
 									<td class="col-xs-4">$team1_data.wins - $team1_data.losses - $team1_data.ties</td>
@@ -257,31 +237,31 @@ $else:
 						<div class="panel-body">
 							<p><strong>Points Per Game</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_pointsfor_pct; background-color: $team_colors[team1_data.shortname]">$int(team1_points_per_game)</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_pointsfor_pct; background-color: $team1_data.color">$int(team1_points_per_game)</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_pointsfor_pct; background-color: $team_colors[team2_data.shortname]">$int(team2_points_per_game)</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_pointsfor_pct; background-color: $team2_data.color">$int(team2_points_per_game)</div>
 							</div>
 							<p><strong>Touchdown Passes</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_tdpass_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.tdpass</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_tdpass_pct; background-color: $team1_data.color">$team1_stats.tdpass</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_tdpass_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.tdpass</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_tdpass_pct; background-color: $team2_data.color">$team2_stats.tdpass</div>
 							</div>
 							<p><strong>Rouges</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_rouge_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.rouge</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_rouge_pct; background-color: $team1_data.color">$team1_stats.rouge</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_rouge_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.rouge</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_rouge_pct; background-color: $team2_data.color">$team2_stats.rouge</div>
 							</div>
 							<p><strong>PAT Conversion Rate</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_conv_pct; background-color: $team_colors[team1_data.shortname]">$team1_conv%</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_conv_pct; background-color: $team1_data.color">$team1_conv%</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_conv_pct; background-color: $team_colors[team2_data.shortname]">$team2_conv%</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_conv_pct; background-color: $team2_data.color">$team2_conv%</div>
 							</div>
 						</div>
 					</div>
@@ -290,31 +270,31 @@ $else:
 						<div class="panel-body">
 							<p><strong>Points Allowed Per Game</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_pointsagainst_pct; background-color: $team_colors[team1_data.shortname]">$int(team1_points_per_game_against)</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_pointsagainst_pct; background-color: $team1_data.color">$int(team1_points_per_game_against)</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_pointsagainst_pct; background-color: $team_colors[team2_data.shortname]">$int(team2_points_per_game_against)</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_pointsagainst_pct; background-color: $team2_data.color">$int(team2_points_per_game_against)</div>
 							</div>
 							<p><strong>Sacks</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_sack_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.sack</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_sack_pct; background-color: $team1_data.color">$team1_stats.sack</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_sack_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.sack</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_sack_pct; background-color: $team2_data.color">$team2_stats.sack</div>
 							</div>
 							<p><strong>Interceptions</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_interception_pct; background-color: $team_colors[team1_data.shortname]">$team1_stats.interception</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_interception_pct; background-color: $team1_data.color">$team1_stats.interception</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_interception_pct; background-color: $team_colors[team2_data.shortname]">$team2_stats.interception</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_interception_pct; background-color: $team2_data.color">$team2_stats.interception</div>
 							</div>
 							<p><strong>PAT Conversion Rate Against</strong></p>
                             <div class="progress">
-								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_convagainst_pct; background-color: $team_colors[team1_data.shortname]">$team1_convagainst%</div>
+								<div class="progress-bar progress-bar-warning" style="min-width: 2em; width: $team1_convagainst_pct; background-color: $team1_data.color">$team1_convagainst%</div>
 							</div>
                             <div class="progress">
-								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_convagainst_pct; background-color: $team_colors[team2_data.shortname]">$team2_convagainst%</div>
+								<div class="progress-bar progress-bar-success" style="min-width: 2em; width: $team2_convagainst_pct; background-color: $team2_data.color">$team2_convagainst%</div>
 							</div>
 						</div>
 					</div>
