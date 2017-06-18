@@ -41,8 +41,12 @@ $for game in team1_streak:
 		$ team1_streak_type = "T"
 		$ team1_streak_total = team1_streak_total + 1
 
-$ team1_points_per_game = team1_stats.pointsfor/team1_data.gamesplayed
-$ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplayed
+$if team1_stats is None:
+  $ team1_points_per_game = 0
+  $ team1_points_per_game_against = 0
+$else:  
+  $ team1_points_per_game = team1_stats.pointsfor/team1_data.gamesplayed
+  $ team1_points_per_game_against = team1_stats.pointsagainst/team1_data.gamesplayed
    
 
 <div class="team-header" style="background: linear-gradient(180deg, $team1_data.color 0%, #013372 91.16%);">
