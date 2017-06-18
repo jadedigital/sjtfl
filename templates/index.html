@@ -22,7 +22,7 @@ $for team in teams_list:
           $for data in media['data']:
             <div class="home item $indicator_class[loop.index0]">
               $if data['type'] == 'video':
-                <video width="60%" controls>
+                <video width="60%" poster="$data['images']['low_resolution']['url']" controls>
                   <source src="$data['videos']['low_bandwidth']['url']" type="video/mp4">
                 </video>
               $elif data['type'] == 'image':
