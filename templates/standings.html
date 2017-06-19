@@ -233,7 +233,7 @@ $for team in sorted_standings_women:
 						</tr>
 						$for standings in sorted_standings_men:
 							<tr>
-								$standings_dict_men[standings.shortname]['head_to_head']
+								$standings_dict_men[loop.index0]['head_to_head']
 								<td class="col-md-1 text-center">$loop.index</td>
 								<td class="col-md-5"><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
 								<td class="col-md-1 text-center">$standings.wins</td>
