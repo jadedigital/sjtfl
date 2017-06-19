@@ -191,32 +191,38 @@ $ week_dict[3] = "Championships"
 				</tr>
 			</table>
 			</div> <!-- close table div -->
-				<div class="panel-footer text-left">
+				<div class="panel-footer text-left scores">
 				$if schedule.team1score is not None:
-					<strong>Touchdowns:</strong><br>
-					$schedule.team1 -
-					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_tds[schedule.gameid]</small><br>
-					$schedule.team2 -
-					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_tds[schedule.gameid]</small><br>
-					<strong>Touchdown Passes:</strong><br>
-					$schedule.team1 -
-					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_tdps[schedule.gameid]</small><br>
-					$schedule.team2 -
-					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_tdps[schedule.gameid]</small><br>
-					<strong>Interceptions:</strong><br>
-					$schedule.team1 -
-					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_ints[schedule.gameid]</small><br>
-					$schedule.team2 -
-					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_ints[schedule.gameid]</small><br>
-					<strong>Sacks:</strong><br>
-					$schedule.team1 -
-					<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_sacks[schedule.gameid]</small><br>
-					$schedule.team2 -
-					<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_sacks[schedule.gameid]</small>
+					<div class="stats-footer-wrapper">		
+						<strong>Touchdowns:</strong><br>
+						$schedule.team1 -
+						<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_tds[schedule.gameid]</small><br>
+						$schedule.team2 -
+						<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_tds[schedule.gameid]</small><br>
+						<strong>Touchdown Passes:</strong><br>
+						$schedule.team1 -
+						<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_tdps[schedule.gameid]</small><br>
+						$schedule.team2 -
+						<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_tdps[schedule.gameid]</small><br>
+						<strong>Interceptions:</strong><br>
+						$schedule.team1 -
+						<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_ints[schedule.gameid]</small><br>
+						$schedule.team2 -
+						<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_ints[schedule.gameid]</small><br>
+						<strong>Sacks:</strong><br>
+						$schedule.team1 -
+						<small class="stats-footer" style="color:$team_color[schedule.team1]">$team1_sacks[schedule.gameid]</small><br>
+						$schedule.team2 -
+						<small class="stats-footer" style="color:$team_color[schedule.team2]">$team2_sacks[schedule.gameid]</small>
+					</div>
 				$elif team_gp[schedule.team1] == 0 or team_gp[schedule.team2] == 0:
-					<p style="margin: 0 0 0px;">No Preview Available</p>
-				$else:	
-					<a class="stats-footer" href="/preview?gameid=$schedule.gameid">Preview</a>
+					<div class="stats-footer-wrapper">		
+						<p style="margin: 0 0 0px;">No Preview Available</p>
+					</div>
+				$else:
+					<div class="stats-footer-wrapper">	
+						<a class="stats-footer" href="/preview?gameid=$schedule.gameid">Preview</a>
+					</div>
 				</div>
 			</div> <!-- close panel -->
 			</div>

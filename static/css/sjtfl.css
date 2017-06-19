@@ -163,6 +163,13 @@ h1 .btn {
   background-color: #fff;
 }
 
+.panel-footer.scores {
+  padding: 0;
+}
+
+.stats-footer-wrapper {
+  padding: 10px 15px;
+}
 
 .img-logo{
     width: 110px;
@@ -1199,6 +1206,7 @@ h1 .dropdown:first-child {
 @media (max-width:415px) {
   .team-header {
     padding-top:10px;
+    height: 220px;
   }
   .team-name-helper {
     top: inherit;
