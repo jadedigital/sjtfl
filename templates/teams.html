@@ -61,7 +61,8 @@ $else:
       <div class="team-name">$team1_data.shortname<small> </small></div>
       $ t = team1_data.shortname
     </div>
-    <img src="/static/img/$sponsor_svg" class="team-sponsor-logo">
+    $if team1_data.sponsor_url:
+      <a href="$team1_data.sponsor_url"><img src="/static/img/$sponsor_svg" class="team-sponsor-logo"></a>
   </div>
 </div>
 

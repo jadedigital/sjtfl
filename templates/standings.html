@@ -182,7 +182,7 @@ $code:
 
 
 $#sort standings by points, points lost to penalty, head to head if ties, points against, pointsfor, name
-$ sorted_standings_men = multikeysort(standings_dict_men, ['-points', '-head_to_head', 'pointsagainst', '-pointsfor', 'shortname'])
+$ sorted_standings_men = multikeysort(standings_dict_men, ['-points', 'points_lost', '-head_to_head', 'pointsagainst', '-pointsfor', 'shortname'])
 $#check to see if teams have clinched and add symbols if they have
 $for team in sorted_standings_men:
 	$if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.playoff_teams_men:

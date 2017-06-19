@@ -7,9 +7,11 @@ $var active_nav = "home"
 $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
 $ scores_svg = collections.defaultdict(str)
+$ abbr = collections.defaultdict(str)
 
 $for team in teams_list:
   $ scores_svg[team.shortname] = team.shortname + ".svg"
+  $ abbr[team.shortname] = team.team_abbr
 
 <div class="container">
 	<div class="row row-home">
@@ -69,12 +71,18 @@ $for team in teams_list:
                 </div>
                 <div class="home-scores-team">
                   <img src="/static/img/$scores_svg[scores.team1]" class="scores-logo">
-                  $scores.team1[:4]
+                  $if abbr[scores.team1]:
+                    $abbr[scores.team1]
+                  $else:  
+                    $scores.team1[:4]
                   <div class="lead-stat">$scores.team1score</div>
                 </div>
                 <div class="home-scores-team">
                   <img src="/static/img/$scores_svg[scores.team2]" class="scores-logo">
-                  $scores.team2[:4]
+                  $if abbr[scores.team2]:
+                    $abbr[scores.team2]
+                  $else:  
+                    $scores.team2[:4]
                   <div class="lead-stat">$scores.team2score</div>
                 </div>
               </li>
