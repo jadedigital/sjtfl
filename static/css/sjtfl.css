@@ -381,10 +381,6 @@ h1 .btn {
   color: #999;
 }
 
-.blog-body {
-  display: inline-block;
-}
-
 .blog-body p {
   text-align: justify;
   font-size: 18px;
