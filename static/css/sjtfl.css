@@ -321,6 +321,11 @@ h1 .btn {
 	color: #1253A4;
 }
 
+.stats-footer.preview {
+	display: block;
+	padding: 10px 15px;
+}
+
 .team_record {
 	color: #818181;
 	font-size: 90%;
