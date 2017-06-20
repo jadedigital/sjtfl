@@ -1065,15 +1065,22 @@ def sort_standings(league_in, season_in):
 	previous_team = None
 	previous_team_points = None
 
+	if league_in == 'Mens':
+		playoff_teams = season_displayed.playoff_teams_men
+		bye_teams = season_displayed.bye_teams_men
+	elif league_in == 'Womens':
+		playoff_teams = season_displayed.playoff_teams_women
+		bye_teams = season_displayed.bye_teams_women
+
 	#sort standings by points, points lost to penalty, head to head if ties, points against, pointsfor, name
 	sorted_standings = multikeysort(standings_dict, ['-points', 'points_lost', '-head_to_head', 'pointsagainst', '-pointsfor', 'shortname'])
 	#check to see if teams have clinched and add symbols if they have
 	for loop, team in enumerate(sorted_standings, start=1):
-		if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.playoff_teams_men:
+		if could_pass[team.shortname] + could_tie[team.shortname] < playoff_teams:
 			clinch[team.shortname] = "x -"
-		if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.bye_teams_men:
+		if could_pass[team.shortname] + could_tie[team.shortname] < bye_teams:
 			clinch[team.shortname] = "y -"
-		if total_games_rem == 0 and loop <=  season_displayed.bye_teams_men and games_played[team.shortname] != 0:
+		if total_games_rem == 0 and loop <=  bye_teams and games_played[team.shortname] != 0:
 			clinch[team.shortname] = "y -"
 
 	return (sorted_standings, clinch, penalty_symbol)
