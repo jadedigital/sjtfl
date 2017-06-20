@@ -143,7 +143,7 @@ class index:
 		payload = {'access_token': instagram_token, 'count': 5}
 		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb, media.json(), standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current)
+		return render.index(teamsdb, scheduledb, newsdb, media.json(), standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year)
 
 class login:
 	def POST(self):
