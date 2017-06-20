@@ -87,7 +87,7 @@ def create_render(privilege):
 		#elif privilege == 2:
 			#render = web.template.render('templates/', base='base', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
 	#else:
-	render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
+	render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session, 'sort_standings':sort_standings, 'multikeysort':multikeysort })
 	return render
 
 def notfound():
@@ -143,7 +143,7 @@ class index:
 		payload = {'access_token': instagram_token, 'count': 5}
 		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb, media.json(), standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list)
+		return render.index(teamsdb, scheduledb, newsdb, media.json(), standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current)
 
 class login:
 	def POST(self):
@@ -959,6 +959,140 @@ class maxflowsubmit:
 		#print (g.max_flow('s','t'))
 		raise web.seeother('/standings')
 
+def sort_standings(league_in, season_in):
+	i = dict(season=season_in, league=league_in)
+	standings_dict = db.select('standings', order="points DESC, gamesplayed, pointsagainst", where="league = $league AND season = $season", vars=i).list()
+	sched_dict = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'").list()
+	
+	points_lost = db.query("SELECT teamlines, sum(teamlines_points_lost) FROM schedule WHERE EXTRACT(YEAR FROM date) = $season GROUP BY teamlines", vars=i)
+	
+	league_team = db.select('standings', i, what="shortname", where="league=$league AND season = $season", limit=1)[0]
+	i['leagueteam'] = league_team.shortname
+	league_games = db.query("SELECT COUNT(*) FROM schedule WHERE (team1 = $leagueteam AND EXTRACT(YEAR FROM date) = $season AND gametype = 'reg') OR (team2 = $leagueteam AND EXTRACT(YEAR FROM date) = $season AND gametype = 'reg')", vars=i)[0]
+	season_displayed = db.select('season', i, where="year = $season")[0]
+
+	
+	# define empty dictionaries
+	wins = collections.defaultdict(int)
+	losses = collections.defaultdict(int)
+	ties = collections.defaultdict(int)
+	points = collections.defaultdict(int)
+	games_played = collections.defaultdict(int)
+	games_rem = collections.defaultdict(int)
+	poss_points = collections.defaultdict(int)
+	could_tie = collections.defaultdict(int)
+	could_pass = collections.defaultdict(int)
+	clinch = collections.defaultdict(str)
+	penalty_symbol = collections.defaultdict(str)
+	penalty_points = collections.defaultdict(int)
+	
+	# Define empty nested dictionaries for teams vs other teams
+	hh_results = collections.defaultdict(lambda: collections.defaultdict(int))
+	games_remaining_hh = collections.defaultdict(lambda: collections.defaultdict(int))
+	could_tie_hh = collections.defaultdict(lambda: collections.defaultdict(int))
+	
+	# set total games remaining to 0 in case all games have been played
+	total_games_rem = 0
+	for team in points_lost:
+		penalty_points[team.teamlines] = team.sum
+		if team.sum >= 1:
+			penalty_symbol[team.teamlines] = "*"
+
+
+	# fill each team dictionary with team info from standings database
+	for team in standings_dict:
+		wins[team.shortname] = team.wins
+		losses[team.shortname] = team.losses
+		ties[team.shortname] = team.ties
+		points[team.shortname] = team.points
+		games_played[team.shortname] = team.wins + team.losses + team.ties
+		games_rem[team.shortname] = league_games.count - (team.wins + team.losses + team.ties)
+		poss_points[team.shortname] = team.points + games_rem[team.shortname] * 2
+		total_games_rem += games_rem[team.shortname]
+		team['points_lost'] = penalty_points[team.shortname]
+
+	# fill nested dictionaries with head to head record vs every other team. Also fill if teams could tie in points, pass in points, or tie in head to head
+	for team in standings_dict:
+		for other_teams in standings_dict:
+			if other_teams.shortname == team.shortname:
+				 continue
+			for game in sched_dict:
+				if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score < game.team2score:
+					hh_results[team.shortname][other_teams.shortname] += 1
+				if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score > game.team2score:
+					hh_results[team.shortname][other_teams.shortname] -= 1
+				if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team2score < game.team1score:
+					hh_results[team.shortname][other_teams.shortname] += 1
+				if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team2score > game.team1score:
+					hh_results[team.shortname][other_teams.shortname] -= 1
+				if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team1score is None:
+					games_remaining_hh[team.shortname][other_teams.shortname] += 1
+				if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score is None:
+					games_remaining_hh[team.shortname][other_teams.shortname] += 1
+			if games_remaining_hh[team.shortname][other_teams.shortname] + hh_results[other_teams.shortname][team.shortname] >= 0:
+				 could_tie_hh[team.shortname][other_teams.shortname] += 1
+			
+			if poss_points[other_teams.shortname] > points[team.shortname]:
+				could_pass[team.shortname] += 1
+			if poss_points[other_teams.shortname] == points[team.shortname] and could_tie_hh[team.shortname][other_teams.shortname] == 1:
+				could_tie[team.shortname] += 1
+
+	#define variables needed for head to head tiebreaker
+	teams_tied = 0
+	previous_team = None
+	previous_team_points = None
+
+	#this function is needed to calculate tiebreakers if there are more than 2 teams tied.
+	for loop, team in enumerate(standings_dict):
+		team['head_to_head'] = 0
+		teamidx = loop
+		if previous_team is None:
+			previous_team = team.shortname
+			previous_team_points = team.points
+			continue
+		elif team.points == previous_team_points:
+			teams_tied = teams_tied + 1
+			for s in range(teams_tied):
+				idx = teamidx - (s + 1)
+				tied_team = standings_dict[idx]['shortname']
+				this_team = standings_dict[teamidx]['shortname']
+				team['head_to_head'] += hh_results[team.shortname][tied_team]
+				standings_dict[idx]['head_to_head'] += hh_results[tied_team][team.shortname]
+		else:
+			teams_tied = 0
+		previous_team = team.shortname
+		previous_team_points = team.points
+
+	teams_tied = 0
+	previous_team = None
+	previous_team_points = None
+
+	#sort standings by points, points lost to penalty, head to head if ties, points against, pointsfor, name
+	sorted_standings = multikeysort(standings_dict, ['-points', 'points_lost', '-head_to_head', 'pointsagainst', '-pointsfor', 'shortname'])
+	#check to see if teams have clinched and add symbols if they have
+	for loop, team in enumerate(sorted_standings, start=1):
+		if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.playoff_teams_men:
+			clinch[team.shortname] = "x -"
+		if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.bye_teams_men:
+			clinch[team.shortname] = "y -"
+		if total_games_rem == 0 and loop <=  season_displayed.bye_teams_men and games_played[team.shortname] != 0:
+			clinch[team.shortname] = "y -"
+
+	return (sorted_standings)
+
+
+def multikeysort(items, columns):
+	#this is a function to sort dictionaries by multiple keys
+	comparers = [((operator.itemgetter(col[1:].strip()), -1) if col.startswith('-') else
+				(operator.itemgetter(col.strip()), 1)) for col in columns]
+	def comparer(left, right):
+		for fn, mult in comparers:
+			result = cmp(fn(left), fn(right))
+			if result:
+				return mult * result
+		else:
+			return 0
+	return sorted(items, cmp=comparer)
 
 wsgiapp = app.wsgifunc()
 

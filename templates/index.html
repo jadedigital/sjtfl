@@ -1,4 +1,4 @@
-$def with (teamsdb, scheduledb, newsdb, media, standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list)
+$def with (teamsdb, scheduledb, newsdb, media, standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current)
 
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
@@ -12,6 +12,8 @@ $ abbr = collections.defaultdict(str)
 $for team in teams_list:
   $ scores_svg[team.shortname] = team.shortname + ".svg"
   $ abbr[team.shortname] = team.team_abbr
+
+$ sorted_stand_men = sort_standings('Mens', season_current)	
 
 <div class="container">
 	<div class="row row-home">
@@ -139,7 +141,7 @@ $for team in teams_list:
                   <th class="col-xs-1 text-center">T</th>
                   <th class="col-xs-1 text-center">PTS</th>
                 </tr>
-                $for standings in standingsmen:
+                $for standings in sorted_stand_men:
                   <tr>
                     <td>$standings.shortname</td>
                     <td class="text-center">$standings.wins</td>
