@@ -125,8 +125,6 @@ class index:
 		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		newsdb = db.select('news', order="posted DESC", limit=4)
-		standingsmen = db.select('standings', order="points DESC, gamesplayed, pointsagainst", where="league = 'Mens' AND season = $season", vars=i).list()
-		standingswomen = db.select('standings', order="points DESC, gamesplayed, pointsagainst", where="league = 'Womens' AND season = $season", vars=i).list()
 		scoresdb = db.select('schedule', i, where="EXTRACT(YEAR FROM date) = $season AND team1score IS NOT NULL", order="date DESC, time DESC", limit="8").list()
 		teams_list = db.select('standings', i, order="league, shortname", where="season=$season").list()
 
@@ -143,7 +141,7 @@ class index:
 		payload = {'access_token': instagram_token, 'count': 5}
 		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb, media.json(), standingsmen, standingswomen, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year)
+		return render.index(teamsdb, scheduledb, newsdb, media.json(), pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year)
 
 class login:
 	def POST(self):
@@ -255,7 +253,7 @@ class standings:
 		teams_list = db.select('standings', j, order="league, shortname", where="season=$season").list()
 
 		render = create_render(session.privilege)
-		return render.standings(standingsmen, standingswomen, teamsdb, scheduledb, season_list, i.season, scheduledb2, mens_games, womens_games, season_displayed, points_lost, teams_list)
+		return render.standings(standingsmen, standingswomen, teamsdb, scheduledb, season_list, i.season, teams_list)
 
 class schedule:
 	def GET(self):
@@ -1078,7 +1076,7 @@ def sort_standings(league_in, season_in):
 		if total_games_rem == 0 and loop <=  season_displayed.bye_teams_men and games_played[team.shortname] != 0:
 			clinch[team.shortname] = "y -"
 
-	return (sorted_standings)
+	return (sorted_standings, clinch, penalty_symbol)
 
 
 def multikeysort(items, columns):

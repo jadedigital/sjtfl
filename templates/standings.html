@@ -1,4 +1,4 @@
-$def with (standingsmen, standingswomen, teamsdb, scheduledb, season_list, season, scheduledb2, mens_games, womens_games, season_displayed, points_lost, teams_list)
+$def with (standingsmen, standingswomen, teamsdb, scheduledb, season_list, season, teams_list)
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "standings"
@@ -8,199 +8,10 @@ $ scores_svg = collections.defaultdict(str)
 $for team in teams_list:
 	$ scores_svg[team.shortname] = team.shortname + ".svg"
 
-$# convert iterables to lists
-$ standings_dict_men = list(standingsmen)
-$ standings_dict_women = list(standingswomen)
-$ sched_dict = list(scheduledb2)
+$ sorted_stand_men, clinch_men, penalty_men = sort_standings('Mens', season)
+$ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', season)	
 
-$# define empty dictionaries
-$ wins = collections.defaultdict(int)
-$ losses = collections.defaultdict(int)
-$ ties = collections.defaultdict(int)
-$ points = collections.defaultdict(int)
-$ games_played = collections.defaultdict(int)
-$ games_rem = collections.defaultdict(int)
-$ poss_points = collections.defaultdict(int)
-$ could_tie = collections.defaultdict(int)
-$ could_pass = collections.defaultdict(int)
-$ clinch = collections.defaultdict(str)
-$ penalty_symbol = collections.defaultdict(str)
-$ penalty_points = collections.defaultdict(int)
-
-$# Define empty nested dictionaries for teams vs other teams
-$ hh_results = collections.defaultdict(lambda: collections.defaultdict(int))
-$ games_remaining_hh = collections.defaultdict(lambda: collections.defaultdict(int))
-$ could_tie_hh = collections.defaultdict(lambda: collections.defaultdict(int))
-
-$# set total games remaining to 0 in case all games have been played
-$ total_games_rem = 0
-
-$for team in points_lost:
-	$ penalty_points[team.teamlines] = team.sum
-	$if team.sum >= 1:
-		$ penalty_symbol[team.teamlines] = "*"
-
-
-$# fill each mens team dictionary with team info from standings database
-$for team in standings_dict_men:
-	$ wins[team.shortname] = team.wins
-	$ losses[team.shortname] = team.losses
-	$ ties[team.shortname] = team.ties
-	$ points[team.shortname] = team.points
-	$ games_played[team.shortname] = team.wins + team.losses + team.ties
-	$ games_rem[team.shortname] = mens_games.count - (team.wins + team.losses + team.ties)
-	$ poss_points[team.shortname] = team.points + games_rem[team.shortname] * 2
-	$ total_games_rem += games_rem[team.shortname]
-	$ team['points_lost'] = penalty_points[team.shortname]
-
-$# fill each womens team dictionary with team info from standings database
-$for team in standings_dict_women:
-	$ wins[team.shortname] = team.wins
-	$ losses[team.shortname] = team.losses
-	$ ties[team.shortname] = team.ties
-	$ points[team.shortname] = team.points
-	$ games_rem[team.shortname] = womens_games.count - (team.wins + team.losses + team.ties)
-	$ poss_points[team.shortname] = team.points + games_rem[team.shortname] * 2
-	$ total_games_rem += games_rem[team.shortname]
-	$ team['points_lost'] = penalty_points[team.shortname]
-
-$# fill nested dictionaries with head to head record vs every other team. Also fill if teams could tie in points, pass in points, or tie in head to head
-$for team in standings_dict_men:
-	$for other_teams in standings_dict_men:
-		$if other_teams.shortname == team.shortname:
-			$ continue
-		$for game in sched_dict:
-			$if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score < game.team2score:
-				$ hh_results[team.shortname][other_teams.shortname] += 1
-			$if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score > game.team2score:
-				$ hh_results[team.shortname][other_teams.shortname] -= 1
-			$if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team2score < game.team1score:
-				$ hh_results[team.shortname][other_teams.shortname] += 1
-			$if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team2score > game.team1score:
-				$ hh_results[team.shortname][other_teams.shortname] -= 1
-			$if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team1score is None:
-				$ games_remaining_hh[team.shortname][other_teams.shortname] += 1
-			$if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score is None:
-				$ games_remaining_hh[team.shortname][other_teams.shortname] += 1
-		$if games_remaining_hh[team.shortname][other_teams.shortname] + hh_results[other_teams.shortname][team.shortname] >= 0:
-			$ could_tie_hh[team.shortname][other_teams.shortname] += 1
-		
-		$if poss_points[other_teams.shortname] > points[team.shortname]:
-			$ could_pass[team.shortname] += 1
-		$if poss_points[other_teams.shortname] == points[team.shortname] and could_tie_hh[team.shortname][other_teams.shortname] == 1:
-			$ could_tie[team.shortname] += 1
-
-$# fill nested dictionaries with head to head record vs every other team. Also fill if teams could tie in points, pass in points, or tie in head to head
-$for team in standings_dict_women:
-	$for other_teams in standings_dict_women:
-		$if other_teams.shortname == team.shortname:
-			$ continue
-		$for game in sched_dict:
-			$if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score < game.team2score:
-				$ hh_results[team.shortname][other_teams.shortname] += 1
-			$if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score > game.team2score:
-				$ hh_results[team.shortname][other_teams.shortname] -= 1
-			$if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team2score < game.team1score:
-				$ hh_results[team.shortname][other_teams.shortname] += 1
-			$if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team2score > game.team1score:
-				$ hh_results[team.shortname][other_teams.shortname] -= 1
-			$if game.team2 == other_teams.shortname and game.team1 == team.shortname and game.team1score is None:
-				$ games_remaining_hh[team.shortname][other_teams.shortname] += 1
-			$if game.team1 == other_teams.shortname and game.team2 == team.shortname and game.team1score is None:
-				$ games_remaining_hh[team.shortname][other_teams.shortname] += 1
-		$if games_remaining_hh[team.shortname][other_teams.shortname] + hh_results[other_teams.shortname][team.shortname] >= 0:
-			$ could_tie_hh[team.shortname][other_teams.shortname] += 1
-		
-		$if poss_points[other_teams.shortname] > points[team.shortname]:
-			$ could_pass[team.shortname] += 1
-		$if poss_points[other_teams.shortname] == points[team.shortname] and could_tie_hh[team.shortname][other_teams.shortname] == 1:
-			$ could_tie[team.shortname] += 1
-
-$#define variables needed for head to head tiebreaker
-$ teams_tied = 0
-$ previous_team = None
-$ previous_team_points = None
-
-$#this function is needed to calculate tiebreakers if there are more than 2 teams tied.
-$for team in standings_dict_men:
-	$ team['head_to_head'] = 0
-	$ teamidx = loop.index0
-	$if previous_team is None:
-		$ previous_team = team.shortname
-		$ previous_team_points = team.points
-		$continue
-	$elif team.points == previous_team_points:
-		$ teams_tied = teams_tied + 1
-		$for s in range(teams_tied):
-			$ idx = teamidx - (s + 1)
-			$ tied_team = standings_dict_men[idx]['shortname']
-			$ this_team = standings_dict_men[teamidx]['shortname']
-			$ team['head_to_head'] += hh_results[team.shortname][tied_team]
-			$ standings_dict_men[idx]['head_to_head'] += hh_results[tied_team][team.shortname]
-	$else:
-		$ teams_tied = 0
-	$ previous_team = team.shortname
-	$ previous_team_points = team.points
-
-$ teams_tied = 0
-$ previous_team = None
-$ previous_team_points = None
 	
-$for team in standings_dict_women:
-	$ team['head_to_head'] = 0
-	$ teamidx = loop.index0
-	$if previous_team is None:
-		$ previous_team = team.shortname
-		$ previous_team_points = team.points
-		$continue
-	$elif team.points == previous_team_points:
-		$ teams_tied = teams_tied + 1
-		$for s in range(teams_tied):
-			$ idx = teamidx - (s + 1)
-			$ tied_team = standings_dict_women[idx]['shortname']
-			$ this_team = standings_dict_women[teamidx]['shortname']
-			$ team['head_to_head'] += hh_results[team.shortname][tied_team]
-			$ standings_dict_women[idx]['head_to_head'] += hh_results[tied_team][team.shortname]
-	$else:
-		$ teams_tied = 0
-	$ previous_team = team.shortname
-	$ previous_team_points = team.points
-
-$#this is a function to sort dictionaries by multiple keys
-$code:
-	def multikeysort(items, columns):
-		comparers = [((operator.itemgetter(col[1:].strip()), -1) if col.startswith('-') else
-					(operator.itemgetter(col.strip()), 1)) for col in columns]
-		def comparer(left, right):
-			for fn, mult in comparers:
-				result = cmp(fn(left), fn(right))
-				if result:
-					return mult * result
-			else:
-				return 0
-		return sorted(items, cmp=comparer)
-
-
-$#sort standings by points, points lost to penalty, head to head if ties, points against, pointsfor, name
-$ sorted_standings_men = multikeysort(standings_dict_men, ['-points', 'points_lost', '-head_to_head', 'pointsagainst', '-pointsfor', 'shortname'])
-$#check to see if teams have clinched and add symbols if they have
-$for team in sorted_standings_men:
-	$if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.playoff_teams_men:
-		$ clinch[team.shortname] = "x -"
-	$if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.bye_teams_men:
-		$ clinch[team.shortname] = "y -"
-	$if total_games_rem == 0 and loop.index <=  season_displayed.bye_teams_men and games_played[team.shortname] != 0:
-		$ clinch[team.shortname] = "y -"
-
-$ sorted_standings_women = multikeysort(standings_dict_women, ['-points', 'points_lost', '-head_to_head', 'pointsagainst', '-pointsfor', 'shortname'])
-$for team in sorted_standings_women:
-	$if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.playoff_teams_women:
-		$ clinch[team.shortname] = "x -"
-	$if could_pass[team.shortname] + could_tie[team.shortname] < season_displayed.bye_teams_women:
-		$ clinch[team.shortname] = "y -"
-	$if total_games_rem == 0 and loop.index <=  season_displayed.bye_teams_women and games_played[team.shortname] != 0:
-		$ clinch[team.shortname] = "y -"
-		
 <div class="container">
 	<div class="page-header">
 		<h1>Standings
@@ -231,14 +42,14 @@ $for team in sorted_standings_women:
 							<th class="col-md-1 text-center">PF</th>
 							<th class="col-md-1 text-center">PA</th>
 						</tr>
-						$for standings in sorted_standings_men:
+						$for standings in sorted_stand_men:
 							<tr>
 								<td class="col-md-1 text-center">$loop.index</td>
-								<td class="col-md-5"><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class="col-md-5"><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch_men[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
 								<td class="col-md-1 text-center">$standings.wins</td>
 								<td class="col-md-1 text-center">$standings.losses</td>
 								<td class="col-md-1 text-center">$standings.ties</td>
-								<td class="col-md-1 text-center">$standings.points$penalty_symbol[standings.shortname]</td>
+								<td class="col-md-1 text-center">$standings.points$penalty_men[standings.shortname]</td>
 								<td class="col-md-1 text-center">$standings.pointsfor</td>
 								<td class="col-md-1 text-center">$standings.pointsagainst</td>
 						</tr>
@@ -264,14 +75,14 @@ $for team in sorted_standings_women:
 							<th class="col-md-1 text-center">PF</th>
 							<th class="col-md-1 text-center">PA</th>
 						</tr>
-						$for standings in sorted_standings_women:
+						$for standings in sorted_stand_women:
 							<tr>
 								<td class="col-md-1 text-center">$loop.index</td>
-								<td class="col-md-5"><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
+								<td class="col-md-5"><span class="standings-logo-wrap"><img src="/static/img/$scores_svg[standings.shortname]" class="standings-logo"></span> $clinch_women[standings.shortname] <a class="team_link hidden-xs" href="/teams?teamid=$standings.id">$standings.name</a><a class="team_link visible-xs-inline" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
 								<td class="col-md-1 text-center">$standings.wins</td>
 								<td class="col-md-1 text-center">$standings.losses</td>
 								<td class="col-md-1 text-center">$standings.ties</td>
-								<td class="col-md-1 text-center">$standings.points $penalty_symbol[standings.shortname]</td>
+								<td class="col-md-1 text-center">$standings.points $penalty_women[standings.shortname]</td>
 								<td class="col-md-1 text-center">$standings.pointsfor</td>
 								<td class="col-md-1 text-center">$standings.pointsagainst</td>
 						</tr>
