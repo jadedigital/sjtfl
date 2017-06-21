@@ -634,6 +634,15 @@ h1 .btn {
 
 #banner-logo-wrapper {
   display: inline-block;
+  width:60%
+}
+
+#banner-logo-wrapper a {
+  float: left;
+}
+
+#banner-logo-wrapper .socialtip {
+  float: none;
 }
 
 .banner-sponsor {
@@ -650,6 +659,15 @@ h1 .btn {
   font-weight: bold;
   color: #ffffff;
   vertical-align: middle;
+}
+
+.banner-text-top {
+  font-size: 12px;
+  padding-top: 10px;
+}
+
+.banner-text-bottom {
+    line-height: 1;
 }
 
 .banner-subtext {
@@ -1265,6 +1283,18 @@ h1 .dropdown:first-child {
 @media (min-width:767px) {
   .dropdown.score-week {
     display: none;
+  }
+}
+
+@media (max-width:480px) {
+  .banner-text-top {
+    display: none;
+  }
+  .banner-text-bottom {
+    display: inline
+  }
+  #banner-logo-wrapper a {
+    float: none;
   }
 }
 
