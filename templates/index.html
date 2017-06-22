@@ -144,7 +144,7 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
                 </tr>
                 $for standings in sorted_stand_men:
                   <tr>
-                    <td>$standings.shortname</td>
+                    <td><a class="team_link" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
                     <td class="text-center">$standings.wins</td>
                     <td class="text-center">$standings.losses</td>
                     <td class="text-center">$standings.ties</td>
@@ -166,7 +166,7 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
                 </tr>
                 $for standings in sorted_stand_women:
                   <tr>
-                    <td>$standings.shortname</td>
+                    <td><a class="team_link" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
                     <td class="text-center">$standings.wins</td>
                     <td class="text-center">$standings.losses</td>
                     <td class="text-center">$standings.ties</td>

@@ -838,7 +838,7 @@ h1 .btn {
   line-height: 20px;
   height: 40px;
   margin: 4px 0px 0px;
-  color: rgba(0, 0, 0, 0.541176);
+  color: rgba(0, 0, 0, 0.75);
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

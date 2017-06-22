@@ -107,19 +107,19 @@ $else:
                           <div class="team-scores">
                             <span class="team-scores-logo-wrap"><img src="/static/img/$scores_svg[schedule.team1]" class="team-scores-logo"></span>
                             $if schedule.team1score > schedule.team2score:
-                              <div class="team-scores-name"><strong>$schedule.team1</strong></div>
+                              <div class="team-scores-name"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]"><strong>$schedule.team1</strong></a></div>
                               <div class="lead-stat"><strong>$schedule.team1score</strong></div>
                             $else:
-                              <div class="team-scores-name">$schedule.team1</div>
+                              <div class="team-scores-name"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></div>
                               <div class="lead-stat">$schedule.team1score</div>
                           </div>
                           <div class="team-scores">                    
                             <span class="team-scores-logo-wrap"><img src="/static/img/$scores_svg[schedule.team2]" class="team-scores-logo"></span>
                             $if schedule.team2score > schedule.team1score:
-                              <div class="team-scores-name"><strong>$schedule.team2</strong></div>
+                              <div class="team-scores-name"><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]"><strong>$schedule.team2</strong></a></div>
                               <div class="lead-stat"><strong>$schedule.team2score</strong></div>
                             $else:
-                              <div class="team-scores-name">$schedule.team2</div>
+                              <div class="team-scores-name"><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></div>
                               <div class="lead-stat">$schedule.team2score</div>
                           </div>
                         </span>
