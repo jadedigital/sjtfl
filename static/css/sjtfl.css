@@ -209,7 +209,7 @@ h1 .btn {
 }
 
 .form-news {
-  max-width: 600px;
+  max-width: 1200px;
   padding: 10px 15px 0px;
   margin: 0 auto;
 }
@@ -646,10 +646,17 @@ h1 .btn {
 }
 
 .banner-sponsor {
-  height: 60px;
-  margin: 10px;
   float: right;
   z-index: 1041;
+}
+
+.banner-sponsor img {
+  height: 60px;
+  margin: 10px;
+}
+
+.banner-sponsor .fa-stack-1x {
+  color: #30302F;
 }
 
 .banner-text {
@@ -1072,6 +1079,19 @@ h1 .btn {
   float: left;
 }
 
+.game-logo-wrap {
+  vertical-align: middle;
+}
+
+.game-logo {
+  max-height: 120px;
+}
+
+.table.game > tbody > tr:nth-child(2) > td {
+  border-top: none;
+  padding-top: 0;
+}
+
 .schedule-logo-wrap {
   vertical-align: middle;
   width: 50px;
@@ -1286,7 +1306,7 @@ h1 .dropdown:first-child {
   }
 }
 
-@media (max-width:480px) {
+@media (max-width:580px) {
   .banner-text-top {
     display: none;
   }
@@ -1295,6 +1315,9 @@ h1 .dropdown:first-child {
   }
   #banner-logo-wrapper a {
     float: none;
+  }
+  .banner-sponsor a {
+    display: none;
   }
 }
 
