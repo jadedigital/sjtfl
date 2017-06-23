@@ -67,6 +67,16 @@ $ navbar_class = collections.defaultdict(str)
 $ navbar_class[page.active_nav] = "active"
 
   <body>
+    <!-- Facebook -->
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <!-- End Facebook -->
     <!-- Google Tag Manager -->
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-TR6KWH" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TR6KWH');</script>
@@ -84,7 +94,33 @@ $ navbar_class[page.active_nav] = "active"
           </div>
         </div>
       </div>
-      <img src="/static/img/michelob.svg" class="banner-sponsor">
+      <div class="banner-sponsor">
+        <a class="socialtip" href="https://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+          <span class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+            <i class="fa fa-twitter fa-stack-1x"></i>
+          </span>
+        </a>
+        <a class="socialtip" href="https://instagram.com/sjtouchfootball/" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+          <span class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+            <i class="fa fa-instagram fa-stack-1x"></i>
+          </span>
+        </a>
+        <a class="socialtip" href="http://facebook.com/StJohnsTouchFootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+          <span class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+            <i class="fa fa-facebook fa-stack-1x"></i>
+          </span>
+        </a>
+        <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+          <span class="fa-stack">
+            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+            <i class="fa fa-envelope fa-stack-1x"></i>
+          </span>
+        </a>
+        <img src="/static/img/michelob.svg">
+      </div>
     </div>
     <div id="navbar" class="navbar navbar-inverse" role="navigation">
       <div class="container container-header">
@@ -188,21 +224,21 @@ $:page
   <p class="footer-title">St. John's Touch Football League</p>
   <p class="footer-copy">Since 1981</p>
   <div class="footer-social">
-  <a class="socialtip" href="http://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
-    <i class="fa fa-twitter"></i>
-  </a>
-  ·
-  <a class="socialtip" href="https://instagram.com/sjtouchfootball/" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
-    <i class="fa fa-instagram"></i>
-  </a>
-  ·
-  <a class="socialtip" href="https://facebook.com/StJohnsTouchFootball/" data-toggle="tooltip" title="Like us on Facebook" target="_blank">  
-    <i class="fa fa-facebook"></i>
-  </a>
-  ·
-  <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
-    <i class="fa fa-envelope"></i>
-  </a>
+    <a class="socialtip" href="https://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+      <i class="fa fa-twitter"></i>
+    </a>
+    ·
+    <a class="socialtip" href="https://instagram.com/sjtouchfootball/" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
+      <i class="fa fa-instagram"></i>
+    </a>
+    ·
+    <a class="socialtip" href="https://facebook.com/StJohnsTouchFootball/" data-toggle="tooltip" title="Like us on Facebook" target="_blank">  
+      <i class="fa fa-facebook"></i>
+    </a>
+    ·
+    <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
+      <i class="fa fa-envelope"></i>
+    </a>
   </div>
   <p class="footer-links">
     <a href="/static/2017 Roster Sheet.doc" target="_blank">Roster Sheet</a>
