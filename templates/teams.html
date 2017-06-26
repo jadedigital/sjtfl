@@ -53,7 +53,7 @@ $else:
    
 
 <div class="team-header" style="background: linear-gradient(180deg, $team1_data.color 0%, #013372 91.16%);">
-  <div class="team-bg" style="background-image: url(/static/img/$team_svg);"></div>
+  <div class="team-bg" style="background-image: url(/static/img/$team_svg?version=1.0.2);"></div>
   <div class="team-name-helper">
     <img src="/static/img/$team_svg?version=1.0.2" class="team-header-logo">
     <div class="team-name-wrap"> 
@@ -105,7 +105,7 @@ $else:
                       <span class="team-scores-wrap">
                         <span class="team-scores-wrap-helper">  
                           <div class="team-scores">
-                            <span class="team-scores-logo-wrap"><img src="/static/img/$scores_svg[schedule.team1]" class="team-scores-logo"></span>
+                            <span class="team-scores-logo-wrap"><img src="/static/img/$scores_svg[schedule.team1]?version=1.0.2" class="team-scores-logo"></span>
                             $if schedule.team1score > schedule.team2score:
                               <div class="team-scores-name"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]"><strong>$schedule.team1</strong></a></div>
                               <div class="lead-stat"><strong>$schedule.team1score</strong></div>
@@ -114,7 +114,7 @@ $else:
                               <div class="lead-stat">$schedule.team1score</div>
                           </div>
                           <div class="team-scores">                    
-                            <span class="team-scores-logo-wrap"><img src="/static/img/$scores_svg[schedule.team2]" class="team-scores-logo"></span>
+                            <span class="team-scores-logo-wrap"><img src="/static/img/$scores_svg[schedule.team2]?version=1.0.2" class="team-scores-logo"></span>
                             $if schedule.team2score > schedule.team1score:
                               <div class="team-scores-name"><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]"><strong>$schedule.team2</strong></a></div>
                               <div class="lead-stat"><strong>$schedule.team2score</strong></div>
