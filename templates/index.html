@@ -91,7 +91,15 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
               </li>
           </ul>
         </div>
-        <a class="section-link" href="/standings">All Scores &raquo;</a>
+        $for schedule in reversed(page.scheduled):
+          $if schedule.team1score is not None:
+            <a class="section-link" href="/scores?week=$schedule.week">All Scores &raquo;</a>
+            $break
+          $if loop.last == True:
+            <a class="section-link" href="/scores?week=$schedule.week">All Scores &raquo;</a>
+            $break
+          $else:
+            $continue
       </div>
       <div class="section-wrapper home">
         <div class="home-header">Follow</div>
