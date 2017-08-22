@@ -1,10 +1,9 @@
-$def with (teamsdb, scheduledb, newsdb, media, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current)
+$def with (teamsdb, scheduledb, newsdb, media, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current, upcoming)
 
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "home"
 
-$ schedule_dict = list(scheduledb)
 $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
 $ scores_svg = collections.defaultdict(str)
@@ -92,7 +91,40 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
               </li>
           </ul>
         </div>
-            <a class="section-link" href="/scores?week=$scoresdb[0].week">All Scores &raquo;</a>
+        <a class="section-link" href="/scores?week=$scoresdb[0].week">All Scores &raquo;</a>
+      </div>
+      <div id="home-scores" class="section-wrapper home">
+        <div class="home-header">Upcoming Games</div>
+        <div class="home-scores">
+          <ul>
+            $for games in upcoming:
+              <li>
+                <div class="home-scores-date">
+                  $games.date.strftime('%a, %b %d')
+                </div>
+                <span class="team-scores-wrap">
+                  <span class="team-scores-wrap-helper">  
+                    <div class="home-scores-team">
+                      <img src="/static/img/$scores_svg[games.team1]" class="scores-logo">
+                      $if abbr[games.team1]:
+                        $abbr[games.team1]
+                      $else:  
+                        $games.team1[:4]
+                    </div>
+                    <div class="home-scores-team">
+                      <img src="/static/img/$scores_svg[games.team2]" class="scores-logo">
+                      $if abbr[games.team2]:
+                        $abbr[games.team2]
+                      $else:  
+                        $games.team2[:4]
+                    </div>
+                  </span>
+                  <span class="team-scores-time">$schedule.time.strftime('%I:%M %p')</span>
+                </span>
+              </li>
+          </ul>
+        </div>
+        <a class="section-link" href="/schedule">Full Schedule &raquo;</a>
       </div>
       <div class="section-wrapper home">
         <div class="home-header">Follow</div>

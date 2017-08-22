@@ -126,6 +126,7 @@ class index:
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		newsdb = db.select('news', order="posted DESC", limit=4)
 		scoresdb = db.select('schedule', i, where="EXTRACT(YEAR FROM date) = $season AND team1score IS NOT NULL", order="date DESC, time DESC", limit="8").list()
+		upcoming = db.select('schedule', i, where="EXTRACT(YEAR FROM date) = $season AND team1score IS NULL", order="date, time", limit="8").list()
 		teams_list = db.select('standings', i, order="league, shortname", where="season=$season").list()
 
 		pointsdbmen = db.query("SELECT p.playerid, p.teamid, p.firstname, p.lastname, s.points FROM (SELECT m.playerid, sum(m.touchdowns * 6 + m.twoconvert * 2 + m.safety * 2 + m.oneconvert + m.rouge) AS points FROM (SELECT * FROM statistics stat, schedule sched WHERE stat.gameid = sched.gameid AND (EXTRACT(YEAR FROM sched.date))=$season AND sched.gametype='reg') m GROUP BY playerid) s, players p, standings t WHERE p.playerid = s.playerid AND p.teamid = t.id AND t.league = 'Mens' AND p.season = $season AND t.season = $season ORDER BY points DESC, lastname LIMIT 1;", vars=i)[0]
@@ -141,7 +142,7 @@ class index:
 		payload = {'access_token': instagram_token, 'count': 5}
 		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb, media.json(), pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year)
+		return render.index(teamsdb, scheduledb, newsdb, media.json(), pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year, upcoming)
 
 class login:
 	def POST(self):
