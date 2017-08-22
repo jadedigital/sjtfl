@@ -961,6 +961,18 @@ h1 .btn {
   border-bottom: 1px solid #ddd;
 }
 
+.home-scores-time {
+  width: 50%;
+  text-align: right;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 0 5px;
+}
+
+.home-scores-wrap-helper {
+  width: 50%;
+}
+
 .scores-logo {
   max-height: 20px;
   max-width: 20px;
