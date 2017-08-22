@@ -4,6 +4,7 @@ $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "home"
 
+$ schedule_dict = list(scheduledb)
 $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
 $ scores_svg = collections.defaultdict(str)
@@ -91,7 +92,7 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
               </li>
           </ul>
         </div>
-        $for schedule in reversed(scheduledb):
+        $for schedule in reversed(schedule_dict):
           $if schedule.team1score is not None:
             <a class="section-link" href="/scores?week=$schedule.week">All Scores &raquo;</a>
             $break
