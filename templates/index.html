@@ -91,7 +91,7 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
               </li>
           </ul>
         </div>
-        $for schedule in reversed(page.scheduled):
+        $for schedule in reversed(page.scheduledb):
           $if schedule.team1score is not None:
             <a class="section-link" href="/scores?week=$schedule.week">All Scores &raquo;</a>
             $break
