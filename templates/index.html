@@ -8,13 +8,28 @@ $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
 $ scores_svg = collections.defaultdict(str)
 $ abbr = collections.defaultdict(str)
+$ standings_wins = collections.defaultdict(str)
+$ standings_losses = collections.defaultdict(str)
+$ standings_ties = collections.defaultdict(str)
 
 $for team in teams_list:
   $ scores_svg[team.shortname] = team.shortname + ".svg"
   $ abbr[team.shortname] = team.team_abbr
 
 $ sorted_stand_men, clinch_men, penalty_men = sort_standings('Mens', season_current)	
-$ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', season_current)	
+$ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', season_current)
+
+$ sorted_stand_men_list = list(sorted_stand_men)
+$ sorted_stand_women_list = list(sorted_stand_women)
+
+$for standings in sorted_stand_men_list:
+  $ standings_wins[standings.shortname] = standings.wins
+  $ standings_losses[standings.shortname] = standings.losses
+  $ standings_ties[standings.shortname] = standings.ties
+$for standings in sorted_stand_women_list:
+  $ standings_wins[standings.shortname] = standings.wins
+  $ standings_losses[standings.shortname] = standings.losses
+  $ standings_ties[standings.shortname] = standings.ties  
 
 <div class="container">
 	<div class="row row-home">
@@ -100,16 +115,17 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
             $for games in upcoming:
               <li>
                 <div class="home-scores-date">
-                  $games.date.strftime('%a, %b %d')
+                  $games.date.strftime('%a, %b %d') $games.time.strftime('%-I:%M %p')
                 </div>
-                <span class="team-scores-wrap">
+                <span class="team-scores-wrap text-nowrap">
                   <span class="home-scores-wrap-helper">  
-                    <div class="home-scores-team">
+                    <div class="home-scores-team ">
                       <img src="/static/img/$scores_svg[games.team1]" class="scores-logo">
                       $if abbr[games.team1]:
                         $abbr[games.team1]
                       $else:  
                         $games.team1[:4]
+                      <div class="lead-stat">($standings_wins[games.team1] - $standings_losses[games.team1] - $standings_ties[games.team1])</div>
                     </div>
                     <div class="home-scores-team">
                       <img src="/static/img/$scores_svg[games.team2]" class="scores-logo">
@@ -117,9 +133,9 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
                         $abbr[games.team2]
                       $else:  
                         $games.team2[:4]
+                      <div class="lead-stat">($standings_wins[games.team1] - $standings_losses[games.team1] - $standings_ties[games.team1])</div>
                     </div>
                   </span>
-                  <span class="home-scores-time">$games.time.strftime('%I:%M %p')</span>
                 </span>
               </li>
           </ul>
@@ -175,7 +191,7 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
                   <th class="col-xs-1 text-center">T</th>
                   <th class="col-xs-1 text-center">PTS</th>
                 </tr>
-                $for standings in sorted_stand_men:
+                $for standings in sorted_stand_men_list:
                   <tr>
                     <td><a class="team_link" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
                     <td class="text-center">$standings.wins</td>
@@ -197,7 +213,7 @@ $ sorted_stand_women, clinch_women, penalty_women = sort_standings('Womens', sea
                   <th class="col-xs-1 text-center">T</th>
                   <th class="col-xs-1 text-center">PTS</th>
                 </tr>
-                $for standings in sorted_stand_women:
+                $for standings in sorted_stand_women_list:
                   <tr>
                     <td><a class="team_link" href="/teams?teamid=$standings.id">$standings.shortname</a></td>
                     <td class="text-center">$standings.wins</td>

@@ -1333,6 +1333,7 @@ h1 .dropdown:first-child {
   }
   .banner-sponsor img {
     height: 30px;
+    margin-top: 20px;
   }
 }
 
