@@ -25,7 +25,7 @@ $(document).ready(function() {
       $('#banner').removeClass('banner-fix');
       $('#navbar').removeClass('navbar-fixed-top');
       $('.banner-text').css({"display": "inline"});
-      $('#banner-logo-wrapper').css({"width": "60%"});
+      $('#banner-logo-wrapper').css({"width": "70%"});
       /*$('#banner-logo').removeClass('logo-margin-fix');  
 			$('#home-scores').removeClass('fix-scores');*/
     }

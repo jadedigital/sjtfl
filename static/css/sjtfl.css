@@ -1331,6 +1331,9 @@ h1 .dropdown:first-child {
   .banner-sponsor a {
     display: none;
   }
+  .banner-sponsor img {
+    height: 30px;
+  }
 }
 
 .socialtip {
