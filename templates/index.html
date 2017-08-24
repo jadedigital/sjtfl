@@ -115,7 +115,7 @@ $for standings in sorted_stand_women_list:
             $for games in upcoming:
               <li>
                 <div class="home-scores-date">
-                  $games.date.strftime('%a, %b %d') $games.time.strftime('%-I:%M %p')
+                  $games.date.strftime('%a, %b %d') · $games.time.strftime('%-I:%M %p')
                 </div>
                 <div class="home-scores-team ">
                   <img src="/static/img/$scores_svg[games.team1]" class="scores-logo">
