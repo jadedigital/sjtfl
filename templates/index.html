@@ -117,26 +117,22 @@ $for standings in sorted_stand_women_list:
                 <div class="home-scores-date">
                   $games.date.strftime('%a, %b %d') $games.time.strftime('%-I:%M %p')
                 </div>
-                <span class="team-scores-wrap text-nowrap">
-                  <span class="home-scores-wrap-helper">  
-                    <div class="home-scores-team ">
-                      <img src="/static/img/$scores_svg[games.team1]" class="scores-logo">
-                      $if abbr[games.team1]:
-                        $abbr[games.team1]
-                      $else:  
-                        $games.team1[:4]
-                      <div class="lead-stat">($standings_wins[games.team1] - $standings_losses[games.team1] - $standings_ties[games.team1])</div>
-                    </div>
-                    <div class="home-scores-team">
-                      <img src="/static/img/$scores_svg[games.team2]" class="scores-logo">
-                      $if abbr[games.team2]:
-                        $abbr[games.team2]
-                      $else:  
-                        $games.team2[:4]
-                      <div class="lead-stat">($standings_wins[games.team1] - $standings_losses[games.team1] - $standings_ties[games.team1])</div>
-                    </div>
-                  </span>
-                </span>
+                <div class="home-scores-team ">
+                  <img src="/static/img/$scores_svg[games.team1]" class="scores-logo">
+                  $if abbr[games.team1]:
+                    $abbr[games.team1]
+                  $else:  
+                    $games.team1[:4]
+                  <div class="lead-stat">($standings_wins[games.team1] - $standings_losses[games.team1] - $standings_ties[games.team1])</div>
+                </div>
+                <div class="home-scores-team">
+                  <img src="/static/img/$scores_svg[games.team2]" class="scores-logo">
+                  $if abbr[games.team2]:
+                    $abbr[games.team2]
+                  $else:  
+                    $games.team2[:4]
+                  <div class="lead-stat">($standings_wins[games.team2] - $standings_losses[games.team2] - $standings_ties[games.team2])</div>
+                </div>
               </li>
           </ul>
         </div>
