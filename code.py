@@ -31,6 +31,7 @@ urls = (
 	'/news', 'news',
 	'/schedule', 'schedule',
 	'/preview', 'preview',
+	'/game', 'game',
 	'/history', 'history',
 	'/admin/addgame', 'addgame',
 	'/admin/gameselect', 'gameselect',
@@ -280,7 +281,7 @@ class teams:
 		scheduledb = db.select('schedule', j, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		team1_data = db.select('standings', i, where="id = $teamid")[0]
 		i.season = team1_data.season
-		scheduledb2 = db.select('schedule', order="gameid", where="EXTRACT(YEAR FROM date) = $season", vars=i).list()
+		scheduledb2 = db.select('schedule', order="date, time", where="EXTRACT(YEAR FROM date) = $season", vars=i).list()
 		statsdb = db.query("SELECT play.playerid, play.teamid, play.firstname, play.lastname, COALESCE(stats.gameplayed, 0) AS gameplayed, COALESCE(stats.touchdowns, 0) AS touchdowns, COALESCE(stats.tdpass, 0) AS tdpass, COALESCE(stats.oneconvert, 0) AS oneconvert, COALESCE(stats.twoconvert, 0) AS twoconvert, COALESCE(stats.rouge, 0) AS rouge, COALESCE(stats.safety, 0) AS safety, COALESCE(stats.interception, 0) AS interception, COALESCE(stats.sack, 0) AS sack FROM (SELECT st.playerid, sum(st.gameplayed) AS gameplayed, sum(st.touchdowns) AS touchdowns, sum(st.tdpass) AS tdpass, sum(st.oneconvert) AS oneconvert, sum(st.twoconvert) AS twoconvert, sum(st.rouge) AS rouge, sum(st.safety) AS safety, sum(st.interception) AS interception, sum(st.sack) AS sack FROM (SELECT p.playerid, p.teamid, p.firstname, p.lastname, s.gameplayed, s.touchdowns, s.tdpass, s.oneconvert, s.twoconvert, s.rouge, s.safety, s.interception, s.sack FROM (SELECT stat.playerid, sum(stat.gameplayed) AS gameplayed, sum(stat.touchdowns) AS touchdowns, sum(stat.tdpass) AS tdpass, sum(stat.oneconvert) AS oneconvert, sum(stat.twoconvert) AS twoconvert, sum(stat.rouge) AS rouge, sum(stat.safety) AS safety, sum(stat.interception) AS interception, sum(stat.sack) AS sack FROM statistics stat, schedule sched WHERE stat.gameid=sched.gameid AND stat.season = $season AND sched.gametype = 'reg' GROUP BY stat.playerid) s, players p WHERE s.playerid = p.playerid AND p.teamid = $teamid UNION ALL SELECT playerid, teamid, firstname, lastname, null AS gameplayed, null AS touchdowns, null AS tdpass, null AS oneconvert, null AS twoconvert, null AS rouge, null AS safety, null AS interception, null AS sack FROM players WHERE teamid = $teamid AND season = $season) AS st GROUP BY st.playerid) stats, players play WHERE stats.playerid = play.playerid ORDER BY play.lastname, play.firstname;", vars=i)
 		teams_list = db.select('standings', i, order="league, shortname", where="season=$season").list()
 		
@@ -435,7 +436,28 @@ class history:
 		
 		render = create_render(session.privilege)
 		return render.history(teamsdb, scheduledb, championsdb)
-	
+
+class game:
+	def GET(self):
+		i = web.input(gameid=None)
+		if i.gameid is None:
+			raise web.redirect('/')
+		season_current = db.select('season', where="current = 't'")[0]
+		i.season = season_current.year
+		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
+		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
+		statsdb = db.select('statistics', i, where="gameid = $gameid AND season = $season")
+		game_data = db.select('schedule', i, where="gameid = $gameid AND EXTRACT(YEAR FROM date) = $season")[0]
+		playersdb = db.select('players', i, order="lastname, firstname", where="season = $season").list()
+
+		i.team1 = game_data.team1
+		i.team2 = game_data.team2
+		team1_data = db.select('standings', i, where="shortname = $team1 AND season = $season")[0]
+		team2_data = db.select('standings', i, where="shortname = $team2 AND season = $season")[0]
+
+		render = create_render(session.privilege)
+		return render.game(i.gameid, statsdb, teamsdb, scheduledb, game_data, playersdb, team1_data, team2_data)
+
 class addgame:
 	def GET(self):
 		i = web.input(gameid=None)
