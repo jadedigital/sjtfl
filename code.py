@@ -320,7 +320,7 @@ class scores:
 		footerdb = db.query("SELECT stats.playerid, play.firstname, play.lastname, play.teamname, stats.gameid, stats.touchdowns, stats.tdpass, stats.interception, stats.sack, sched.week, sched.team1, sched.team2 FROM statistics stats, schedule sched, players play WHERE stats.gameid = sched.gameid AND sched.week=$week AND play.playerid = stats.playerid AND stats.season=$season AND play.season=$season AND EXTRACT(YEAR FROM sched.date)=$season;", vars=i).list()
 		standingsdb = db.select('standings', order="points DESC, gamesplayed, pointsagainst", where="season = $season", vars=i)
 		
-		week_num = db.query("SELECT COUNT(DISTINCT week) FROM schedule where EXTRACT(YEAR FROM date) = $season AND gametype = $gametype;", vars=i)[0]
+		week_num = db.query("SELECT MAX(week) FROM schedule where EXTRACT(YEAR FROM date) = $season AND gametype = $gametype;", vars=i)[0]
 		post_week_list = db.query("SELECT DISTINCT week FROM schedule WHERE  EXTRACT(YEAR FROM date) = $season AND gametype = 'post' ORDER BY week;", vars=i).list()
 		teams_list = db.select('standings', i, order="league, shortname", where="season=$season").list()
 		render = create_render(session.privilege)
