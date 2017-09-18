@@ -86,7 +86,7 @@ $ week_dict[3] = "Championships"
 				<span class="dropdown score-week">
 					<button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">Week $week <span class="caret"></span></button>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-						$for i in range(int(week_num.count))
+						$for i in range(int(week_num.max))
 							<li role="presentation"><a role="menuitem" tabindex="-1" href="/scores?season=$season&week=$loop.index&gametype=$gametype">Week $loop.index</a></li>
 					</ul>
 				</span>
@@ -121,12 +121,12 @@ $ week_dict[3] = "Championships"
 					<li class="disabled"><a>&laquo;</a></li>
 				$else:
 					<li><a href="/scores?season=$season&week=$weekleft&gametype=$gametype">&laquo;</a></li>
-				$for i in range(int(week_num.count))
+				$for i in range(int(week_num.max))
 					$if week == str(loop.index):
 						<li class="active"><a href="/scores?season=$season&week=$loop.index&gametype=$gametype">Week $loop.index</a></li>
 					$else:
 						<li><a href="/scores?season=$season&week=$loop.index&gametype=$gametype">$loop.index</a></li>
-				$if int(week) == int(week_num.count):
+				$if int(week) == int(week_num.max):
 					<li class="disabled"><a>&raquo;</a></li>
 				$else:
 					<li><a href="/scores?season=$season&week=$weekright&gametype=$gametype">&raquo;</a></li>
