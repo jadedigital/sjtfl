@@ -46,7 +46,7 @@ $for standings in sorted_stand_women_list:
                   <source src="$data['videos']['low_bandwidth']['url']" type="video/mp4">
                 </video>
               $elif data['type'] == 'image':
-                <img class="highlights-img" src="$data['images']['low_resolution']['url']" width="60%">
+                <img class="highlights-img" src="$data['images']['standard_resolution']['url']" width="60%">
               <div class="home-header highlights">$data['caption']['text']
                 <div class="highlights-date">$time.strftime("%A, %B %d, %Y", time.localtime(int(data['caption']['created_time'])))</div>
               </div>
