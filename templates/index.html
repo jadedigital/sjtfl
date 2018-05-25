@@ -233,59 +233,61 @@ $for standings in sorted_stand_women_list:
 
         <div class="tab-content">
           <div id="mens_lead" class="tab-pane fade in active home-leaders">
-            <ul class="list">
-              <li>
-                <div class="lead-type">Points Scored</div>
-                $pointsdbmen.firstname $pointsdbmen.lastname
-                <div class="lead-stat">$pointsdbmen.points</div>
-              </li>
-              <li>
-                <div class="lead-type">Touchdown Passes</div>
-                $tdpsdbmen.firstname $tdpsdbmen.lastname
-                <div class="lead-stat">$tdpsdbmen.tdpass</div>
-              </li>
-              <li>
-                <div class="lead-type">Interceptions</div>
-                $interceptionsdbmen.firstname $interceptionsdbmen.lastname
-                <div class="lead-stat">$interceptionsdbmen.interception</div>
-              </li>
-              <li>
-                <div class="lead-type">Sacks</div>
-                $sacksdbmen.firstname $sacksdbmen.lastname
-                <div class="lead-stat">$sacksdbmen.sack</div>
-              </li>
-            </ul>
+            $if pointsdbmen[0] is not None and tdpsdbmen[0] is not None and interceptionsdbmen[0] is not None and sacksdbmen[0] is not None:
+              <ul class="list">
+                <li>
+                  <div class="lead-type">Points Scored</div>
+                  $pointsdbmen[0].firstname $pointsdbmen[0].lastname
+                  <div class="lead-stat">$pointsdbmen[0].points</div>
+                </li>
+                <li>
+                  <div class="lead-type">Touchdown Passes</div>
+                  $tdpsdbmen[0].firstname $tdpsdbmen[0].lastname
+                  <div class="lead-stat">$tdpsdbmen[0].tdpass</div>
+                </li>
+                <li>
+                  <div class="lead-type">Interceptions</div>
+                  $interceptionsdbmen[0].firstname $interceptionsdbmen[0].lastname
+                  <div class="lead-stat">$interceptionsdbmen[0].interception</div>
+                </li>
+                <li>
+                  <div class="lead-type">Sacks</div>
+                  $sacksdbmen[0].firstname $sacksdbmen[0].lastname
+                  <div class="lead-stat">$sacksdbmen[0].sack</div>
+                </li>
+              </ul>
           </div>
 
           <div id="womens_lead" class="tab-pane fade in home-leaders">
-            <ul class="list">
-              <li>
-                <div class="lead-type">Points Scored</div>
-                $pointsdbwomen.firstname $pointsdbwomen.lastname
-                <div class="lead-stat">$pointsdbwomen.points</div>
-              </li>
-              <li>
-                <div class="lead-type">Touchdown Passes</div>
-                $tdpsdbwomen.firstname $tdpsdbwomen.lastname
-                <div class="lead-stat">$tdpsdbwomen.tdpass</div>
-              </li>
-              <li>
-                <div class="lead-type">Interceptions</div>
-                $interceptionsdbwomen.firstname $interceptionsdbwomen.lastname
-                <div class="lead-stat">$interceptionsdbwomen.interception</div>
-              </li>
-              <li>
-                <div class="lead-type">Sacks</div>
-                $sacksdbwomen.firstname $sacksdbwomen.lastname
-                <div class="lead-stat">$sacksdbwomen.sack</div>
-              </li>
-            </ul>
+            $if pointsdbwomen[0] is not None and tdpsdbwomen[0] is not None and interceptionsdbwomen[0] is not None and sacksdbwomen[0] is not None:
+              <ul class="list">
+                <li>
+                  <div class="lead-type">Points Scored</div>
+                  $pointsdbwomen[0].firstname $pointsdbwomen[0].lastname
+                  <div class="lead-stat">$pointsdbwomen[0].points</div>
+                </li>
+                <li>
+                  <div class="lead-type">Touchdown Passes</div>
+                  $tdpsdbwomen[0].firstname $tdpsdbwomen[0].lastname
+                  <div class="lead-stat">$tdpsdbwomen[0].tdpass</div>
+                </li>
+                <li>
+                  <div class="lead-type">Interceptions</div>
+                  $interceptionsdbwomen[0].firstname $interceptionsdbwomen[0].lastname
+                  <div class="lead-stat">$interceptionsdbwomen[0].interception</div>
+                </li>
+                <li>
+                  <div class="lead-type">Sacks</div>
+                  $sacksdbwomen[0].firstname $sacksdbwomen[0].lastname
+                  <div class="lead-stat">$sacksdbwomen[0].sack</div>
+                </li>
+              </ul>
           </div>
         </div>
         <a class="section-link" href="/statistics">Sortable Stats &raquo;</a>
 		  </div>
       <div class="section-wrapper">
-        <div class="fb-page" data-width="500px" data-href="https://www.facebook.com/StJohnsTouchFootball/" data-tabs="timeline, messages, events" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/StJohnsTouchFootball/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/StJohnsTouchFootball/">St. John&#039;s Touch Football League</a></blockquote></div>
+        <div class="fb-page" data-width="500px" data-href="https://www.facebook.com/sjtfl/" data-tabs="timeline, messages, events" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/sjtfl/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/sjtfl/">St. John&#039;s Touch Football League</a></blockquote></div>
       </div>
       <div class="section-wrapper">
         <a class="twitter-timeline" data-height="500px" href="https://twitter.com/touchfootball">Tweets by touchfootball</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
