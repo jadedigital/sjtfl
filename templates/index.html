@@ -233,7 +233,7 @@ $for standings in sorted_stand_women_list:
 
         <div class="tab-content">
           <div id="mens_lead" class="tab-pane fade in active home-leaders">
-            $if pointsdbmen[0] is not None and tdpsdbmen[0] is not None and interceptionsdbmen[0] is not None and sacksdbmen[0] is not None:
+            $if len(pointsdbmen) > 0 and len(tdpsdbmen) > 0 and len(interceptionsdbmen) > 0 and len(sacksdbmen) > 0:
               <ul class="list">
                 <li>
                   <div class="lead-type">Points Scored</div>
@@ -259,7 +259,7 @@ $for standings in sorted_stand_women_list:
           </div>
 
           <div id="womens_lead" class="tab-pane fade in home-leaders">
-            $if pointsdbwomen[0] is not None and tdpsdbwomen[0] is not None and interceptionsdbwomen[0] is not None and sacksdbwomen[0] is not None:
+              $if len(pointsdbwomen) > 0 and len(tdpsdbwomen) > 0 and len(interceptionsdbwomen) > 0 and len(sacksdbwomen) > 0:
               <ul class="list">
                 <li>
                   <div class="lead-type">Points Scored</div>
