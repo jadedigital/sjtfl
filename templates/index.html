@@ -4,7 +4,6 @@ $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "home"
 
-$ pointsdbmenlead = pointsdbmen[0]
 $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
 $ scores_svg = collections.defaultdict(str)
@@ -237,23 +236,23 @@ $for standings in sorted_stand_women_list:
             <ul class="list">
               <li>
                 <div class="lead-type">Points Scored</div>
-                $pointsdbmenlead.firstname $pointsdbmenlead.lastname
-                <div class="lead-stat">$pointsdbmenlead.points</div>
+                $pointsdbmen[0].firstname $pointsdbmen[0].lastname
+                <div class="lead-stat">$pointsdbmen[0].points</div>
               </li>
               <li>
                 <div class="lead-type">Touchdown Passes</div>
-                pointsdbmenlead.firstname pointsdbmenlead.lastname
-                <div class="lead-stat">pointsdbmenlead.tdpass</div>
+                $tdpsdbmen[0].firstname $tdpsdbmen[0].lastname
+                <div class="lead-stat">$tdpsdbmen[0].tdpass</div>
               </li>
               <li>
                 <div class="lead-type">Interceptions</div>
-                pointsdbmenlead.firstname pointsdbmenlead.lastname
-                <div class="lead-stat">pointsdbmenlead.interception</div>
+                $interceptionsdbmen[0].firstname $interceptionsdbmen[0].lastname
+                <div class="lead-stat">$interceptionsdbmen[0].interception</div>
               </li>
               <li>
                 <div class="lead-type">Sacks</div>
-                pointsdbmenlead.firstname pointsdbmenlead.lastname
-                <div class="lead-stat">pointsdbmenlead.sack</div>
+                $sacksdbmen[0].firstname $sacksdbmen[0].lastname
+                <div class="lead-stat">$sacksdbmen[0].sack</div>
               </li>
             </ul>
           </div>
@@ -262,23 +261,23 @@ $for standings in sorted_stand_women_list:
             <ul class="list">
               <li>
                 <div class="lead-type">Points Scored</div>
-                pointsdbmenlead.firstname pointsdbmenlead.lastname
-                <div class="lead-stat">pointsdbmenlead.points</div>
+                $pointsdbwomen[0].firstname $pointsdbwomen[0].lastname
+                <div class="lead-stat">$pointsdbwomen[0].points</div>
               </li>
               <li>
                 <div class="lead-type">Touchdown Passes</div>
-                pointsdbmenlead.firstname pointsdbmenlead.lastname
-                <div class="lead-stat">pointsdbmenlead.tdpass</div>
+                $tdpsdbwomen[0].firstname $tdpsdbwomen[0].lastname
+                <div class="lead-stat">$tdpsdbwomen[0].tdpass</div>
               </li>
               <li>
                 <div class="lead-type">Interceptions</div>
-                pointsdbmenlead.firstname pointsdbmenlead.lastname
-                <div class="lead-stat">pointsdbmenlead.interception</div>
+                $interceptionsdbwomen[0].firstname $interceptionsdbwomen[0].lastname
+                <div class="lead-stat">$interceptionsdbwomen[0].interception</div>
               </li>
               <li>
                 <div class="lead-type">Sacks</div>
-                pointsdbmenlead.firstname pointsdbmenlead.lastname
-                <div class="lead-stat">pointsdbmenlead.sack</div>
+                $sacksdbwomen[0].firstname $sacksdbwomen[0].lastname
+                <div class="lead-stat">$sacksdbwomen[0].sack</div>
               </li>
             </ul>
           </div>
