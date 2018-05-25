@@ -3,7 +3,7 @@ $def with (teamsdb, scheduledb, newsdb, media, pointsdbmen, sacksdbmen, intercep
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
 $var active_nav = "home"
-
+$ print (pointsdbmen)
 $ indicator_class = collections.defaultdict(str)
 $ indicator_class[0] = "active"
 $ scores_svg = collections.defaultdict(str)
