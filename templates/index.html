@@ -78,36 +78,37 @@ $for standings in sorted_stand_women_list:
 			<!-- Close News -->
 		</div>
     <div class="col-md-2 col-pad col-md-pull-7">
-      <div id="home-scores" class="section-wrapper home">
-        <div class="home-header">Scores</div>
-        <div class="home-scores">
-          <ul>
-            $for scores in scoresdb:
-              <li>
-                <div class="home-scores-date">
-                  $scores.date.strftime('%a, %b %d')
-                </div>
-                <div class="home-scores-team">
-                  <img src="/static/img/$scores_svg[scores.team1]" class="scores-logo">
-                  $if abbr[scores.team1]:
-                    $abbr[scores.team1]
-                  $else:  
-                    $scores.team1[:4]
-                  <div class="lead-stat">$scores.team1score</div>
-                </div>
-                <div class="home-scores-team">
-                  <img src="/static/img/$scores_svg[scores.team2]" class="scores-logo">
-                  $if abbr[scores.team2]:
-                    $abbr[scores.team2]
-                  $else:  
-                    $scores.team2[:4]
-                  <div class="lead-stat">$scores.team2score</div>
-                </div>
-              </li>
-          </ul>
+      $if len(scoresdb) > 0:
+        <div id="home-scores" class="section-wrapper home">
+          <div class="home-header">Scores</div>
+          <div class="home-scores">
+            <ul>
+              $for scores in scoresdb:
+                <li>
+                  <div class="home-scores-date">
+                    $scores.date.strftime('%a, %b %d')
+                  </div>
+                  <div class="home-scores-team">
+                    <img src="/static/img/$scores_svg[scores.team1]" class="scores-logo">
+                    $if abbr[scores.team1]:
+                      $abbr[scores.team1]
+                    $else:  
+                      $scores.team1[:4]
+                    <div class="lead-stat">$scores.team1score</div>
+                  </div>
+                  <div class="home-scores-team">
+                    <img src="/static/img/$scores_svg[scores.team2]" class="scores-logo">
+                    $if abbr[scores.team2]:
+                      $abbr[scores.team2]
+                    $else:  
+                      $scores.team2[:4]
+                    <div class="lead-stat">$scores.team2score</div>
+                  </div>
+                </li>
+            </ul>
+          </div>
+          <a class="section-link" href="/scores?week=$scoresdb[0].week">All Scores &raquo;</a>
         </div>
-        <a class="section-link" href="/scores?week=$scoresdb[0].week">All Scores &raquo;</a>
-      </div>
       <div id="home-scores" class="section-wrapper home">
         <div class="home-header">Upcoming Games</div>
         <div class="home-scores">
