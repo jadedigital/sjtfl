@@ -72,12 +72,12 @@ $for team in teams_list:
                   <th class="text-center col-md-2">Lines Duty</th>
                 </tr>
                 <tr>
-                  <td class="text-right col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team1]?version=1.0.6" class="standings-logo"></span></td>
+                  <td class="text-right col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team1]?version=1.0.8" class="standings-logo"></span></td>
                   $if schedule.team1score is None:
                     <td class="text-center col-md-2"><strong>vs</strong></td>
                   $else:
                     <td class="text-center col-md-2"><strong>$schedule.team1score - $schedule.team2score</strong></td>
-                  <td class="text-left col-md-3"><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team2]?version=1.0.6" class="standings-logo"></span><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
+                  <td class="text-left col-md-3"><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team2]?version=1.0.8" class="standings-logo"></span><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
                   $if schedule.team1score is None and team_gp[schedule.team1] != 0 and team_gp[schedule.team2] != 0:
                     <td class="text-center col-md-2"><a class="stats-footer" href="/preview?gameid=$schedule.gameid">$schedule.time.strftime('%-I:%M %p')</a></td>
                   $else:
@@ -86,12 +86,12 @@ $for team in teams_list:
                 </tr>
           $else:
             <tr>
-              <td class="text-right col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team1]?version=1.0.6" class="standings-logo"></span></td>
+              <td class="text-right col-md-3"><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1</a></h5><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team1]?version=1.0.8" class="standings-logo"></span></td>
               $if schedule.team1score is None:
                 <td class="text-center col-md-2"><strong>vs</strong></td>
               $else:
                 <td class="text-center col-md-2"><strong>$schedule.team1score - $schedule.team2score</strong></td>
-              <td class="text-left col-md-3"><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team2]?version=1.0.6" class="standings-logo"></span><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
+              <td class="text-left col-md-3"><span class="schedule-logo-wrap"><img src="$team_svg[schedule.team2]?version=1.0.8" class="standings-logo"></span><h5><a class="team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2</a></h5></td>
               $if schedule.team1score is None and team_gp[schedule.team1] != 0 and team_gp[schedule.team2] != 0:
                 <td class="text-center col-md-2"><a class="stats-footer" href="/preview?gameid=$schedule.gameid">$schedule.time.strftime('%-I:%M %p')</a></td>
               $else:
