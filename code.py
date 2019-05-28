@@ -864,7 +864,7 @@ class seasonaddsubmit:
 				s = dict(id=season.id, current="f")
 				db.update('season', where="id = $id", vars=s, **s)
 		db.insert('season', year = i.year, current = i.current, playoff_teams_men = i.playoff_teams_men, playoff_teams_women = i.playoff_teams_women, bye_teams_men = i.bye_teams_men, bye_teams_women = i.bye_teams_women)
-		db.query("INSERT INTO standings (name, shortname, league, season, gamesplayed, wins, losses, ties, points, pointsfor, pointsagainst) SELECT name, shortname, league, $year, 0, 0, 0, 0, 0, 0, 0 FROM standings AS old WHERE old.season = $prev;", vars=i)
+		db.query("INSERT INTO standings (name, shortname, league, season, color, sponsor_url, team_abbr, gamesplayed, wins, losses, ties, points, pointsfor, pointsagainst) SELECT name, shortname, league, $year, color, sponsor_url, team_abbr, 0, 0, 0, 0, 0, 0, 0 FROM standings AS old WHERE old.season = $prev;", vars=i)
 		db.query("INSERT INTO players (firstname, lastname, teamname, teamid, season) SELECT p.firstname, p.lastname, p.teamname, t.id, $year FROM players p, standings t WHERE p.season = $prev AND p.teamname=t.shortname AND t.season = $year;", vars=i)
 		raise web.seeother('/admin/seasonselect')
 
