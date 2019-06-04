@@ -195,8 +195,8 @@ class addscore:
 		if game_data.teamlines is None:
 			game_data.teamlines = 0
 
-		i.team1id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team1 = st.shortname AND st.season= $ season;", vars=i)[0]
-		i.team2id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team2 = st.shortname AND st.season= $ season;", vars=i)[0]
+		i.team1id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team1 = st.shortname AND st.season= $season;", vars=i)[0]
+		i.team2id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team2 = st.shortname AND st.season= $season;", vars=i)[0]
 		
 		team1_score = db.query("SELECT sum (i.touchdowns * 6 + i.twoconvert * 2 + i.safety * 2 + i.oneconvert + i.rouge) AS Score FROM (SELECT s.gameid, s.playerid, p.teamid, s.touchdowns, s.oneconvert, s.twoconvert, s.rouge, s.safety FROM statistics AS s, players AS p WHERE s.playerid=p.playerid AND s.gameid = $gameid AND p.teamid = $team1id) AS i;", vars=i)[0]
 		team2_score = db.query("SELECT sum (i.touchdowns * 6 + i.twoconvert * 2 + i.safety * 2 + i.oneconvert + i.rouge) AS Score FROM (SELECT s.gameid, s.playerid, p.teamid, s.touchdowns, s.oneconvert, s.twoconvert, s.rouge, s.safety FROM statistics AS s, players AS p WHERE s.playerid=p.playerid AND s.gameid = $gameid AND p.teamid = $team2id) AS i;", vars=i)[0]
