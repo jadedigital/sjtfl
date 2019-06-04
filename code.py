@@ -180,7 +180,7 @@ class add:
 				db.update('statistics', where="gameid = $gameid AND playerid = $playerid", vars=p, **p)
 		#db.multiple_insert('statistics', values=l)
 		gameid=d.gameid[0]
-		raise web.seeother('/admin/addscore?gameid=$gameid')
+		raise web.seeother('/admin/addscore?gameid=' + gameid)
 
 class addscore:
 	def GET(self):
@@ -192,8 +192,8 @@ class addscore:
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		game_data = db.select('schedule', i, where="gameid = $gameid AND EXTRACT(YEAR FROM date) = $season")[0]
 
-		if game_data.teamlines is None:
-			game_data.teamlines = 0
+		if game_data.teamlines_points_lost is None:
+			game_data.teamlines_points_lost = 0
 
 		team1id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team1 = st.shortname AND st.season= $season;", vars=i)[0]
 		team2id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team2 = st.shortname AND st.season= $season;", vars=i)[0]
