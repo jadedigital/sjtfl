@@ -9,41 +9,43 @@ $var active_nav = "admin"
       <h1>Input Game Score <small>Game $gameid</small></h1>
     </div>
     <div class="row">
-    <div class="col-md-12">
-    	<div>
-		<h3>Score</h3>
-		<form class="form-horizontal" role="form" method="post" action="addscoresubmit">
-		<div class="form-group">
-			<div><input type="hidden" name="gameid" class="form-control" id="gameid" value="$game_data.gameid"></div>
-			<div><input type="hidden" name="team1" class="form-control" id="team1" value="$game_data.team1"></div>
-			<div><input type="hidden" name="team2" class="form-control" id="team2" value="$game_data.team2"></div>
-			<div><input type="hidden" name="teamlines" class="form-control" id="teamlines" value="$game_data.teamlines"></div>
-			<div><input type="hidden" name="gametype" class="form-control" id="gametype" value="$game_data.gametype"></div>
-			<label for="team1score" class="col-md-1 pull-left control-label">$game_data.team1</label>
-			<div class="col-md-2"><input type="number" name="team1score" class="form-control" id="team1score" placeholder="$team1_score" required></div>
-		</div>
-		<div class="form-group">
-			<label for="team2score" class="col-md-1 control-label">$game_data.team2</label>
-			<div class="col-md-2"><input type="number" name="team2score" class="form-control" id="team2score" placeholder="$team2_score" required></div>
-		</div>
-		<hr>
-		<h3>Lines Team Points Lost</h3>
-		<div class="form-group">
-			<label for="teamlines_points_lost" class="col-md-1 control-label">$game_data.teamlines</label>
-			<div class="col-md-2"><input type="number" name="teamlines_points_lost" class="form-control" id="teamlines_points_lost" placeholder="$game_data.teamlines_points_lost" required></div>
-		</div>
-		
-		<div class="form-group">
-            <h2>Is Score Correct? Or Re-Enter Stats?</h2>
-			<div class="col-md-offset-1 col-md-2">
-                <input type="submit" class="btn btn-success pull-right" value="Correct">
-                <a href="/admin/addgame?gameid=$gameid" class="btn btn-danger pull-right" role=""button>Re-Enter</a>
-			</div>
-			<div class="col-md-3"></div>
-		</div>
-        </form>
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div>
+            <h3>Score</h3>
+            <form class="form-horizontal" role="form" method="post" action="addscoresubmit">
+            <div class="form-group">
+                <div><input type="hidden" name="gameid" class="form-control" id="gameid" value="$game_data.gameid"></div>
+                <div><input type="hidden" name="team1" class="form-control" id="team1" value="$game_data.team1"></div>
+                <div><input type="hidden" name="team2" class="form-control" id="team2" value="$game_data.team2"></div>
+                <div><input type="hidden" name="teamlines" class="form-control" id="teamlines" value="$game_data.teamlines"></div>
+                <div><input type="hidden" name="gametype" class="form-control" id="gametype" value="$game_data.gametype"></div>
+                <label for="team1score" class="col-md-1 pull-left control-label">$game_data.team1</label>
+                <div class="col-md-2"><input type="number" name="team1score" class="form-control" id="team1score" required>$team1_score</div>
+            </div>
+            <div class="form-group">
+                <label for="team2score" class="col-md-1 control-label">$game_data.team2</label>
+                <div class="col-md-2"><input type="number" name="team2score" class="form-control" id="team2score" required>$team2_score</div>
+            </div>
+            <hr>
+            <h3>Lines Team Points Lost</h3>
+            <div class="form-group">
+                <label for="teamlines_points_lost" class="col-md-1 control-label">$game_data.teamlines</label>
+                <div class="col-md-2"><input type="number" name="teamlines_points_lost" class="form-control" id="teamlines_points_lost" required>$game_data.teamlines_points_lost</div>
+            </div>
+            
+            <div class="form-group">
+                <h5>Is Score Correct? Or Re-Enter Stats?</h5>
+                <div class="col-md-offset-1 col-md-2">
+                    <input type="submit" class="btn btn-success pull-right" value="Correct">
+                    <a href="/admin/addgame?gameid=$gameid" class="btn btn-danger pull-right" role=""button>Re-Enter</a>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
+            </form>
+            </div>
         </div>
-    </div>
+        <div class="col-md-4"></div>
     </div>
 </div>
 
