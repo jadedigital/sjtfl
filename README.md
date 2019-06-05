@@ -18,6 +18,7 @@ Create new Nginx config file:
     sudo nano /etc/nginx/sites-available/sjtfl
 
 Paste the following in the new config file:
+    
     server {
         listen 80;
         server_name [URL].com www.[URL].com;
