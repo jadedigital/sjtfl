@@ -9,7 +9,43 @@
     
 Configure Nginx
 
-# Install and Configure Postgresql
+    sudo service nginx start
+    sudo nano /etc/nginx/sites-available/myproject
+
+
+    server {
+        listen 80;
+        server_name [URL].com www.[URL].com;
+        return 301 https://$server_name$request_uri;
+    }
+
+    server {
+
+        # SSL configuration
+
+        listen 443 ssl http2 default_server;
+        include snippets/ssl-[URL].com.conf;
+        include snippets/ssl-params.conf;
+
+        location /static/ {
+            root [VIRTUALENV DIR]/sjtfl/webpy;
+            if (-f $request_filename) {
+                rewrite ^/static/(.*)$ /static/$1 break;
+            }
+        }
+
+        location / {
+            include proxy_params;
+            proxy_pass http://unix:[VIRTUALENV DIR]/sjtfl.sock;
+        }
+
+        location /.well-known {
+            alias [VIRTUALENV DIR]/sjtfl/webpy/.well-known;
+        }
+
+    }
+
+# Install and Configure PostgreSQL
 
 Install dependencies for PostgreSQL to work with web.py with this command:
 
@@ -19,7 +55,7 @@ Next install PostgreSQL:
 
     sudo apt-get install postgresql postgresql-contrib
 
-Configure postgresql
+Configure postgreSQL
 
     sudo su - postgres
     createdb [DBNAME]
@@ -34,6 +70,8 @@ Grant user privileges
     GRANT ALL PRIVILEGES ON DATABASE [DBNAME] TO [USERNAME];
     
 Exit psql with `\q`
+
+Import database backup if possible
 
 # Install and Configure Virtualenv
     
@@ -70,6 +108,8 @@ And install dependencies
 
 This will install `web.py`, `psycopg2`, `gunicorn`, `bcrypt`, `requests`, and `python-dotenv`.
 
+    deactivate
+
 Clone this repo inside the venv.
 
 Creat a .env file in this cloned repo. Fill in values.
@@ -80,6 +120,9 @@ Creat a .env file in this cloned repo. Fill in values.
     DATA_PATH='[DATAPATH]'
     INSTAGRAM_ACCESS_TOKEN='[ACCESSTOKEN]'
 
-Run site using 
+# Run Site 
 
-    supervisorctl start sjtfl
+    cd /etc/nginx/sites-enabled
+    sudo ln -s ../sites-available/myproject
+    sudo service nginx restart
+    sudo supervisorctl start sjtfl
