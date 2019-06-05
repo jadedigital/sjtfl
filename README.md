@@ -10,9 +10,12 @@
 Configure Nginx
 
     sudo service nginx start
-    sudo nano /etc/nginx/sites-available/myproject
 
+Create new Nginx config file:
+    
+    sudo nano /etc/nginx/sites-available/sjtfl
 
+Paste the following in the new config file:
     server {
         listen 80;
         server_name [URL].com www.[URL].com;
@@ -28,7 +31,7 @@ Configure Nginx
         include snippets/ssl-params.conf;
 
         location /static/ {
-            root [VIRTUALENV DIR]/sjtfl/webpy;
+            root [VIRTUALENV DIR]/sjtfl/sjtfl;
             if (-f $request_filename) {
                 rewrite ^/static/(.*)$ /static/$1 break;
             }
@@ -40,7 +43,7 @@ Configure Nginx
         }
 
         location /.well-known {
-            alias [VIRTUALENV DIR]/sjtfl/webpy/.well-known;
+            alias [VIRTUALENV DIR]/sjtfl/sjtfl/.well-known;
         }
 
     }
@@ -123,6 +126,6 @@ Creat a .env file in this cloned repo. Fill in values.
 # Run Site 
 
     cd /etc/nginx/sites-enabled
-    sudo ln -s ../sites-available/myproject
+    sudo ln -s ../sites-available/sjtfl
     sudo service nginx restart
     sudo supervisorctl start sjtfl
