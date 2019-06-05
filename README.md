@@ -1,3 +1,5 @@
+How to get a fresh site up and running. Replace variables inside [] with your actual values.
+
 # Update Packages
 
     sudo apt-get update
@@ -88,7 +90,7 @@ Create a virtualenv named `sjtfl`
 
     pip install supervisor
     
-Create the supervisord config file named `sjtfl.conf` and reference it from the supervisord.conf file. Replace variables inside [] with your actual values.
+Create the supervisord config file named `sjtfl.conf` and reference it from the supervisord.conf file.
 
     [program:sjtfl]
     command = [VIRTUALENV DIR]/sjtfl/bin/python [VIRTUALENV DIR]/sjtfl/bin/gunicorn --workers 4 --bind unix:[VIRTUALENV DIR]/sjtfl.sock code:wsgiapp
