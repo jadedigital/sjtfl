@@ -9,25 +9,7 @@ $var active_nav = "admin"
 			"scrollX": true,
 			"pageLength": 50,
 			"order": [[ 1, 'asc' ]],
-			"dom": '<"addpl-btn">frtip',
-			initComplete: function () {
-				this.api().columns().every( function () {
-					var column = this;
-					var select = $$('<select><option value=""></option></select>')
-						.appendTo( $$(column.footer()).empty() )
-						.on( 'change', function () {
-							var val = $$.fn.dataTable.util.escapeRegex(
-								$$(this).val()
-							)
-							column
-								.search( val ? '^'+val+'$$' : '', true, false )
-								.draw()
-						})
-					column.data().unique().sort().each( function ( d, j ) {
-							select.append( '<option value="'+d+'">'+d+'</option>' )
-					})
-				})
-			}
+			"dom": '<"addpl-btn">frtip'
 		 })
 		$$("div.addpl-btn").html('<a class="btn btn-success" href="/admin/playeradd" role="button">Add Player &raquo;</a>');
 	 } );
