@@ -3,9 +3,6 @@ A successful Git branching model
 
 > 👉 From this site: "[A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)"
 
-![](https://nvie.com/img/nvie-small@2x.jpg)By [Vincent Driessen](https://nvie.com/about/)\
-on Tuesday, January 05, 2010
-
 In this post I present the development model that I've introduced for some of my projects (both at work and private) about a year ago, and which has turned out to be very successful. I've been meaning to write about it for a while now, but I've never really found the time to do so thoroughly, until now. I won't talk about any of the projects' details, merely about the branching strategy and release management.
 
 ![](https://nvie.com/img/git-model@2x.png)
