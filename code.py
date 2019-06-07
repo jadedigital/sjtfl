@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#version 1.2
 
 import web
 import time
@@ -24,6 +25,7 @@ urls = (
 	'/logout', 'logout',
 	'/admin/add', 'add',
 	'/admin/addscore', 'addscore',
+	'/admin/addscoresubmit', 'addscoresubmit',
 	'/standings', 'standings',
 	'/scores', 'scores',
 	'/statistics', 'statistics',
@@ -178,9 +180,38 @@ class add:
 			else:
 				db.update('statistics', where="gameid = $gameid AND playerid = $playerid", vars=p, **p)
 		#db.multiple_insert('statistics', values=l)
-		raise web.seeother('/admin/gameselect')
+		gameid=d.gameid[0]
+		raise web.seeother('/admin/addscore?gameid=' + gameid)
 
 class addscore:
+	def GET(self):
+		i = web.input(gameid=None)
+		season_current = db.select('season', where="current = 't'")
+		for season in season_current:
+			i.season = season.year
+		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
+		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
+		game_data = db.select('schedule', i, where="gameid = $gameid AND EXTRACT(YEAR FROM date) = $season")[0]
+
+		if game_data.teamlines_points_lost is None:
+			game_data.teamlines_points_lost = 0
+
+		team1id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team1 = st.shortname AND st.season= $season;", vars=i)[0]
+		team2id=db.query("select st.id FROM schedule AS sc, standings AS st where gameid = $gameid AND sc.team2 = st.shortname AND st.season= $season;", vars=i)[0]
+		
+		i.team1id = team1id.id
+		i.team2id = team2id.id
+
+		team1_score = db.query("SELECT sum (i.touchdowns * 6 + i.twoconvert * 2 + i.safety * 2 + i.oneconvert + i.rouge) AS Score FROM (SELECT s.gameid, s.playerid, p.teamid, s.touchdowns, s.oneconvert, s.twoconvert, s.rouge, s.safety FROM statistics AS s, players AS p WHERE s.playerid=p.playerid AND s.gameid = $gameid AND p.teamid = $team1id) AS i;", vars=i)[0]
+		team2_score = db.query("SELECT sum (i.touchdowns * 6 + i.twoconvert * 2 + i.safety * 2 + i.oneconvert + i.rouge) AS Score FROM (SELECT s.gameid, s.playerid, p.teamid, s.touchdowns, s.oneconvert, s.twoconvert, s.rouge, s.safety FROM statistics AS s, players AS p WHERE s.playerid=p.playerid AND s.gameid = $gameid AND p.teamid = $team2id) AS i;", vars=i)[0]
+
+		render = create_render(session.privilege)
+		if session.logged == True:
+			return render.addscore(i.gameid, teamsdb, scheduledb, game_data, team1_score.score, team2_score.score)
+		else:
+			return "You do not have permission to access this page"
+
+class addscoresubmit:
 	def POST(self):
 		i = web.input()
 		db.update('schedule', where="gameid = $gameid", vars=i, **i)

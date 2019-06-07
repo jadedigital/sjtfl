@@ -188,6 +188,12 @@ h1 .btn {
     float: left;
 }
 
+.score-btn {
+  box-shadow: none;
+  margin-left: 6px;
+  border: 1px solid #1253A4;
+}
+
 .form-editpl {
   max-width: 330px;
   padding: 10px 15px 0px;
