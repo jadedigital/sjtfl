@@ -13,11 +13,11 @@ $var active_nav = "admin"
 			initComplete: function () {
 				this.api().columns().every( function () {
 					var column = this;
-					var select = $('<select><option value=""></option></select>')
-						.appendTo( $(column.footer()).empty() )
+					var select = $$('<select><option value=""></option></select>')
+						.appendTo( $$(column.footer()).empty() )
 						.on( 'change', function () {
 							var val = $.fn.dataTable.util.escapeRegex(
-								$(this).val()
+								$$(this).val()
 							)
 							column
 								.search( val ? '^'+val+'$' : '', true, false )
