@@ -126,6 +126,10 @@ Creat a .env file in this cloned repo. Fill in values.
     DATA_PATH='[DATAPATH]'
     INSTAGRAM_ACCESS_TOKEN='[ACCESSTOKEN]'
 
+# Password Management
+
+Todo: implement password management on admin site as per https://blog.ruanbekker.com/blog/2018/07/04/salt-and-hash-example-using-python-with-bcrypt-on-alpine/
+
 # Run Site 
 
     cd /etc/nginx/sites-enabled
