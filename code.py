@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#version 1.2
+#version 1.2.1
 
 import web
 import time
@@ -143,9 +143,9 @@ class index:
 		
 		instagram_token = os.environ.get('INSTAGRAM_ACCESS_TOKEN')
 		payload = {'access_token': instagram_token, 'count': 5}
-		media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
+		#media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb, media.json(), pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year, upcoming)
+		return render.index(teamsdb, scheduledb, newsdb, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year, upcoming)
 
 class login:
 	def POST(self):
