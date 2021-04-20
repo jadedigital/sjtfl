@@ -9,6 +9,7 @@ import math
 import os
 import bcrypt
 import requests
+import dateutil.parser
 from os.path import join, dirname, isfile
 from dotenv import load_dotenv
 
@@ -90,7 +91,7 @@ def create_render(privilege):
 		#elif privilege == 2:
 			#render = web.template.render('templates/', base='base', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
 	#else:
-	render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session, 'sort_standings':sort_standings, 'multikeysort':multikeysort })
+	render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'dateutil':dateutil.parser, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session, 'sort_standings':sort_standings, 'multikeysort':multikeysort })
 	return render
 
 def notfound():
