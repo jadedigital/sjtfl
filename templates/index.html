@@ -49,7 +49,7 @@ $for standings in sorted_stand_women_list:
                 $elif data['media_type'] == 'IMAGE':
                   <img class="highlights-img" src="$data['media_url']" width="60%">
                 <div class="home-header highlights">$data['caption']
-                  <div class="highlights-date">$dateutil.parse(data['timestamp']).strftime("%A, %B %d, %Y")</div>
+                  <div class="highlights-date">$dateutil.parse(data['timestamp']).strftime('%A, %B %d, %Y') - $dateutil.parse(data['timestamp']).strftime('%I:%M %p')</div>
                 </div>
               </div>
         </div>
