@@ -142,10 +142,10 @@ class index:
 		tdpsdbwomen = db.query("SELECT p.playerid, p.teamid, p.firstname, p.lastname, s.tdpass FROM (SELECT m.playerid, sum(m.tdpass) AS tdpass FROM (SELECT * FROM statistics stat, schedule sched WHERE stat.gameid = sched.gameid AND (EXTRACT(YEAR FROM sched.date))=$season AND sched.gametype='reg') m GROUP BY playerid) s, players p, standings t WHERE p.playerid = s.playerid AND p.teamid = t.id AND t.league = 'Womens' AND p.season = $season AND t.season = $season ORDER BY tdpass DESC, lastname LIMIT 1;", vars=i).list()
 		
 		instagram_token = os.environ.get('INSTAGRAM_ACCESS_TOKEN')
-		payload = {'access_token': instagram_token, 'count': 5}
-		#media = requests.get('https://api.instagram.com/v1/users/self/media/recent/', params=payload)
+		payload = {'access_token': instagram_token, 'fields': 'id,media_type,media_url,username,timestamp,thumbnail_url,permalink,caption'}
+		media = requests.get('https://graph.instagram.com/me/media', params=payload)
 		render = create_render(session.privilege)
-		return render.index(teamsdb, scheduledb, newsdb, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year, upcoming)
+		return render.index(teamsdb, scheduledb, newsdb, media.json(), pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year, upcoming)
 
 class login:
 	def POST(self):

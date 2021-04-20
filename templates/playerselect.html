@@ -8,8 +8,9 @@ $var active_nav = "admin"
 		$$('#playerselect').dataTable( {
 			"scrollX": true,
 			"pageLength": 50,
-			 "dom": '<"addpl-btn">frtip'
-		 } );
+			"order": [[ 1, 'asc' ]],
+			"dom": '<"addpl-btn">frtip'
+		 })
 		$$("div.addpl-btn").html('<a class="btn btn-success" href="/admin/playeradd" role="button">Add Player &raquo;</a>');
 	 } );
 </script>
