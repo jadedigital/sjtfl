@@ -1,4 +1,4 @@
-$def with (teamsdb, scheduledb, newsdb, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current, upcoming)
+$def with (teamsdb, scheduledb, newsdb, media, pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current, upcoming)
 
 $var scheduled = scheduledb.list()
 $var teamsd = teamsdb.list()
@@ -36,6 +36,35 @@ $for standings in sorted_stand_women_list:
 
 		<div class="col-md-7 col-pad col-md-push-2">
       <!-- Carousel -->
+      <div id="carousel-highlights" class="section-wrapper home carousel slide" data-ride="carousel" data-interval="false">
+        <!-- Slides -->
+        <div class="carousel-inner" role="listbox">
+          $for data in media['data']:
+            $if loop.index0 < 5:
+              <div class="home item $indicator_class[loop.index0]">
+                $if data['media_type'] == 'VIDEO':
+                  <video width="60%" poster="$data['thumbnail_url']" controls>
+                    <source src="$data['media_url']" type="video/mp4">
+                  </video>
+                $elif data['media_type'] == 'IMAGE':
+                  <img class="highlights-img" src="$data['media_type']" width="60%">
+                <div class="home-header highlights">$data['caption']
+                  <div class="highlights-date">$time.strftime("%A, %B %d, %Y", time.localtime(int(data['timestamp'])))</div>
+                </div>
+              </div>
+        </div>
+        <!-- Close Slides -->
+        <div class="carousel-links"> <div class="home-header links">Highlights and Media</div>
+          <ul>
+            $for data in media['data']:
+              $if loop.index0 < 5:
+                <div data-target="#carousel-highlights" data-slide-to="$loop.index0" class="link-wrapper $indicator_class[loop.index0]">
+                  <li>$data['caption']</li>
+                </div>
+          </ul>
+        </div>
+        <a class="section-link highlights" href="https://instagram.com/sjtfl/">More Highlights <i class="fa fa-instagram"></i></a>
+      </div>
       <!-- Close Carousel -->
 			<!-- News -->
 			<div class="section-wrapper home">
