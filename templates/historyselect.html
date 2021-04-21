@@ -5,8 +5,9 @@ $var active_nav = "admin"
 
 <script type="text/javascript" language="javascript" class="init">
 	$$(function() {
-		$$('#gameselect').dataTable( {
-			"pageLength": 10,
+		$$('#historyselect').dataTable( {
+			"pageLength": 30,
+      "order": [[ 0, 'desc' ]],
 			"dom": '<"btns">frtip'
 		 } );
 		$$("div.btns").html('<a class="btn btn-success" href="/admin/historyadd" role="button">Add Champions &raquo;</a>');
@@ -18,7 +19,7 @@ $var active_nav = "admin"
   </div>
   <div class="row">
     <div class="col-md-12">	
-      <table id="gameselect" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
+      <table id="historyselect" class="table table-striped table-bordered table-hover table-condensed" cellspacing="0" width="100%">
         <thead>
           <tr>
             <th class="text-center">Year</th>
