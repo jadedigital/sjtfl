@@ -943,7 +943,7 @@ class historyselect:
 
 		render = create_render(session.privilege)
 		if session.logged == True:
-			return render.seasonselect(scheduledb, teamsdb, championsdb)
+			return render.historyselect(scheduledb, teamsdb, championsdb)
 		else:
 			return "You do not have permission to access this page"
 		
