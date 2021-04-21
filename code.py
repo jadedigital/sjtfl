@@ -36,6 +36,7 @@ urls = (
 	'/preview', 'preview',
 	'/game', 'game',
 	'/history', 'history',
+	'/signup', 'signup',
 	'/admin/addgame', 'addgame',
 	'/admin/gameselect', 'gameselect',
 	'/admin/teamselect', 'teamselect',
@@ -147,6 +148,16 @@ class index:
 		media = requests.get('https://graph.instagram.com/me/media', params=payload)
 		render = create_render(session.privilege)
 		return render.index(teamsdb, scheduledb, newsdb, media.json(), pointsdbmen, sacksdbmen, interceptionsdbmen, tdpsdbmen, pointsdbwomen, sacksdbwomen, interceptionsdbwomen, tdpsdbwomen, scoresdb, teams_list, season_current.year, upcoming)
+
+class signup:
+	def GET(self):
+		season_current = db.select('season', where="current = 't'")[0]
+		i=dict(season = season_current.year)
+		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
+		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
+		
+		render = create_render(session.privilege)
+		return render.signup(teamsdb, scheduledb)
 
 class login:
 	def POST(self):
