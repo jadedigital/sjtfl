@@ -964,7 +964,7 @@ class historyadd:
 class historyaddsubmit:
 	def POST(self):
 		i = web.input()
-		db.insert('champions', year = i.year, mens = i.champions_men, womens = i.champions_women)
+		db.insert('champions', year = i.year, mens = i.champion_men, womens = i.champion_women)
 		raise web.seeother('/admin/historyselect')
 		
 		
