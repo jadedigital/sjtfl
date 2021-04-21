@@ -9,11 +9,11 @@ $var active_nav = "admin"
 			placement: "right",
 			trigger: "hover"
 		});
-		$$('input[type=text][name=champion_men]').tooltip({ /*or use any other selector, class, ID*/
+		$$('input[type=text][name=mens]').tooltip({ /*or use any other selector, class, ID*/
 			placement: "right",
 			trigger: "hover"
 		});
-		$$('input[type=text][name=champion_women]').tooltip({ /*or use any other selector, class, ID*/
+		$$('input[type=text][name=womens]').tooltip({ /*or use any other selector, class, ID*/
 			placement: "right",
 			trigger: "hover"
 		});
@@ -28,8 +28,8 @@ $var active_nav = "admin"
     <form class="form-editpl" role="form" method="post" action="historyeditsubmit">
       <input type="hidden" name="id" class="form-control" id="id" value="$champion_data.id">
       <input data-toggle="tooltip" title="Year" type="text" name="year" class="form-control input-tp" id="year" value="$champion_data.year" required>
-      <input data-toggle="tooltip" title="Men's Champion" type="text" name="champion_men" class="form-control input-md" id="champion_men" value="$champion_data.mens" required>
-      <input data-toggle="tooltip" title="Women's Champion" type="text" name="champion_women" class="form-control input-md" id="champion_women" value="$champion_data.womens" required>
+      <input data-toggle="tooltip" title="Men's Champion" type="text" name="mens" class="form-control input-md" id="mens" value="$champion_data.mens" required>
+      <input data-toggle="tooltip" title="Women's Champion" type="text" name="womens" class="form-control input-md" id="womens" value="$champion_data.womens" required>
       <button class="btn btn-lg btn-success btn-block" type="submit" style="margin-top: 20px;">Edit Champions</button>
     </form>
     <hr>
