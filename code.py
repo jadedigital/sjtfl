@@ -72,6 +72,8 @@ urls = (
 	'/admin/seasonaddsubmit', 'seasonaddsubmit',
 	'/admin/seasoncurrentsubmit', 'seasoncurrentsubmit',
 	'/admin/historyselect', 'historyselect',
+	'/admin/historyadd', 'historyadd',
+	'/admin/historyaddsubmit', 'historyaddsubmit',
 	'/maxflowsubmit', 'maxflowsubmit',
 )
 web.config.session_parameters['cookie_path'] = '/'
@@ -934,9 +936,8 @@ class seasoncurrentsubmit:
 
 class historyselect:
 	def GET(self):
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i = dict(season=season.year)
+		season_current = db.select('season', where="current = 't'")[0]
+		i = dict(season=season_current.year)
 		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		championsdb = db.select('champions', order="year DESC")
@@ -946,6 +947,25 @@ class historyselect:
 			return render.historyselect(scheduledb, teamsdb, championsdb)
 		else:
 			return "You do not have permission to access this page"
+
+class historyadd:
+	def GET(self):
+		season_current = db.select('season', where="current = 't'")[0]
+		j = dict(season=season_current.year)
+		teamsdb = db.select('standings', j, order="league, shortname", where="season=$season")
+		scheduledb = db.select('schedule', j, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
+
+		render = create_render(session.privilege)
+		if session.logged == True:
+			return render.historyadd(scheduledb, teamsdb)
+		else:
+			return "You do not have permission to access this page"
+
+class historyaddsubmit:
+	def POST(self):
+		i = web.input()
+		db.insert('champions', year = i.year, mens = i.champions_men, womens = i.champions_women)
+		raise web.seeother('/admin/historyselect')
 		
 		
 class Edge(object):
