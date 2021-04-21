@@ -71,6 +71,7 @@ urls = (
 	'/admin/seasoneditsubmit', 'seasoneditsubmit',
 	'/admin/seasonaddsubmit', 'seasonaddsubmit',
 	'/admin/seasoncurrentsubmit', 'seasoncurrentsubmit',
+	'/admin/historyselect', 'historyselect',
 	'/maxflowsubmit', 'maxflowsubmit',
 )
 web.config.session_parameters['cookie_path'] = '/'
@@ -930,6 +931,21 @@ class seasoncurrentsubmit:
 			s = dict(id=season.id, current="t")
 			db.update('season', where="id = $id", vars=s, **s)
 		raise web.seeother('/admin/seasonselect')
+
+class historyselect:
+	def GET(self):
+		season_current = db.select('season', where="current = 't'")
+		for season in season_current:
+			i = dict(season=season.year)
+		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
+		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
+		championsdb = db.select('champions', order="year DESC")
+
+		render = create_render(session.privilege)
+		if session.logged == True:
+			return render.seasonselect(scheduledb, teamsdb, championsdb)
+		else:
+			return "You do not have permission to access this page"
 		
 		
 class Edge(object):
