@@ -74,6 +74,8 @@ urls = (
 	'/admin/historyselect', 'historyselect',
 	'/admin/historyadd', 'historyadd',
 	'/admin/historyaddsubmit', 'historyaddsubmit',
+	'/admin/historyedit', 'historyedit',
+	'/admin/historyeditsubmit', 'historyeditsubmit',
 	'/maxflowsubmit', 'maxflowsubmit',
 )
 web.config.session_parameters['cookie_path'] = '/'
@@ -965,6 +967,26 @@ class historyaddsubmit:
 	def POST(self):
 		i = web.input()
 		db.insert('champions', year = i.year, mens = i.champion_men, womens = i.champion_women)
+		raise web.seeother('/admin/historyselect')
+
+class historyedit:
+	def GET(self):
+		i = web.input(season=None)
+		season_current = db.select('season', where="current = 't'")[0]
+		j = dict(season=season_current.year)
+		teamsdb = db.select('standings', j, order="league, shortname", where="season=$season")
+		scheduledb = db.select('schedule', j, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
+		champion_data = db.select('champions', i, where="year = $season")[0]
+		render = create_render(session.privilege)
+		if session.logged == True:
+			return render.historyedit(scheduledb, teamsdb, champion_data)
+		else:
+			return "You do not have permission to access this page"
+
+class historyeditsubmit:
+	def POST(self):
+		i = web.input()
+		db.update('champions', where="id = $id", vars=i, **i)
 		raise web.seeother('/admin/historyselect')
 		
 		
