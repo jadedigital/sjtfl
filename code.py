@@ -1024,11 +1024,11 @@ class useradd:
 class useraddsubmit:
 	def POST(self):
 		i = web.input()
-		
-		salt = bcrypt.gensalt()
-		hashedpw = bcrypt.hashpw(i.password.encode('utf8'), salt)
-		db.insert('users', username = i.username, password = hashedpw, email = i.email, privilege = i.privilege)
-		raise web.seeother('/admin/userselect')
+		if session.logged == True and session.privilege == 2:
+			salt = bcrypt.gensalt()
+			hashedpw = bcrypt.hashpw(i.password.encode('utf8'), salt)
+			db.insert('users', username = i.username, password = hashedpw, email = i.email, privilege = i.privilege)
+			raise web.seeother('/admin/userselect')
 
 
 class userdeletesubmit:
