@@ -876,7 +876,7 @@ class seasonselect:
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		seasondb = db.select('season', order="year DESC")
 		render = create_render(session.privilege)
-		if session.logged == True:
+		if session.logged == True and session.privilege == '1':
 			return render.seasonselect(scheduledb, teamsdb, seasondb)
 		else:
 			return "You do not have permission to access this page"
@@ -890,7 +890,7 @@ class seasonedit:
 		scheduledb = db.select('schedule', j, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		season_data = db.select('season', i, where="year = $season")[0]
 		render = create_render(session.privilege)
-		if session.logged == True:
+		if session.logged == True and session.privilege == '1':
 			return render.seasonedit(scheduledb, teamsdb, season_data)
 		else:
 			return "You do not have permission to access this page"
@@ -903,7 +903,7 @@ class seasonadd:
 		scheduledb = db.select('schedule', j, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 		season_list = db.select('season', order="year DESC")
 		render = create_render(session.privilege)
-		if session.logged == True:
+		if session.logged == True and session.privilege == '1':
 			return render.seasonadd(scheduledb, teamsdb, season_list)
 		else:
 			return "You do not have permission to access this page"
@@ -1003,7 +1003,7 @@ class userselect:
 		userdb = db.select('users')
 
 		render = create_render(session.privilege)
-		if session.logged == True and session.privilege == '2':
+		if session.logged == True and session.privilege == '1':
 			return render.userselect(scheduledb, teamsdb, userdb)
 		else:
 			return "You do not have permission to access this page"
@@ -1016,7 +1016,7 @@ class useradd:
 		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
 
 		render = create_render(session.privilege)
-		if session.logged == True:
+		if session.logged == True and session.privilege == '1':
 			return render.useradd(scheduledb, teamsdb)
 		else:
 			return "You do not have permission to access this page"

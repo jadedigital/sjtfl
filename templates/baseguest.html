@@ -154,9 +154,9 @@ $ navbar_class[page.active_nav] = "active"
                   <li><a href="/admin/teamselect">Team Admin</a></li>
                   <li><a href="/admin/scheduleselect">Schedule Admin</a></li>
                   <li><a href="/admin/newsselect">News Admin</a></li>
-                  <li><a href="/admin/seasonselect">Season Admin</a></li>
                   <li><a href="/admin/historyselect">History Admin</a></li>
-                  $if context.privilege == "2":
+                  $if context.privilege == "1":
+                    <li><a href="/admin/seasonselect">Season Admin</a></li>
                     <li><a href="/admin/userselect">User Admin</a></li>
                 </ul>
               </li>
