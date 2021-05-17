@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 #version 1.3
+imageCache = 1.4
 
 import web
 import time
@@ -97,7 +98,7 @@ def create_render(privilege):
 		#elif privilege == 2:
 			#render = web.template.render('templates/', base='base', globals={ 'str': str, 'int':int, 'time':time, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session})
 	#else:
-	render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'dateutil':dateutil.parser, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session, 'sort_standings':sort_standings, 'multikeysort':multikeysort })
+	render = web.template.render('templates/', base='baseguest', globals={ 'str': str, 'int':int, 'time':time, 'dateutil':dateutil.parser, 'collections':collections, 'unicode':unicode, 'operator':operator, 'sorted':sorted, 'round':round, 'context': session, 'sort_standings':sort_standings, 'multikeysort':multikeysort, 'imageCache':imageCache })
 	return render
 
 def notfound():
