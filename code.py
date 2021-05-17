@@ -1029,6 +1029,8 @@ class useraddsubmit:
 			hashedpw = bcrypt.hashpw(i.password.encode('utf8'), salt)
 			db.insert('users', username = i.username, password = hashedpw, email = i.email, privilege = i.privilege)
 			raise web.seeother('/admin/userselect')
+		else:
+			return "You do not have permission to make this request"
 
 
 class userdeletesubmit:
