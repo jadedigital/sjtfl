@@ -171,10 +171,10 @@ $ week_dict[3] = "Championships"
 			<table class="table text-center scores">
 				<tr>
 					$if schedule.team1score > schedule.team2score:
-						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team1]?version=1.1" class="standings-logo"></span><h4 class="scores-team"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]"><strong>$schedule.team1 </strong></a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
+						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team1]?version=$imageCache" class="standings-logo"></span><h4 class="scores-team"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]"><strong>$schedule.team1 </strong></a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
 						<td class="col-md-1"><h4><strong>$schedule.team1score</strong></h4></td>
 					$else:
-						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team1]?version=1.1" class="standings-logo"></span><h4 class="scores-team"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1 </a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
+						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team1]?version=$imageCache" class="standings-logo"></span><h4 class="scores-team"><a class="team_link" href="/teams?teamid=$team_id[schedule.team1]">$schedule.team1 </a><small class="team_record">$team_record[schedule.team1]</small></h4></td>
 						<td class="col-md-1"><h4>$schedule.team1score</h4></td>
 					$if schedule.team1score is not None:
 						<td class="col-md-1 vert-align" rowspan="2">$schedule.time.strftime('%-I:%M %p')<br><strong>Final</strong></td>
@@ -183,10 +183,10 @@ $ week_dict[3] = "Championships"
 				</tr>
 				<tr>
 					$if schedule.team2score > schedule.team1score:
-						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team2]?version=1.1" class="standings-logo"></span><h4 class="scores-team"><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]"><strong>$schedule.team2 </strong></a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
+						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team2]?version=$imageCache" class="standings-logo"></span><h4 class="scores-team"><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]"><strong>$schedule.team2 </strong></a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
 						<td class="col-md-1"><h4><strong>$schedule.team2score</strong></h4></td>
 					$else:
-						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team2]?version=1.1" class="standings-logo"></span><h4 class="scores-team"><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2 </a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
+						<td class="col-md-2 text-left"><span class="standings-logo-wrap"><img src="$team_svg[schedule.team2]?version=$imageCache" class="standings-logo"></span><h4 class="scores-team"><a class = "team_link" href="/teams?teamid=$team_id[schedule.team2]">$schedule.team2 </a><small class="team_record">$team_record[schedule.team2]</small></h4></td>
 						<td class="col-md-1"><h4>$schedule.team2score</h4></td>
 				</tr>
 			</table>
