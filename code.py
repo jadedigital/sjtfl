@@ -1003,7 +1003,7 @@ class userselect:
 		userdb = db.select('users')
 
 		render = create_render(session.privilege)
-		if session.logged == True:
+		if session.logged == True and session.privilege == '2':
 			return render.userselect(scheduledb, teamsdb, userdb)
 		else:
 			return "You do not have permission to access this page"
