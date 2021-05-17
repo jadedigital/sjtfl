@@ -1034,11 +1034,8 @@ class useraddsubmit:
 class userdeletesubmit:
 	def POST(self):
 		i = web.input()
-		if i.id == 1
-			return "Can't delete superuser"
-		else:
-			db.delete('users', where="id = $id", vars=i)
-			raise web.seeother('/admin/userselect')
+		db.delete('users', where="id = $id", vars=i)
+		raise web.seeother('/admin/userselect')
 		
 class Edge(object):
 	def __init__(self, u, v, w):
