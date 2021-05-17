@@ -36,7 +36,12 @@ $var active_nav = "admin"
 			<td class="text-center">$user.username</td>
 			<td class="text-center">$user.email</td>
 			<td class="text-center">$user.privilege</td>
-			<td class="text-center"><a class="btn btn-successdanger" role="button">Delete </a></td>
+			<td class="text-center">
+        <form class="form-editpl" role="form" method="post" action="userdeletesubmit">
+          <input type="hidden" name="id" class="form-control" id="id" value="$user.id">
+          <button class="btn btn-danger" type="submit">Delete</button>
+        </form>
+      </td>
 		</tr>
         </tbody>
 	</table>

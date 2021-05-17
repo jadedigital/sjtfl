@@ -80,6 +80,7 @@ urls = (
 	'/admin/userselect', 'userselect',
 	'/admin/useradd', 'useradd',
 	'/admin/useraddsubmit', 'useraddsubmit',
+	'/admin/userdeletesubmit', 'userdeletesubmit',
 	'/maxflowsubmit', 'maxflowsubmit',
 )
 web.config.session_parameters['cookie_path'] = '/'
@@ -1028,7 +1029,16 @@ class useraddsubmit:
 		hashedpw = bcrypt.hashpw(i.password.encode('utf8'), salt)
 		db.insert('users', username = i.username, password = hashedpw, email = i.email, privilege = i.privilege)
 		raise web.seeother('/admin/userselect')
-		
+
+
+class userdeletesubmit:
+	def POST(self):
+		i = web.input()
+		if i.id == 1
+			return "Can't delete superuser"
+		else:
+			db.delete('users', where="id = $id", vars=i)
+			raise web.seeother('/admin/userselect')
 		
 class Edge(object):
 	def __init__(self, u, v, w):
