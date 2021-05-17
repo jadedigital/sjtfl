@@ -78,6 +78,8 @@ urls = (
 	'/admin/historyedit', 'historyedit',
 	'/admin/historyeditsubmit', 'historyeditsubmit',
 	'/admin/userselect', 'userselect',
+	'/admin/useradd', 'useradd',
+	'/admin/useraddsubmit', 'useraddsubmit',
 	'/maxflowsubmit', 'maxflowsubmit',
 )
 web.config.session_parameters['cookie_path'] = '/'
@@ -1004,6 +1006,28 @@ class userselect:
 			return render.userselect(scheduledb, teamsdb, userdb)
 		else:
 			return "You do not have permission to access this page"
+
+class useradd:
+	def GET(self):
+		season_current = db.select('season', where="current = 't'")[0]
+		i = dict(season=season_current.year)
+		teamsdb = db.select('standings', i, order="league, shortname", where="season=$season")
+		scheduledb = db.select('schedule', i, order="date, time", where="EXTRACT(YEAR FROM date) = $season AND gametype = 'reg'")
+
+		render = create_render(session.privilege)
+		if session.logged == True:
+			return render.useradd(scheduledb, teamsdb)
+		else:
+			return "You do not have permission to access this page"
+
+class useraddsubmit:
+	def POST(self):
+		i = web.input()
+		
+		salt = bcrypt.gensalt()
+		hashedpw = bcrypt.hashpw(i.password.encode('utf8'), salt)
+		db.insert('users', username = i.username, password = hashedpw, email = i.email, privilege = i.privilege)
+		raise web.seeother('/admin/userselect')
 		
 		
 class Edge(object):
