@@ -193,17 +193,20 @@ class add:
 	def POST(self):
 		d = web.input(gameid=[], playerid=[], gameplayed=[], touchdowns=[], tdpass=[], oneconvert=[], twoconvert=[], rouge=[], safety=[], interception=[], sack=[], season=[])
 		keys = d.keys()
-		vals = zip(*[d[k] for k in keys])
-		l = [dict(zip(keys, v)) for v in vals]
-		for p in l:
-			statcheck = db.select('statistics', where="gameid = $gameid AND playerid = $playerid", vars=p)
-			if not statcheck:
-				db.insert('statistics', **p)
-			else:
-				db.update('statistics', where="gameid = $gameid AND playerid = $playerid", vars=p, **p)
-		#db.multiple_insert('statistics', values=l)
-		gameid=d.gameid[0]
-		raise web.seeother('/admin/addscore?gameid=' + gameid)
+		if session.logged == True:
+			vals = zip(*[d[k] for k in keys])
+			l = [dict(zip(keys, v)) for v in vals]
+			for p in l:
+				statcheck = db.select('statistics', where="gameid = $gameid AND playerid = $playerid", vars=p)
+				if not statcheck:
+					db.insert('statistics', **p)
+				else:
+					db.update('statistics', where="gameid = $gameid AND playerid = $playerid", vars=p, **p)
+			#db.multiple_insert('statistics', values=l)
+			gameid=d.gameid[0]
+			raise web.seeother('/admin/addscore?gameid=' + gameid)
+		else:
+			return "You do not have permission to make this request"
 
 class addscore:
 	def GET(self):
@@ -236,50 +239,53 @@ class addscore:
 class addscoresubmit:
 	def POST(self):
 		i = web.input()
-		db.update('schedule', where="gameid = $gameid", vars=i, **i)
-		game_data = db.select('schedule', i, where="gameid = $gameid")[0]
-		season_current = db.select('season', where="current = 't'")[0]
-		i.season=season_current.year
-		team1wins = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score > team2score AND team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) OR (team2score > team1score AND team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		team1losses = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score < team2score AND team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) OR (team2score < team1score AND team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		team1ties = db.query("SELECT COUNT(*) FROM schedule WHERE (team2score = team1score AND team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) OR (team2score = team1score AND team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		team1ptsfor = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
-		team1ptsagainst = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team2 = $team1 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team1 = $team1 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
-		team1gamesplayed = int(team1wins.count + team1losses.count + team1ties.count)
-		team1pointslost = db.query("SELECT SUM(teamlines_points_lost) FROM schedule WHERE teamlines = $team1 AND EXTRACT(YEAR FROM date) = $season", vars=i)[0]
-		if team1pointslost.sum is None:
-			team1points = int(team1wins.count*2 + team1ties.count)
-		else:
-			team1points = int(team1wins.count*2 + team1ties.count - team1pointslost.sum)
+		if session.logged == True:
+			db.update('schedule', where="gameid = $gameid", vars=i, **i)
+			game_data = db.select('schedule', i, where="gameid = $gameid")[0]
+			season_current = db.select('season', where="current = 't'")[0]
+			i.season=season_current.year
+			team1wins = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score > team2score AND team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) OR (team2score > team1score AND team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			team1losses = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score < team2score AND team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) OR (team2score < team1score AND team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			team1ties = db.query("SELECT COUNT(*) FROM schedule WHERE (team2score = team1score AND team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) OR (team2score = team1score AND team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			team1ptsfor = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team1 = $team1 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team2 = $team1 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
+			team1ptsagainst = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team2 = $team1 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team1 = $team1 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
+			team1gamesplayed = int(team1wins.count + team1losses.count + team1ties.count)
+			team1pointslost = db.query("SELECT SUM(teamlines_points_lost) FROM schedule WHERE teamlines = $team1 AND EXTRACT(YEAR FROM date) = $season", vars=i)[0]
+			if team1pointslost.sum is None:
+				team1points = int(team1wins.count*2 + team1ties.count)
+			else:
+				team1points = int(team1wins.count*2 + team1ties.count - team1pointslost.sum)
 
-		team2wins = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score > team2score AND team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) OR (team2score > team1score AND team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		team2losses = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score < team2score AND team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) OR (team2score < team1score AND team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		team2ties = db.query("SELECT COUNT(*) FROM schedule WHERE (team2score = team1score AND team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) OR (team2score = team1score AND team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		team2ptsfor = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
-		team2ptsagainst = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team2 = $team2 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team1 = $team2 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
-		team2gamesplayed = int(team2wins.count + team2losses.count + team2ties.count)
-		team2pointslost = db.query("SELECT SUM(teamlines_points_lost) FROM schedule WHERE teamlines = $team2 AND EXTRACT(YEAR FROM date) = $season", vars=i)[0]
-		if team2pointslost.sum is None:
-			team2points = int(team2wins.count*2 + team2ties.count)
+			team2wins = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score > team2score AND team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) OR (team2score > team1score AND team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			team2losses = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score < team2score AND team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) OR (team2score < team1score AND team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			team2ties = db.query("SELECT COUNT(*) FROM schedule WHERE (team2score = team1score AND team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) OR (team2score = team1score AND team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			team2ptsfor = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team1 = $team2 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team2 = $team2 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
+			team2ptsagainst = db.query("SELECT SUM(p.a) FROM (SELECT SUM(team1score) AS a FROM schedule WHERE (team2 = $team2 AND EXTRACT(YEAR FROM date) = $season) UNION ALL SELECT SUM(team2score) AS a FROM schedule WHERE (team1 = $team2 AND EXTRACT(YEAR FROM date) = $season)) p", vars=i)[0]
+			team2gamesplayed = int(team2wins.count + team2losses.count + team2ties.count)
+			team2pointslost = db.query("SELECT SUM(teamlines_points_lost) FROM schedule WHERE teamlines = $team2 AND EXTRACT(YEAR FROM date) = $season", vars=i)[0]
+			if team2pointslost.sum is None:
+				team2points = int(team2wins.count*2 + team2ties.count)
+			else:
+				team2points = int(team2wins.count*2 + team2ties.count - team2pointslost.sum)
+			
+			teamlineswins = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score > team2score AND team1 = $teamlines AND EXTRACT(YEAR FROM date) = $season) OR (team2score > team1score AND team2 = $teamlines AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			teamlinesties = db.query("SELECT COUNT(*) FROM schedule WHERE (team2score = team1score AND team1 = $teamlines AND EXTRACT(YEAR FROM date) = $season) OR (team2score = team1score AND team2 = $teamlines AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
+			teamlinespointslost = db.query("SELECT SUM(teamlines_points_lost) FROM schedule WHERE teamlines = $teamlines AND EXTRACT(YEAR FROM date) = $season", vars=i)[0]
+			if teamlinespointslost.sum is None:
+				teamlinespoints = int(teamlineswins.count*2 + teamlinesties.count)
+			else:
+				teamlinespoints = int(teamlineswins.count*2 + teamlinesties.count - teamlinespointslost.sum)
+			
+			t1 = dict(shortname=i.team1, gamesplayed=team1gamesplayed, wins=team1wins.count, losses=team1losses.count, ties=team1ties.count, points=team1points, pointsfor=team1ptsfor.sum, pointsagainst=team1ptsagainst.sum, season=i.season)
+			t2 = dict(shortname=i.team2, gamesplayed=team2gamesplayed, wins=team2wins.count, losses=team2losses.count, ties=team2ties.count, points=team2points, pointsfor=team2ptsfor.sum, pointsagainst=team2ptsagainst.sum, season=i.season)
+			t3 = dict(shortname=i.teamlines, points=teamlinespoints, season=i.season)
+			if game_data.gametype == "reg":
+				db.update('standings', where="shortname = $shortname AND season = $season", vars=t1, **t1)
+				db.update('standings', where="shortname = $shortname AND season = $season", vars=t2, **t2)
+				db.update('standings', where="shortname = $shortname AND season = $season", vars=t3, **t3)
+			raise web.seeother('/admin/gameselect')
 		else:
-			team2points = int(team2wins.count*2 + team2ties.count - team2pointslost.sum)
-		
-		teamlineswins = db.query("SELECT COUNT(*) FROM schedule WHERE (team1score > team2score AND team1 = $teamlines AND EXTRACT(YEAR FROM date) = $season) OR (team2score > team1score AND team2 = $teamlines AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		teamlinesties = db.query("SELECT COUNT(*) FROM schedule WHERE (team2score = team1score AND team1 = $teamlines AND EXTRACT(YEAR FROM date) = $season) OR (team2score = team1score AND team2 = $teamlines AND EXTRACT(YEAR FROM date) = $season)", vars=i)[0]
-		teamlinespointslost = db.query("SELECT SUM(teamlines_points_lost) FROM schedule WHERE teamlines = $teamlines AND EXTRACT(YEAR FROM date) = $season", vars=i)[0]
-		if teamlinespointslost.sum is None:
-			teamlinespoints = int(teamlineswins.count*2 + teamlinesties.count)
-		else:
-			teamlinespoints = int(teamlineswins.count*2 + teamlinesties.count - teamlinespointslost.sum)
-		
-		t1 = dict(shortname=i.team1, gamesplayed=team1gamesplayed, wins=team1wins.count, losses=team1losses.count, ties=team1ties.count, points=team1points, pointsfor=team1ptsfor.sum, pointsagainst=team1ptsagainst.sum, season=i.season)
-		t2 = dict(shortname=i.team2, gamesplayed=team2gamesplayed, wins=team2wins.count, losses=team2losses.count, ties=team2ties.count, points=team2points, pointsfor=team2ptsfor.sum, pointsagainst=team2ptsagainst.sum, season=i.season)
-		t3 = dict(shortname=i.teamlines, points=teamlinespoints, season=i.season)
-		if game_data.gametype == "reg":
-			db.update('standings', where="shortname = $shortname AND season = $season", vars=t1, **t1)
-			db.update('standings', where="shortname = $shortname AND season = $season", vars=t2, **t2)
-			db.update('standings', where="shortname = $shortname AND season = $season", vars=t3, **t3)
-		raise web.seeother('/admin/gameselect')
+			return "You do not have permission to make this request"
 
 class standings:
 	def GET(self):
@@ -560,15 +566,18 @@ class teamedit:
 class teameditsubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i['season'] = season.year
-		db.update('standings', where="id = $id AND season = $season", vars=i, **i)
-		team_players = db.select('players', i, where="teamid = $id AND season = $season")
-		for player in team_players:
-			t = dict(playerid=player.playerid, teamid=i.id, teamname=i.shortname)
-			db.update('players', where="playerid = $playerid", vars=t, **t)
-		raise web.seeother('/admin/teamselect')
+		if session.logged == True:
+			season_current = db.select('season', where="current = 't'")
+			for season in season_current:
+				i['season'] = season.year
+			db.update('standings', where="id = $id AND season = $season", vars=i, **i)
+			team_players = db.select('players', i, where="teamid = $id AND season = $season")
+			for player in team_players:
+				t = dict(playerid=player.playerid, teamid=i.id, teamname=i.shortname)
+				db.update('players', where="playerid = $playerid", vars=t, **t)
+			raise web.seeother('/admin/teamselect')
+		else:
+			return "You do not have permission to make this request"
 
 class teamadd:
 	def GET(self):
@@ -587,24 +596,30 @@ class teamadd:
 class teamaddsubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i['season'] = season.year
-		db.insert('standings', name = i.name, shortname = i.shortname, league = i.league, season = i.season, gamesplayed = 0, wins = 0, losses = 0, ties = 0, points = 0, pointsfor = 0, pointsagainst = 0)
-		raise web.seeother('/admin/teamselect')
+		if session.logged == True:
+			season_current = db.select('season', where="current = 't'")
+			for season in season_current:
+				i['season'] = season.year
+			db.insert('standings', name = i.name, shortname = i.shortname, league = i.league, season = i.season, gamesplayed = 0, wins = 0, losses = 0, ties = 0, points = 0, pointsfor = 0, pointsagainst = 0)
+			raise web.seeother('/admin/teamselect')
+		else:
+			return "You do not have permission to make this request"
 
 class teamdeletesubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i['season'] = season.year
-		db.delete('standings', where="id = $id AND season = $season", vars=i)
-		playersFA = db.select('players', i, where="teamid = $id AND season = $season")
-		for player in playersFA:
-			t = dict(playerid=player.playerid, teamid=0, teamname="Free Agent")
-			db.update('players', where="playerid = $playerid", vars=t, **t)
-		raise web.seeother('/admin/teamselect')
+		if session.logged == True:
+			season_current = db.select('season', where="current = 't'")
+			for season in season_current:
+				i['season'] = season.year
+			db.delete('standings', where="id = $id AND season = $season", vars=i)
+			playersFA = db.select('players', i, where="teamid = $id AND season = $season")
+			for player in playersFA:
+				t = dict(playerid=player.playerid, teamid=0, teamname="Free Agent")
+				db.update('players', where="playerid = $playerid", vars=t, **t)
+			raise web.seeother('/admin/teamselect')
+		else:
+			return "You do not have permission to make this request"
 
 class gameselect:
 	def GET(self):
@@ -653,18 +668,21 @@ class playeredit:
 class playereditsubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i.season = season.year
-		if i.teamname == "Free Agent":
-			i.teamid = 0
+		if session.logged == True:
+			season_current = db.select('season', where="current = 't'")
+			for season in season_current:
+				i.season = season.year
+			if i.teamname == "Free Agent":
+				i.teamid = 0
+			else:
+				teamidnew = db.query("SELECT id FROM standings WHERE shortname = $teamname AND season = $season", vars=i).list()
+				for team in teamidnew:
+					teamidn = team.id
+				i.teamid = teamidn
+			db.update('players', where="playerid = $playerid AND season = $season", vars=i, **i)
+			raise web.seeother('/admin/playerselect')
 		else:
-			teamidnew = db.query("SELECT id FROM standings WHERE shortname = $teamname AND season = $season", vars=i).list()
-			for team in teamidnew:
-				teamidn = team.id
-			i.teamid = teamidn
-		db.update('players', where="playerid = $playerid AND season = $season", vars=i, **i)
-		raise web.seeother('/admin/playerselect')
+			return "You do not have permission to make this request"
 
 class playeradd:
 	def GET(self):
@@ -683,28 +701,34 @@ class playeradd:
 class playeraddsubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i.season = season.year
-		if i.teamname == "Free Agent":
-			i.teamid = 0
+		if session.logged == True:
+			season_current = db.select('season', where="current = 't'")
+			for season in season_current:
+				i.season = season.year
+			if i.teamname == "Free Agent":
+				i.teamid = 0
+			else:
+				teamidnew = db.query("SELECT id FROM standings WHERE shortname = $teamname AND season = $season", vars=i).list()
+				for team in teamidnew:
+					teamidn = team.id
+				i.teamid = teamidn
+			db.insert('players', firstname = i.firstname, lastname = i.lastname, teamname = i.teamname, teamid = i.teamid, season = i.season)
+			raise web.seeother('/admin/playerselect')
 		else:
-			teamidnew = db.query("SELECT id FROM standings WHERE shortname = $teamname AND season = $season", vars=i).list()
-			for team in teamidnew:
-				teamidn = team.id
-			i.teamid = teamidn
-		db.insert('players', firstname = i.firstname, lastname = i.lastname, teamname = i.teamname, teamid = i.teamid, season = i.season)
-		raise web.seeother('/admin/playerselect')
+			return "You do not have permission to make this request"
 
 class playerdeletesubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i.season = season.year
-		db.delete('players', where="playerid = $playerid AND season = $season", vars=i)
-		db.delete('statistics', where="playerid = $playerid AND season = $season", vars=i)
-		raise web.seeother('/admin/playerselect')
+		if session.logged == True:
+			season_current = db.select('season', where="current = 't'")
+			for season in season_current:
+				i.season = season.year
+			db.delete('players', where="playerid = $playerid AND season = $season", vars=i)
+			db.delete('statistics', where="playerid = $playerid AND season = $season", vars=i)
+			raise web.seeother('/admin/playerselect')
+		else:
+			return "You do not have permission to make this request"
 
 class scheduleselect:
 	def GET(self):
@@ -754,35 +778,43 @@ class scheduleupload:
 class scheduleuploadsubmit:
 	def POST(self):
 		i = web.input(myfile={})
-		filedir = os.environ.get('DATA_PATH')
-		#filedir = '/home/aaron/psqldata'
-		if 'myfile' in i: # to check if the file-object is created
-			filepath=i.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
-			filename=filepath.split('/')[-1] # splits the path and chooses the last part (the filename with extension)
-			fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
-			fout.write(i.myfile.file.read()) # writes the uploaded file to the newly created file.
-			fout.close() # closes the file, upload complete.
-		filefull = str(filedir) +"/"+ str(filename)
-		f = dict(file=filefull)
-		db.query("COPY schedule (week, date, time, team1, team2, teamlines, gametype) FROM $file CSV", vars=f)
-		db.query("SELECT setval('schedule_gameid_seq'::regclass, (SELECT MAX(gameid) FROM schedule)+1);")
-		raise web.seeother('/admin/scheduleselect')
+		if session.logged == True:
+			filedir = os.environ.get('DATA_PATH')
+			if 'myfile' in i: # to check if the file-object is created
+				filepath=i.myfile.filename.replace('\\','/') # replaces the windows-style slashes with linux ones.
+				filename=filepath.split('/')[-1] # splits the path and chooses the last part (the filename with extension)
+				fout = open(filedir +'/'+ filename,'w') # creates the file where the uploaded file should be stored
+				fout.write(i.myfile.file.read()) # writes the uploaded file to the newly created file.
+				fout.close() # closes the file, upload complete.
+			filefull = str(filedir) +"/"+ str(filename)
+			f = dict(file=filefull)
+			db.query("COPY schedule (week, date, time, team1, team2, teamlines, gametype) FROM $file CSV", vars=f)
+			db.query("SELECT setval('schedule_gameid_seq'::regclass, (SELECT MAX(gameid) FROM schedule)+1);")
+			raise web.seeother('/admin/scheduleselect')
+		else:
+			return "You do not have permission to make this request"
 
 class scheduleeditsubmit:
 	def POST(self):
 		i = web.input()
-		db.update('schedule', where="gameid = $gameid", vars=i, **i)
-		raise web.seeother('/admin/scheduleselect')
+		if session.logged == True:
+			db.update('schedule', where="gameid = $gameid", vars=i, **i)
+			raise web.seeother('/admin/scheduleselect')
+		else:
+			return "You do not have permission to make this request"
 
 class scheduledeletesubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.select('season', where="current = 't'")
-		for season in season_current:
-			i.season = season.year
-		db.delete('schedule', where="gameid = $gameid AND EXTRACT(YEAR FROM date) = $season", vars=i)
-		db.delete('statistics', where="gameid = $gameid AND season=$season", vars=i)
-		raise web.seeother('/admin/scheduleselect')
+		if session.logged == True:
+			season_current = db.select('season', where="current = 't'")
+			for season in season_current:
+				i.season = season.year
+			db.delete('schedule', where="gameid = $gameid AND EXTRACT(YEAR FROM date) = $season", vars=i)
+			db.delete('statistics', where="gameid = $gameid AND season=$season", vars=i)
+			raise web.seeother('/admin/scheduleselect')
+		else:
+			return "You do not have permission to make this request"
 
 class scheduleadd:
 	def GET(self):
@@ -801,11 +833,14 @@ class scheduleadd:
 class scheduleaddsubmit:
 	def POST(self):
 		i = web.input(teamlines=None)
-		if i.teamlines is None:	
-			db.insert('schedule', week = i.week, date = i.date, time = i.time, team1 = i.team1, team2 = i.team2, gametype = i.gametype)
+		if session.logged == True:
+			if i.teamlines is None:	
+				db.insert('schedule', week = i.week, date = i.date, time = i.time, team1 = i.team1, team2 = i.team2, gametype = i.gametype)
+			else:
+				db.insert('schedule', week = i.week, date = i.date, time = i.time, team1 = i.team1, team2 = i.team2, teamlines = i.teamlines, gametype = i.gametype)
+			raise web.seeother('/admin/scheduleselect')
 		else:
-			db.insert('schedule', week = i.week, date = i.date, time = i.time, team1 = i.team1, team2 = i.team2, teamlines = i.teamlines, gametype = i.gametype)
-		raise web.seeother('/admin/scheduleselect')
+			return "You do not have permission to make this request"
 
 class newsselect:
 	def GET(self):
@@ -837,8 +872,11 @@ class newsadd:
 class newsaddsubmit:
 	def POST(self):
 		i = web.input()
-		db.insert('news', title = i.title, body = i.body, embed = i.embed)
-		raise web.seeother('/admin/newsselect')
+		if session.logged == True:
+			db.insert('news', title = i.title, body = i.body, embed = i.embed)
+			raise web.seeother('/admin/newsselect')
+		else:
+			return "You do not have permission to make this request"
 		
 class newsedit:
 	def GET(self):
@@ -858,14 +896,20 @@ class newsedit:
 class newseditsubmit:
 	def POST(self):
 		i = web.input()
-		db.update('news', where="id = $id", vars=i, **i)
-		raise web.seeother('/admin/newsselect')
+		if session.logged == True:
+			db.update('news', where="id = $id", vars=i, **i)
+			raise web.seeother('/admin/newsselect')
+		else:
+			return "You do not have permission to make this request"
 
 class newsdeletesubmit:
 	def POST(self):
 		i = web.input()
-		db.delete('news', where="id = $id", vars=i)
-		raise web.seeother('/admin/newsselect')
+		if session.logged == True:
+			db.delete('news', where="id = $id", vars=i)
+			raise web.seeother('/admin/newsselect')
+		else:
+			return "You do not have permission to make this request"
 
 class seasonselect:
 	def GET(self):
@@ -911,35 +955,44 @@ class seasonadd:
 class seasonaddsubmit:
 	def POST(self):
 		i = web.input()
-		season_list = db.select('season')
-		if i.current:
-			for season in season_list:
-				s = dict(id=season.id, current="f")
-				db.update('season', where="id = $id", vars=s, **s)
-		db.insert('season', year = i.year, current = i.current, playoff_teams_men = i.playoff_teams_men, playoff_teams_women = i.playoff_teams_women, bye_teams_men = i.bye_teams_men, bye_teams_women = i.bye_teams_women)
-		db.query("INSERT INTO standings (name, shortname, league, season, color, sponsor_url, team_abbr, gamesplayed, wins, losses, ties, points, pointsfor, pointsagainst) SELECT name, shortname, league, $year, color, sponsor_url, team_abbr, 0, 0, 0, 0, 0, 0, 0 FROM standings AS old WHERE old.season = $prev;", vars=i)
-		db.query("INSERT INTO players (firstname, lastname, teamname, teamid, season) SELECT p.firstname, p.lastname, p.teamname, t.id, $year FROM players p, standings t WHERE p.season = $prev AND p.teamname=t.shortname AND t.season = $year;", vars=i)
-		raise web.seeother('/admin/seasonselect')
+		if session.logged == True and session.privilege == 1:
+			season_list = db.select('season')
+			if i.current:
+				for season in season_list:
+					s = dict(id=season.id, current="f")
+					db.update('season', where="id = $id", vars=s, **s)
+			db.insert('season', year = i.year, current = i.current, playoff_teams_men = i.playoff_teams_men, playoff_teams_women = i.playoff_teams_women, bye_teams_men = i.bye_teams_men, bye_teams_women = i.bye_teams_women)
+			db.query("INSERT INTO standings (name, shortname, league, season, color, sponsor_url, team_abbr, gamesplayed, wins, losses, ties, points, pointsfor, pointsagainst) SELECT name, shortname, league, $year, color, sponsor_url, team_abbr, 0, 0, 0, 0, 0, 0, 0 FROM standings AS old WHERE old.season = $prev;", vars=i)
+			db.query("INSERT INTO players (firstname, lastname, teamname, teamid, season) SELECT p.firstname, p.lastname, p.teamname, t.id, $year FROM players p, standings t WHERE p.season = $prev AND p.teamname=t.shortname AND t.season = $year;", vars=i)
+			raise web.seeother('/admin/seasonselect')
+		else:
+			return "You do not have permission to make this request"
 
 class seasoneditsubmit:
 	def POST(self):
 		i = web.input()
-		season_list = db.select('season')
-		db.update('season', where="id = $id",  year = i.year, playoff_teams_men = i.playoff_teams_men, playoff_teams_women = i.playoff_teams_women, bye_teams_men = i.bye_teams_men, bye_teams_women = i.bye_teams_women)
-		raise web.seeother('/admin/seasonselect')
+		if session.logged == True and session.privilege == 1:
+			season_list = db.select('season')
+			db.update('season', where="id = $id",  year = i.year, playoff_teams_men = i.playoff_teams_men, playoff_teams_women = i.playoff_teams_women, bye_teams_men = i.bye_teams_men, bye_teams_women = i.bye_teams_women)
+			raise web.seeother('/admin/seasonselect')
+		else:
+			return "You do not have permission to make this request"
 		
 class seasoncurrentsubmit:
 	def POST(self):
 		i = web.input()
-		season_current = db.query("SELECT id FROM season WHERE year = $year", vars=i).list()
-		season_list = db.select('season')
-		for season in season_list:
-			s = dict(id=season.id, current="f")
-			db.update('season', where="id = $id", vars=s, **s)
-		for season in season_current:
-			s = dict(id=season.id, current="t")
-			db.update('season', where="id = $id", vars=s, **s)
-		raise web.seeother('/admin/seasonselect')
+		if session.logged == True and session.privilege == 1:
+			season_current = db.query("SELECT id FROM season WHERE year = $year", vars=i).list()
+			season_list = db.select('season')
+			for season in season_list:
+				s = dict(id=season.id, current="f")
+				db.update('season', where="id = $id", vars=s, **s)
+			for season in season_current:
+				s = dict(id=season.id, current="t")
+				db.update('season', where="id = $id", vars=s, **s)
+			raise web.seeother('/admin/seasonselect')
+		else:
+			return "You do not have permission to make this request"
 
 class historyselect:
 	def GET(self):
@@ -971,8 +1024,11 @@ class historyadd:
 class historyaddsubmit:
 	def POST(self):
 		i = web.input()
-		db.insert('champions', year = i.year, mens = i.champion_men, womens = i.champion_women)
-		raise web.seeother('/admin/historyselect')
+		if session.logged == True:
+			db.insert('champions', year = i.year, mens = i.champion_men, womens = i.champion_women)
+			raise web.seeother('/admin/historyselect')
+		else:
+			return "You do not have permission to make this request"
 
 class historyedit:
 	def GET(self):
@@ -991,8 +1047,11 @@ class historyedit:
 class historyeditsubmit:
 	def POST(self):
 		i = web.input()
-		db.update('champions', where="id = $id", vars=i, **i)
-		raise web.seeother('/admin/historyselect')
+		if session.logged == True:
+			db.update('champions', where="id = $id", vars=i, **i)
+			raise web.seeother('/admin/historyselect')
+		else:
+			return "You do not have permission to make this request"
 
 class userselect:
 	def GET(self):
@@ -1024,7 +1083,7 @@ class useradd:
 class useraddsubmit:
 	def POST(self):
 		i = web.input()
-		if session.logged == True and session.privilege == 2:
+		if session.logged == True and session.privilege == 1:
 			salt = bcrypt.gensalt()
 			hashedpw = bcrypt.hashpw(i.password.encode('utf8'), salt)
 			db.insert('users', username = i.username, password = hashedpw, email = i.email, privilege = i.privilege)
@@ -1036,8 +1095,11 @@ class useraddsubmit:
 class userdeletesubmit:
 	def POST(self):
 		i = web.input()
-		db.delete('users', where="id = $id", vars=i)
-		raise web.seeother('/admin/userselect')
+		if session.logged == True and session.privilege == 1:
+			db.delete('users', where="id = $id", vars=i)
+			raise web.seeother('/admin/userselect')
+		else:
+			return "You do not have permission to make this request"
 		
 class Edge(object):
 	def __init__(self, u, v, w):
