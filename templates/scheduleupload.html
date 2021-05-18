@@ -5,12 +5,13 @@ $var active_nav = "admin"
 
 <div class="container">
 	<div class="page-header">
-		<h1>Schedule Admin <small>upload schedule</small></h1>
+		<h1>Schedule Admin <small>upload schedule. Schedule </small></h1>
 	</div>
 	<div class="row">
 		<form class="form-editpl" role="form" method="post" enctype="multipart/form-data" action="scheduleuploadsubmit"> 
 			<div class="form-group">
 				<label for="myfile">File input</label>
+				<p class="help-block">Schedule must be saved as a CSV (NOT UTF-8) with the following columns (no headers): (week, date, time, team1, team2, teamlines, gametype)</p>
 				<input type="file" name="myfile" id="myfile">
 				<p class="help-block">Select file to upload.</p>
 			</div>
