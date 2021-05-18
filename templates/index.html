@@ -115,7 +115,7 @@ $for standings in sorted_stand_women_list:
                     $scores.date.strftime('%a, %b %d')
                   </div>
                   <div class="home-scores-team">
-                    <img src="/static/img/$scores_svg[scores.team1]?version=1.0.9" class="scores-logo">
+                    <img src="/static/img/$scores_svg[scores.team1]?version=$imageCache" class="scores-logo">
                     $if abbr[scores.team1]:
                       $abbr[scores.team1]
                     $else:  
@@ -123,7 +123,7 @@ $for standings in sorted_stand_women_list:
                     <div class="lead-stat">$scores.team1score</div>
                   </div>
                   <div class="home-scores-team">
-                    <img src="/static/img/$scores_svg[scores.team2]?version=1.0.9" class="scores-logo">
+                    <img src="/static/img/$scores_svg[scores.team2]?version=$imageCache" class="scores-logo">
                     $if abbr[scores.team2]:
                       $abbr[scores.team2]
                     $else:  
@@ -145,7 +145,7 @@ $for standings in sorted_stand_women_list:
                   $games.date.strftime('%a, %b %d') · $games.time.strftime('%-I:%M %p')
                 </div>
                 <div class="home-scores-team ">
-                  <img src="/static/img/$scores_svg[games.team1]?version=1.0.9" class="scores-logo">
+                  <img src="/static/img/$scores_svg[games.team1]?version=$imageCache" class="scores-logo">
                   $if abbr[games.team1]:
                     $abbr[games.team1]
                   $else:  
@@ -153,7 +153,7 @@ $for standings in sorted_stand_women_list:
                   <div class="lead-stat">($standings_wins[games.team1] - $standings_losses[games.team1] - $standings_ties[games.team1])</div>
                 </div>
                 <div class="home-scores-team">
-                  <img src="/static/img/$scores_svg[games.team2]?version=1.0.9" class="scores-logo">
+                  <img src="/static/img/$scores_svg[games.team2]?version=$imageCache" class="scores-logo">
                   $if abbr[games.team2]:
                     $abbr[games.team2]
                   $else:  
