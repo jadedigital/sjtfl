@@ -54,6 +54,12 @@ $def with (page)
   
 $ navbar_class = collections.defaultdict(str)
 $ navbar_class[page.active_nav] = "active"
+$ current_week = 1
+
+$for schedule in reversed(page.scheduled):
+  $if schedule.team1score is not None:
+    $ current_week = schedule.week
+  
 
   <body>
     <!-- Facebook -->
@@ -122,15 +128,7 @@ $ navbar_class[page.active_nav] = "active"
             <li class="$navbar_class['news']"><a href="/news"><i class="fa fa-bullhorn"></i> News</a></li>
             <li class="$navbar_class['standings']"><a href="/standings"><i class="fa fa-list"></i> Standings</a></li>
             <li class="$navbar_class['schedule']"><a href="/schedule"><i class="fa fa-calendar"></i> Schedule</a></li>
-            $for schedule in reversed(page.scheduled):
-              $if schedule.team1score is not None:
-                <li class="$navbar_class['scores']"><a href="/scores?week=$schedule.week"><i class="fa fa-bullseye"></i> Scores</a></li>
-                $break
-              $if loop.last == True:
-                <li class="$navbar_class['scores']"><a href="/scores"><i class="fa fa-bullseye"></i> Scores</a></li>
-                $break
-              $else:
-                $continue
+            <li class="$navbar_class['scores']"><a href="/scores?week=$current_week"><i class="fa fa-bullseye"></i> Scores</a></li>
             <li class="$navbar_class['statistics']"><a href="/statistics"><i class="fa fa-bar-chart"></i> Statistics</a></li>
             <li class="dropdown $navbar_class['teams']">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Teams <span class="caret"></span></a>
