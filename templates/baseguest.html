@@ -1,4 +1,11 @@
 $def with (page)
+
+$ current_week = 1
+
+$for schedule in reversed(page.scheduled):
+  $if schedule.team1score is not None:
+    $ current_week = schedule.week
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -54,6 +61,7 @@ $def with (page)
   
 $ navbar_class = collections.defaultdict(str)
 $ navbar_class[page.active_nav] = "active"
+ 
 
   <body>
     <!-- Facebook -->
@@ -65,182 +73,172 @@ $ navbar_class[page.active_nav] = "active"
     <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-TR6KWH" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0], j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-TR6KWH');</script>
     <!-- End Google Tag Manager -->
-  <div class="wrapper">
-    <div id="banner">
-      <div id="banner-logo-wrapper">
-        <a href="/"><img src="/static/img/banner_logo.svg" id="banner-logo" class="banner-logo"></a>
-        <div class="banner-text">
-          <div class="banner-text-top">
-            Crown and Anchor St. John's Touch Football League
-          </div>
-          <div class="banner-text-bottom">
-            SJTFL<div class="banner-subtext">.COM</div>
+    <div class="wrapper">
+      <div id="banner">
+        <div id="banner-logo-wrapper">
+          <a href="/"><img src="/static/img/banner_logo.svg" id="banner-logo" class="banner-logo"></a>
+          <div class="banner-text">
+            <div class="banner-text-top">
+              St. John's Touch Football League
+            </div>
+            <div class="banner-text-bottom">
+              SJTFL<div class="banner-subtext">.COM</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="banner-sponsor">
-        <a class="socialtip" href="https://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
-          <span class="fa-stack">
-            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-            <i class="fa fa-twitter fa-stack-1x"></i>
-          </span>
-        </a>
-        <a class="socialtip" href="https://instagram.com/sjtfl" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
-          <span class="fa-stack">
-            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-            <i class="fa fa-instagram fa-stack-1x"></i>
-          </span>
-        </a>
-        <a class="socialtip" href="http://facebook.com/sjtfl" data-toggle="tooltip" title="Like us on Facebook" target="_blank">
-          <span class="fa-stack">
-            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-            <i class="fa fa-facebook fa-stack-1x"></i>
-          </span>
-        </a>
-        <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
-          <span class="fa-stack">
-            <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
-            <i class="fa fa-envelope fa-stack-1x"></i>
-          </span>
-        </a>
-        <img src="/static/img/QV_Logo.svg?version=1.0">
-      </div>
-    </div>
-    <div id="navbar" class="navbar navbar-inverse" role="navigation">
-      <div class="container container-header">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
+        <div class="banner-sponsor">
+          <a class="socialtip" href="https://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+            <span class="fa-stack">
+              <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+              <i class="fa fa-twitter fa-stack-1x"></i>
+            </span>
+          </a>
+          <a class="socialtip" href="https://instagram.com/sjtfl" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
+            <span class="fa-stack">
+              <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+              <i class="fa fa-instagram fa-stack-1x"></i>
+            </span>
+          </a>
+          <a class="socialtip" href="http://facebook.com/sjtfl" data-toggle="tooltip" title="Like us on Facebook" target="_blank">
+            <span class="fa-stack">
+              <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+              <i class="fa fa-facebook fa-stack-1x"></i>
+            </span>
+          </a>
+          <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
+            <span class="fa-stack">
+              <i class="fa fa-circle fa-stack-2x fa-inverse"></i>
+              <i class="fa fa-envelope fa-stack-1x"></i>
+            </span>
+          </a>
+          <img src="/static/img/michelob.svg?version=1.0.1">
         </div>
-        <div class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <!-- <li class="$navbar_class['home']"><a href="/"><i class="fa fa-home"></i> Home</a></li> -->
-            <li class="$navbar_class['news']"><a href="/news"><i class="fa fa-bullhorn"></i> News</a></li>
-            <li class="$navbar_class['standings']"><a href="/standings"><i class="fa fa-list"></i> Standings</a></li>
-            <li class="$navbar_class['schedule']"><a href="/schedule"><i class="fa fa-calendar"></i> Schedule</a></li>
-            $for schedule in reversed(page.scheduled):
-              $if schedule.team1score is not None:
-                <li class="$navbar_class['scores']"><a href="/scores?week=$schedule.week"><i class="fa fa-bullseye"></i> Scores</a></li>
-                $break
-              $if loop.last == True:
-                <li class="$navbar_class['scores']"><a href="/scores?week=$schedule.week"><i class="fa fa-bullseye"></i> Scores</a></li>
-                $break
-              $else:
-                $continue
-            <li class="$navbar_class['statistics']"><a href="/statistics"><i class="fa fa-bar-chart"></i> Statistics</a></li>
-            <li class="dropdown $navbar_class['teams']">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Teams <span class="caret"></span></a>
-              <ul class="dropdown-menu top-dropdown" role="menu">
-                $ divide_bool = False
-                $for teams in page.teamsd:
-                  $if teams.league == "Womens" and divide_bool == False:
-                    <li class="divider"></li>
-                    $ divide_bool = True
-                  <li><a href="/teams?teamid=$teams.id">$teams.name</a></li>
-              </ul>
-            </li>
-            <li class="$navbar_class['history']"><a href="/history"><i class="fa fa-trophy"></i> History</a></li>
-            <li class="$navbar_class['signup']"><a href="/signup"><i class="fa fa-user-plus"></i> Sign Up</a></li>
-            $if context.logged == True:	
-              <li class="dropdown $navbar_class['admin']">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i> Admin <span class="caret"></span></a>
+      </div>
+      <div id="navbar" class="navbar navbar-inverse" role="navigation">
+        <div class="container container-header">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+          <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+              <!-- <li class="$navbar_class['home']"><a href="/"><i class="fa fa-home"></i> Home</a></li> -->
+              <li class="$navbar_class['news']"><a href="/news"><i class="fa fa-bullhorn"></i> News</a></li>
+              <li class="$navbar_class['standings']"><a href="/standings"><i class="fa fa-list"></i> Standings</a></li>
+              <li class="$navbar_class['schedule']"><a href="/schedule"><i class="fa fa-calendar"></i> Schedule</a></li>
+              <li class="$navbar_class['scores']"><a href="/scores?week=$current_week"><i class="fa fa-bullseye"></i> Scores</a></li>
+              <li class="$navbar_class['statistics']"><a href="/statistics"><i class="fa fa-bar-chart"></i> Statistics</a></li>
+              <li class="dropdown $navbar_class['teams']">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> Teams <span class="caret"></span></a>
                 <ul class="dropdown-menu top-dropdown" role="menu">
-                  <li><a href="/admin/gameselect">Stats Admin</a></li>
-                  <li><a href="/admin/playerselect">Player Admin</a></li>
-                  <li><a href="/admin/teamselect">Team Admin</a></li>
-                  <li><a href="/admin/scheduleselect">Schedule Admin</a></li>
-                  <li><a href="/admin/newsselect">News Admin</a></li>
-                  <li><a href="/admin/historyselect">History Admin</a></li>
-                  $if context.privilege == 1:
-                    <li><a href="/admin/seasonselect">Season Admin</a></li>
-                    <li><a href="/admin/userselect">User Admin</a></li>
+                  $ divide_bool = False
+                  $for teams in page.teamsd:
+                    $if teams.league == "Womens" and divide_bool == False:
+                      <li class="divider"></li>
+                      $ divide_bool = True
+                    <li><a href="/teams?teamid=$teams.id">$teams.name</a></li>
                 </ul>
               </li>
-          </ul>
-          <ul class="navbar-form navbar-right">
-            $if context.logged ==True:
-              <form role="form" method="post" action="logout">
-                <a><input id="logout" class="btn btn-default" type="submit" value="Log-out"></a>
-              </form>	
-            $else:	
-              <a class="btn btn-jumbotron" href="#loginModal" data-toggle="modal" data-target="#loginModal">Log-in</a>
-          </ul>
-        </div><!--/.navbar-collapse -->
+              <li class="$navbar_class['history']"><a href="/history"><i class="fa fa-trophy"></i> History</a></li>
+              <li class="$navbar_class['signup']"><a href="/signup"><i class="fa fa-user-plus"></i> Sign Up</a></li>
+              $if context.logged == True:	
+                <li class="dropdown $navbar_class['admin']">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i> Admin <span class="caret"></span></a>
+                  <ul class="dropdown-menu top-dropdown" role="menu">
+                    <li><a href="/admin/gameselect">Stats Admin</a></li>
+                    <li><a href="/admin/playerselect">Player Admin</a></li>
+                    <li><a href="/admin/teamselect">Team Admin</a></li>
+                    <li><a href="/admin/scheduleselect">Schedule Admin</a></li>
+                    <li><a href="/admin/newsselect">News Admin</a></li>
+                    <li><a href="/admin/historyselect">History Admin</a></li>
+                    $if context.privilege == 1:
+                      <li><a href="/admin/seasonselect">Season Admin</a></li>
+                      <li><a href="/admin/userselect">User Admin</a></li>
+                  </ul>
+                </li>
+            </ul>
+            <ul class="navbar-form navbar-right">
+              $if context.logged ==True:
+                <form role="form" method="post" action="logout">
+                  <a><input id="logout" class="btn btn-default" type="submit" value="Log-out"></a>
+                </form>	
+              $else:	
+                <a class="btn btn-jumbotron" href="#loginModal" data-toggle="modal" data-target="#loginModal">Log-in</a>
+            </ul>
+          </div><!--/.navbar-collapse -->
+        </div>
       </div>
-    </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="loginModal">
-      <div class="modal-dialog">
-          <div class="modal-content"></div>
-      </div>
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-              <h4 class="modal-title">Log-in</h4>
-          </div>
-          <div class="modal-body">
-            <form class="form" role="form" method="post" action="login">
-              <div class="form-group">
-                  <label label-default="" for="username">Username</label>
-                  <input class="form-control" name="username" id="username" placeholder="Username" type="text">
-              </div>
-              <div class="form-group">
-                  <label label-default="" for="password">Password</label>
-                  <input class="form-control" name="password" id="password" placeholder="Password" type="password">
-              </div>
-              <p class="text-right"><a href="#">Forgot password?</a></p>
-              <div class="modal-footer"> <a href="#" data-dismiss="modal" class="btn btn-default">Close</a>
-                <input type="submit" class="btn btn-success pull-right" value="Log-in" />
-              </div>
-            </form>
+      <!-- Modal -->
+      <div class="modal fade" id="loginModal">
+        <div class="modal-dialog">
+            <div class="modal-content"></div>
+        </div>
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">Log-in</h4>
+            </div>
+            <div class="modal-body">
+              <form class="form" role="form" method="post" action="login">
+                <div class="form-group">
+                    <label label-default="" for="username">Username</label>
+                    <input class="form-control" name="username" id="username" placeholder="Username" type="text">
+                </div>
+                <div class="form-group">
+                    <label label-default="" for="password">Password</label>
+                    <input class="form-control" name="password" id="password" placeholder="Password" type="password">
+                </div>
+                <p class="text-right"><a href="#">Forgot password?</a></p>
+                <div class="modal-footer"> <a href="#" data-dismiss="modal" class="btn btn-default">Close</a>
+                  <input type="submit" class="btn btn-success pull-right" value="Log-in" />
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
+
+      $:page
+
+      <footer class="main-footer">
+        <p class="footer-title">St. John's Touch Football League</p>
+        <p class="footer-copy">Since 1981</p>
+        <div class="footer-social">
+          <a class="socialtip" href="https://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
+            <i class="fa fa-twitter"></i>
+          </a>
+          ·
+          <a class="socialtip" href="https://instagram.com/sjtfl" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
+            <i class="fa fa-instagram"></i>
+          </a>
+          ·
+          <a class="socialtip" href="https://facebook.com/sjtfl" data-toggle="tooltip" title="Like us on Facebook" target="_blank">  
+            <i class="fa fa-facebook"></i>
+          </a>
+          ·
+          <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
+            <i class="fa fa-envelope"></i>
+          </a>
+        </div>
+        <p class="footer-links">
+          <a href="/static/2021 Roster Sheet.docx" target="_blank">Roster Sheet</a>
+          ·
+          <a href="/static/SJTFL Constitution.pdf" target="_blank">SJTFL Constitution</a>
+          ·
+          <a href="/static/TouchRB.pdf" target="_blank">Rule Book</a>
+        </p>
+        
+      </footer>
     </div>
-
-
-$:page
-
-
-<footer class="main-footer">
-  <p class="footer-title">St. John's Touch Football League</p>
-  <p class="footer-copy">Since 1981</p>
-  <div class="footer-social">
-    <a class="socialtip" href="https://twitter.com/touchfootball" data-toggle="tooltip" title="Follow us on Twitter" target="_blank">
-      <i class="fa fa-twitter"></i>
-    </a>
-    ·
-    <a class="socialtip" href="https://instagram.com/sjtfl" data-toggle="tooltip" title="Follow us on Instagram" target="_blank">
-      <i class="fa fa-instagram"></i>
-    </a>
-    ·
-    <a class="socialtip" href="https://facebook.com/sjtfl" data-toggle="tooltip" title="Like us on Facebook" target="_blank">  
-      <i class="fa fa-facebook"></i>
-    </a>
-    ·
-    <a class="socialtip" href="mailto:contact@sjtfl.com" data-toggle="tooltip" title="E-mail us" target="_blank">
-      <i class="fa fa-envelope"></i>
-    </a>
-  </div>
-  <p class="footer-links">
-    <a href="/static/2021 Roster Sheet.docx" target="_blank">Roster Sheet</a>
-    ·
-    <a href="/static/SJTFL Constitution.pdf" target="_blank">SJTFL Constitution</a>
-    ·
-    <a href="/static/TouchRB.pdf" target="_blank">Rule Book</a>
-  </p>
   
-</footer>
-</div>
- 
-  <script src="/static/js/bootstrap.min.js"></script>  
-  <script src="https://unpkg.com/vue"></script>
-  <script type="text/javascript" charset="utf8" src="/static/js/sjtfl.js?version=2.0.14"></script>
+    <script src="/static/js/bootstrap.min.js"></script>  
+    <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript" charset="utf8" src="/static/js/sjtfl.js?version=2.0.14"></script>
   </body>
 </html>
