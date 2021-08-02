@@ -60,7 +60,7 @@ $for standings in sorted_stand_women_list:
 
 		<div class="col-md-7 col-pad col-md-push-2">
       <!-- Carousel -->
-      $if not media['error']:
+      $if media.get('error') is None:
         <div id="carousel-highlights" class="section-wrapper home carousel slide" data-ride="carousel" data-interval="false">
           <!-- Slides -->
           <div class="carousel-inner" role="listbox">
