@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 #version 1.3
-imageCache = 1.7
+imageCache = 1.8
 
 import web
 import time
