@@ -972,8 +972,7 @@ class seasoneditsubmit:
 	def POST(self):
 		i = web.input()
 		if session.logged == True and session.privilege == 1:
-			season_list = db.select('season')
-			db.update('season', where="id = $id",  year = i.year, playoff_teams_men = i.playoff_teams_men, playoff_teams_women = i.playoff_teams_women, bye_teams_men = i.bye_teams_men, bye_teams_women = i.bye_teams_women)
+			db.update('season', where="id = $id", vars=i, **i)
 			raise web.seeother('/admin/seasonselect')
 		else:
 			return "You do not have permission to make this request"
