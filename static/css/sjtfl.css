@@ -654,6 +654,7 @@ h1 .btn {
 .banner-sponsor {
   float: right;
   z-index: 1041;
+  padding: 10px;
 }
 
 .banner-sponsor img {
