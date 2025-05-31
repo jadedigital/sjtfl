@@ -1344,6 +1344,9 @@ h1 .dropdown:first-child {
   .banner-sponsor a {
     display: none;
   }
+}
+
+@media (max-width:900px) {
   .banner-sponsor img {
     height: 30px;
     margin-top: 20px;
